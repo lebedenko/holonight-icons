@@ -1,0 +1,8 @@
+*.bak
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+docs/
+AGENTS.md
+CLAUDE.md

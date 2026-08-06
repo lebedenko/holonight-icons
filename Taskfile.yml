@@ -1,0 +1,13 @@
+version: "3"
+
+tasks:
+  validate:
+    desc: Validate HoloNight theme metadata and directory layout
+    cmds:
+      - ./scripts/validate-theme.sh
+
+  install:local:
+    desc: Install HoloNight into the current user's icon directory
+    cmds:
+      - ./scripts/install-local.sh
+      - XDG_MENU_PREFIX=arch- kbuildsycoca6 --noincremental
