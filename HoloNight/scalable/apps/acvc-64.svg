@@ -6,32 +6,10 @@
    fill="none"
    version="1.1"
    id="svg3"
-   sodipodi:docname="acvc-64.svg"
-   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs3" />
-  <sodipodi:namedview
-     id="namedview3"
-     pagecolor="#505050"
-     bordercolor="#eeeeee"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#505050"
-     inkscape:zoom="13.302446"
-     inkscape:cx="31.234857"
-     inkscape:cy="24.356423"
-     inkscape:window-width="2560"
-     inkscape:window-height="1376"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg3" />
   <path
      d="M20.5 40.5H17.5C13.36 40.5 10 37.14 10 33C10 29.31 12.67 26.25 16.18 25.62C17.22 20.18 22 16 27.75 16C32.68 16 36.9 19.02 38.66 23.32C39.55 23.11     40.48 23 41.44 23C48.37 23 54 28.37 54 35C54 41.08 49.29 46.1 43.25 46.88"
      stroke="white"

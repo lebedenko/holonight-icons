@@ -22,6 +22,8 @@ already resolve icons from Papirus.
 - `HoloNight/scalable/*/` contains full-color SVG overrides grouped by icon context.
 - `HoloNight/symbolic/{actions,status,devices,places}/` contains symbolic SVG overrides.
 - `scripts/validate-theme.sh` checks the theme metadata and directory layout.
+- `scripts/validate_icons.py` checks SVG structure, contracts, and aliases.
+- `scripts/generate_icon_previews.py` renders repeatable family contact sheets.
 - `scripts/install-local.sh` installs the theme into the current user's icon directory.
 
 ## Usage
@@ -30,6 +32,8 @@ Validate the scaffold:
 
 ```sh
 task validate
+task validate:icons
+task verify
 ```
 
 Install locally:
@@ -39,6 +43,11 @@ task install:local
 ```
 
 Then select `HoloNight` in your desktop environment's appearance settings.
+
+`task preview:icons` requires Inkscape and ImageMagick. It writes reviewed
+contact sheets under `docs/sdd/icon-theme-compliance/previews/`. Structural
+exceptions must be exact file entries in `scripts/icon-exceptions.json`; glob
+and directory-wide exceptions are rejected.
 
 ## Adding Icons
 

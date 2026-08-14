@@ -6,6 +6,23 @@ tasks:
     cmds:
       - ./scripts/validate-theme.sh
 
+  validate:icons:
+    desc: Validate SVG structure, contracts, and aliases
+    cmds:
+      - python3 ./scripts/validate_icons.py
+
+  preview:icons:
+    desc: Render deterministic icon-family contact sheets
+    cmds:
+      - python3 ./scripts/generate_icon_previews.py --label after
+
+  verify:
+    desc: Run theme and icon validation, then render previews
+    cmds:
+      - task: validate
+      - task: validate:icons
+      - task: preview:icons
+
   install:local:
     desc: Install HoloNight into the current user's icon directory
     cmds:
