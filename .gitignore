@@ -3,12 +3,5 @@
 *.swp
 .DS_Store
 Thumbs.db
-docs/
-!docs/
-docs/*
-!docs/sdd/
-docs/sdd/*
-!docs/sdd/ecosystem-maintainability-standardization/
-!docs/sdd/ecosystem-maintainability-standardization/*.md
 AGENTS.md
 CLAUDE.md
