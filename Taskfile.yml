@@ -1,6 +1,10 @@
 version: "3"
 
 tasks:
+  license-check:
+    desc: Validate REUSE licensing metadata
+    cmds: [reuse lint]
+
   validate:
     desc: Validate HoloNight theme metadata and directory layout
     cmds:

@@ -62,5 +62,5 @@ Use the same icon names as Papirus when replacing an existing icon.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See
-[`LICENSE`](LICENSE) for the full license text.
+First-party project material is licensed under `GPL-3.0-or-later`. Papirus-derived icon families are retained under
+`GPL-3.0-only`; see [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and [`LICENSES/`](LICENSES/).
