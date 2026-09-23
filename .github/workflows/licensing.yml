@@ -1,8 +1,34 @@
-name: Licensing
+name: Theme verification
 on: [push, pull_request]
 jobs:
-  reuse:
+  verify:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - run: pipx run --spec reuse==6.2.0 reuse lint
+        with:
+          path: holonight-icons
+      - uses: actions/checkout@v4
+        with:
+          repository: lebedenko/holonight-qt
+          ref: 27970cfe3ed3dc8bf0585dfee7927eae697979ac
+          path: holonight-qt
+      - run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev qt6-svg-dev
+      - working-directory: holonight-icons
+        run: |
+          python3 scripts/build.py
+          python3 scripts/validate_icons.py
+          python3 -m unittest discover -s tests -v
+          sh scripts/check-rendering.sh
+          python3 scripts/generate_icon_previews.py
+          pipx run --spec reuse==6.2.0 reuse lint
+          pipx run --spec reuse==6.2.0 reuse --root build/HoloNight lint
+          pipx run --spec reuse==6.2.0 reuse --root build/HoloNight-Dark lint
+          pipx run --spec reuse==6.2.0 reuse --root build/holonight-icons lint
+      - uses: actions/upload-artifact@v4
+        with:
+          name: themes-and-previews
+          path: |
+            holonight-icons/build/HoloNight
+            holonight-icons/build/HoloNight-Dark
+            holonight-icons/build/holonight-icons
+            holonight-icons/build/previews

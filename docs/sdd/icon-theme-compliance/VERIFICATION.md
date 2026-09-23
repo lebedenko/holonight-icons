@@ -1,45 +1,42 @@
-# Icon theme compliance verification
+# Verification
 
-## Automated verification
+Run `task verify` from the repository root. Python tests require only the standard
+library. Rendering requires Qt 6 Core/Gui/Svg development files, CMake, C++17 and a
+holonight-qt checkout (`HOLONIGHT_QT_SOURCE`, default sibling). REUSE is required for
+licensing checks. No KDE Frameworks packages are required.
 
-Verification date: 2026-08-14
+The regression fixtures cover stylesheet IDs/roles, hard-coded and implicit paints,
+inline overrides, inherited group styling, fixed/mixed exemptions, missing classes,
+broken/escaping/cyclic aliases, invalid metadata and duplicate-name precedence.
+Build comparison detects artwork changes outside semantic stylesheet defaults.
+Installation is exercised twice using temporary XDG data directories; tests retain
+a marker in a recoverable backup, reject an invalid stage, and inject a replacement
+failure to check rollback of both variants.
 
-Run from the `holonight-icons` repository:
+The C++ test compiles the real holonight-qt renderer. All generated masters are
+rendered at 16/22/24/32 logical pixels, 1× and 2×, with light, dark, selected and
+disabled foreground colors. It checks visible output, responsive color changes,
+unchanged fixed artwork, status role colors, Qt theme lookup and temporary-fixture name precedence.
+Selected/disabled inputs are resolved test colors, not simulated Shell UI states.
+The renderer currently supports five roles; background and selection-text defaults
+are reserved. CI pins renderer revision `27970cfe3ed3dc8bf0585dfee7927eae697979ac`.
 
-```sh
-task validate
-task validate:icons
-task verify
-```
+Current previews are generated under `build/previews/HoloNight{,-Dark}/` as PNG
+family sheets. Review at 100% scale on both backgrounds: fine geometry and text-free
+silhouettes must stay clear. Pixel assertions prove recoloring, not aesthetic
+quality or contrast in every application. Review actual Shell selection/disabled
+behavior when changing artwork or consumer palette integration.
 
-The aggregate gate parses theme metadata and every real SVG, validates structural and upstream contracts, checks all
-aliases, queries application/Insync/Teams bounds with Inkscape, renders every master at reviewed sizes, and composes
-the tracked contact sheets.
+The old `previews/before` and `previews/after` images here are historical migration
+artifacts, not current generated output or evidence for this implementation.
 
-Results:
+## Empty Places structure
 
-- `task validate`: passed; theme metadata is valid.
-- `task validate:icons`: passed; 154 SVG masters and 58 aliases validated.
-- `task verify`: passed; all four after contact sheets regenerated.
-- `task install:local`: passed; installed to `~/.local/share/icons/HoloNight` and refreshed the KDE service cache.
-
-## Exceptions
-
-- `HoloNight/scalable/apps/kiro.svg`: official 75 × 100 brand canvas; reviewed at every application target size.
-- `HoloNight/scalable/apps/acvc-64.svg`: AWS VPN's explicit `acvc-64` 64-unit contract; reviewed at every application
-  target size.
-
-The authoritative structured details are in `scripts/icon-exceptions.json`.
-
-## Visual evidence
-
-Before and after contact sheets are tracked in `previews/before/` and `previews/after/` for applications, folders,
-panel icons, and symbolic masters.
-
-## Manual verification
-
-Reviewer: pending developer review
-
-`task install:local` and the desktop inspection checklist remain pending because they mutate the user's installed icon
-theme and require manual, focus-dependent interaction. After review, record the reviewer, date, command result, and
-observations here before changing the SDD status to complete.
+Follow [the Places acceptance criteria](../../places-design.md). Validate the two
+real masters, nine exact relative directory links and all eleven advertised sizes,
+including Scale=2 entries and temporary-XDG installation. Missing masters, wrong
+links and undeclared directories must fail. Historical migration inventory remains
+unchanged; all Places names are pending redesign. Temporary fixtures test Qt lookup
+at every display size and 2× DPR, symbolic reuse and name precedence. Empty Places
+previews are reported explicitly while other families still render. Places visual
+review resumes when new SVGs are added.

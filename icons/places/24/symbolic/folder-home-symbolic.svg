@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+ <style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+</style>
+ <path id="house" fill="currentColor" d="m10.28 16.89 5.3-4.71q.435-.39.875 0l5.085 4.705q.325.305.03.645l-.15.15q-.34.33-.675.035l-.43-.37v3.735q0 .6-.6.6h-1.55q-.605 0-.605-.6v-2.615q0-.585-.58-.585h-2.16q-.585 0-.585.585v2.615q0 .6-.605.6h-1.59q-.615 0-.615-.6v-3.61l-.25.23q-.39.36-.765.03l-.135-.145q-.315-.37.005-.695" class="ColorScheme-Text" transform="translate(12 12) scale(1.65) translate(-16 -16.8325)" />
+</svg>

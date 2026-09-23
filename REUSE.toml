@@ -6,7 +6,42 @@ SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = ["HoloNight/scalable/**/*.svg", "HoloNight/symbolic/**/*.svg"]
+path = ["icons/actions/**/*.svg", "icons/apps/**/*.svg", "icons/devices/**/*.svg", "icons/status/24/symbolic/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
 SPDX-License-Identifier = "GPL-3.0-only"
+
+# Generic folder derivatives of the approved first-party Home artwork.
+[[annotations]]
+path = ["icons/places/24/folder.svg", "icons/places/32/folder.svg", "icons/places/24/symbolic/folder-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Downloads derivatives and original arrow-and-tray symbolic artwork.
+[[annotations]]
+path = ["icons/places/24/folder-download.svg", "icons/places/32/folder-download.svg", "icons/places/24/symbolic/folder-download-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Documents derivatives and page glyph based on the first-party places.png reference.
+[[annotations]]
+path = ["icons/places/24/folder-documents.svg", "icons/places/32/folder-documents.svg", "icons/places/24/symbolic/folder-documents-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Seven first-party folder glyphs based on places.png.
+[[annotations]]
+path = ["icons/places/24/folder-desktop.svg", "icons/places/32/folder-desktop.svg", "icons/places/24/folder-pictures.svg", "icons/places/32/folder-pictures.svg", "icons/places/24/folder-music.svg", "icons/places/32/folder-music.svg", "icons/places/24/folder-videos.svg", "icons/places/32/folder-videos.svg", "icons/places/24/folder-projects.svg", "icons/places/32/folder-projects.svg", "icons/places/24/folder-templates.svg", "icons/places/32/folder-templates.svg", "icons/places/24/folder-public.svg", "icons/places/32/folder-public.svg", "icons/places/24/symbolic/folder-desktop-symbolic.svg", "icons/places/24/symbolic/folder-pictures-symbolic.svg", "icons/places/24/symbolic/folder-music-symbolic.svg", "icons/places/24/symbolic/folder-videos-symbolic.svg", "icons/places/24/symbolic/folder-projects-symbolic.svg", "icons/places/24/symbolic/folder-templates-symbolic.svg", "icons/places/24/symbolic/folder-public-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Recent and Trash derivatives of the first-party Places artwork.
+[[annotations]]
+path = ["icons/places/24/folder-recent.svg", "icons/places/32/folder-recent.svg", "icons/places/24/folder-trash.svg", "icons/places/32/folder-trash.svg", "icons/places/24/folder-trash-full.svg", "icons/places/32/folder-trash-full.svg", "icons/places/24/symbolic/folder-recent-symbolic.svg", "icons/places/24/symbolic/folder-trash-symbolic.svg", "icons/places/24/symbolic/folder-trash-full-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"

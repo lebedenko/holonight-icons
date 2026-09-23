@@ -1,0 +1,60 @@
+{
+  "provenance": {
+    "retrieved": "2026-09-23",
+    "source": "holonight-qt/palette/palette.cpp: holoNightLightTokens, holoNightDarkTokens, tokyoNightDayTokens and tokyoNightStormTokens; data/holonight-{light,dark,day,storm}.colors",
+    "mapping": "Text=textPrimary, Background=background, Highlight=primary, HighlightedText=onPrimary, PositiveText=success, NeutralText=warning, NegativeText=error. Offline snapshot; no automatic palette watching.",
+    "source_sha256": "0439f6b4c7677d905178fb8524400abe71f4ca7d301def99379a80f31f6eb371"
+  },
+  "light": {
+    "Text": "#1b2533",
+    "Background": "#e7eef5",
+    "Highlight": "#3e7bdb",
+    "HighlightedText": "#ffffff",
+    "PositiveText": "#3e9449",
+    "NeutralText": "#c38a1c",
+    "NegativeText": "#d84a68"
+  },
+  "dark": {
+    "Text": "#e7edf5",
+    "Background": "#0c1118",
+    "Highlight": "#5ea2ff",
+    "HighlightedText": "#081018",
+    "PositiveText": "#79d97f",
+    "NeutralText": "#f2c46b",
+    "NegativeText": "#ff718c"
+  },
+  "presets": {
+    "holonight-day": {
+      "background": "#e9eef5",
+      "surface": "#f2f5fa",
+      "textPrimary": "#1f2335",
+      "accentCyan": "#008fc7",
+      "accentBlue": "#2f6fe4",
+      "accentViolet": "#7b61d1"
+    },
+    "holonight-storm": {
+      "background": "#10131f",
+      "surface": "#161925",
+      "textPrimary": "#c0caf5",
+      "accentCyan": "#7dcfff",
+      "accentBlue": "#7aa2f7",
+      "accentViolet": "#bb9af7"
+    },
+    "holonight-light": {
+      "background": "#e7eef5",
+      "surface": "#f1f5fa",
+      "textPrimary": "#1b2533",
+      "accentCyan": "#00a8d8",
+      "accentBlue": "#3e7bdb",
+      "accentViolet": "#7566d4"
+    },
+    "holonight-dark": {
+      "background": "#0c1118",
+      "surface": "#131a24",
+      "textPrimary": "#e7edf5",
+      "accentCyan": "#56d7ff",
+      "accentBlue": "#5ea2ff",
+      "accentViolet": "#9a8cff"
+    }
+  }
+}

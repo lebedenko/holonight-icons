@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="svg14" width="32" height="32" viewBox="0 0 32 32">
+ <style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .HoloNight-background { color:#0c1118; }
+ .HoloNight-surface { color:#131a24; }
+ .HoloNight-accentCyan { color:#56d7ff; }
+ .HoloNight-accentBlue { color:#5ea2ff; }
+ .HoloNight-accentViolet { color:#9a8cff; }
+</style>
+ <defs id="defs10">
+  <linearGradient id="rim" x1="0" x2="1" y1="0" y2=".5">
+   <stop id="stop1" class="HoloNight-accentCyan" offset="0" stop-color="currentColor" />
+   <stop id="stop2" class="HoloNight-accentBlue" offset=".55" stop-color="currentColor" />
+   <stop id="stop3" class="HoloNight-accentViolet" offset="1" stop-color="currentColor" />
+  </linearGradient>
+  <linearGradient id="face" x1="0" x2=".6" y1="0" y2="1">
+   <stop id="stop4" class="HoloNight-surface" offset="0" stop-color="currentColor" />
+   <stop id="stop5" offset=".65" stop-color="currentColor" class="HoloNight-background" />
+   <stop id="stop6" class="HoloNight-surface" offset="1" stop-color="currentColor" />
+  </linearGradient>
+  <linearGradient id="edge" x1="0" x2="0" y1="0" y2="1">
+   <stop id="stop7" offset="0" stop-color="currentColor" stop-opacity=".6" class="HoloNight-accentBlue" />
+   <stop id="stop8" class="HoloNight-accentCyan" offset="1" stop-color="currentColor" stop-opacity=".1" />
+  </linearGradient>
+  <radialGradient id="pool" cx=".1" cy=".8" r=".9">
+   <stop id="stop9" class="HoloNight-accentCyan" offset="0" stop-color="currentColor" stop-opacity=".2" />
+   <stop id="stop10" class="HoloNight-accentBlue" offset="1" stop-color="currentColor" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient id="inner-side-light" x1="0" x2="1" y1="0" y2="0">
+   <stop class="HoloNight-accentCyan" offset="0" stop-color="currentColor" stop-opacity=".28" />
+   <stop class="HoloNight-accentCyan" offset=".12" stop-color="currentColor" stop-opacity=".08" />
+   <stop class="HoloNight-accentBlue" offset=".32" stop-color="currentColor" stop-opacity="0" />
+   <stop class="HoloNight-accentBlue" offset=".68" stop-color="currentColor" stop-opacity="0" />
+   <stop class="HoloNight-accentViolet" offset=".88" stop-color="currentColor" stop-opacity=".08" />
+   <stop class="HoloNight-accentViolet" offset="1" stop-color="currentColor" stop-opacity=".28" />
+  </linearGradient>
+  <linearGradient id="inner-top-bottom-light" x1="0" x2="0" y1="0" y2="1">
+   <stop class="HoloNight-accentCyan" offset="0" stop-color="currentColor" stop-opacity=".2" />
+   <stop class="HoloNight-accentBlue" offset=".16" stop-color="currentColor" stop-opacity=".05" />
+   <stop class="HoloNight-accentBlue" offset=".36" stop-color="currentColor" stop-opacity="0" />
+   <stop class="HoloNight-accentBlue" offset=".68" stop-color="currentColor" stop-opacity="0" />
+   <stop class="HoloNight-accentBlue" offset=".88" stop-color="currentColor" stop-opacity=".07" />
+   <stop class="HoloNight-accentViolet" offset="1" stop-color="currentColor" stop-opacity=".26" />
+  </linearGradient>
+ </defs>
+ <g id="artwork" transform="translate(16 16) scale(1.14472608340147) translate(-16 -15.525)">
+  <path id="folder" fill="url(#rim)" d="M5.6 6.05h5.65c.275 0 .475.085.685.3l2.08 2.08q.21.195.455.195h11.92q.425 0 .71.305l.75.785q.3.3.3.725v12.95q0 .415-.29.72l-.535.535q-.335.355-.8.355H5.5q-.47 0-.805-.35l-.495-.495q-.35-.35-.35-.815V7.925q0-.385.27-.66l.945-.96q.22-.255.535-.255" />
+  <path id="recessed-face" fill="url(#face)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="path11" fill="url(#pool)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="face-side-glow" fill="url(#inner-side-light)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="face-top-bottom-glow" fill="url(#inner-top-bottom-light)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="path12" fill="currentColor" d="m12.775 7.61 1.965 2.05q.16.18.56.18h9.61q.305 0 .52.21l2.365 2.365v-1.96q0-.36-.23-.59l-.605-.64q-.24-.25-.585-.25h-11.95q-.285 0-.455-.17z" class="HoloNight-accentViolet" opacity=".16" />
+  <path id="path13" fill="none" stroke="url(#edge)" stroke-width=".16" d="M5.6 6.05h5.65c.275 0 .475.085.685.3l2.08 2.08q.21.195.455.195h11.92q.425 0 .71.305l.75.785q.3.3.3.725v12.95q0 .415-.29.72l-.535.535q-.335.355-.8.355H5.5q-.47 0-.805-.35l-.495-.495q-.35-.35-.35-.815V7.925q0-.385.27-.66l.945-.96q.22-.255.535-.255Z" />
+  <path id="projects-glow-1" fill="none" stroke="url(#rim)" stroke-width="3.8" stroke-linejoin="round" stroke-linecap="round" opacity=".018" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-2" fill="none" stroke="url(#rim)" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" opacity=".022" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-3" fill="none" stroke="url(#rim)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round" opacity=".028" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-4" fill="none" stroke="url(#rim)" stroke-width="2.9" stroke-linejoin="round" stroke-linecap="round" opacity=".035" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-5" fill="none" stroke="url(#rim)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" opacity=".045" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-6" fill="none" stroke="url(#rim)" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" opacity=".055" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-7" fill="none" stroke="url(#rim)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity=".07" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects-glow-8" fill="none" stroke="url(#rim)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" opacity=".09" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+  <path id="projects" fill="none" stroke="url(#rim)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+ </g>
+</svg>

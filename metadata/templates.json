@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "source": "icons/places/32/folder-home.svg",
+      "output": "places/32/folder-home.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Folder illustration with blue edge, soft cyan-to-blue/violet house glow and inset edge lighting fading into the dark face; no exterior folder halo. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-home.svg",
+      "output": "places/24/folder-home.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Simplified small colorful folder with enlarged open doorway, opaque recessed face, faint 8% rim-gradient tint and broad cyan-to-blue/violet interior edge shading; crisp house without glow or exterior halo. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder.svg",
+      "output": "places/32/folder.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved Home folder body with only house glyph, glow and roof highlight removed where present; identical body geometry and decorative tokens. Freeze tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder.svg",
+      "output": "places/24/folder.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved Home folder body with only house glyph, glow and roof highlight removed where present; identical body geometry and decorative tokens. Freeze tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-download.svg",
+      "output": "places/32/folder-download.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved generic folder body with a rounded cyan download arrow above an open tray; crisp at 24 px, subtle layered interior glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-download.svg",
+      "output": "places/24/folder-download.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved generic folder body with a rounded cyan download arrow above an open tray; crisp at 24 px, subtle layered interior glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-documents.svg",
+      "output": "places/32/folder-documents.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved generic folder body with blue portrait page, clipped upper-right corner and two text bars from places.png; crisp at 24 px, eight-layer interior glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-documents.svg",
+      "output": "places/24/folder-documents.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved generic folder body with blue portrait page, clipped upper-right corner and two text bars from places.png; crisp at 24 px, eight-layer interior glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-desktop.svg",
+      "output": "places/32/folder-desktop.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with desktop glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-desktop.svg",
+      "output": "places/24/folder-desktop.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with desktop glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-pictures.svg",
+      "output": "places/32/folder-pictures.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with pictures glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-pictures.svg",
+      "output": "places/24/folder-pictures.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with pictures glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-music.svg",
+      "output": "places/32/folder-music.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with music glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-music.svg",
+      "output": "places/24/folder-music.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with music glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-videos.svg",
+      "output": "places/32/folder-videos.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with videos glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-videos.svg",
+      "output": "places/24/folder-videos.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with videos glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-projects.svg",
+      "output": "places/32/folder-projects.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with projects glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-projects.svg",
+      "output": "places/24/folder-projects.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with projects glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-templates.svg",
+      "output": "places/32/folder-templates.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with templates glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-templates.svg",
+      "output": "places/24/folder-templates.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with templates glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-public.svg",
+      "output": "places/32/folder-public.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with public glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-public.svg",
+      "output": "places/24/folder-public.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with public glyph from places.png in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-recent.svg",
+      "output": "places/32/folder-recent.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded recent glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-recent.svg",
+      "output": "places/24/folder-recent.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded recent glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-trash.svg",
+      "output": "places/32/folder-trash.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded trash glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-trash.svg",
+      "output": "places/24/folder-trash.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded trash glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/32/folder-trash-full.svg",
+      "output": "places/32/folder-trash-full.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded trash-full glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-trash-full.svg",
+      "output": "places/24/folder-trash-full.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Approved folder body with rounded trash-full glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    }
+  ]
+}

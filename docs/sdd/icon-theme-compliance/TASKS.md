@@ -1,16 +1,16 @@
-# Icon theme compliance tasks
+# Maintained entry points
 
-| ID | Work package | State |
-| --- | --- | --- |
-| ICON-01 | Record baseline, contracts, exceptions, and deferred panel sizing | Done |
-| ICON-02 | Add structural validator and Task targets | Done |
-| ICON-03 | Add deterministic family contact sheets | Done |
-| ICON-04 | Normalize viewports and remove editor metadata | Done |
-| ICON-05 | Stabilize Insync states and refit Teams | Done |
-| ICON-06 | Inset first-party tiles and normalize Kiro/AWS contracts | Done |
-| ICON-07 | Review folders, symbolic masters, aliases, and render sizes | Done |
-| ICON-08 | Run automated acceptance checks | Done |
-| ICON-09 | Install locally and perform manual ecosystem inspection | Ready |
+| Command | Result |
+| --- | --- |
+| `task build` | Both complete variants in `build/` |
+| `task validate` / `task validate:icons` | Build, source/inventory/alias/metadata validation |
+| `task test` | SVG fixtures, deterministic builds, staged/repeat/rollback installation |
+| `task test:render` | Real holonight-qt renderer plus Qt lookup |
+| `task preview:icons` | Light/dark family PNG sheets, 1× and 2× |
+| `task license-check` | REUSE attribution checks |
+| `task verify` | All checks and previews |
+| `task install:local` | Staged user installation with recoverable backups |
 
-ICON-09 requires developer-operated inspection of the launcher, tray, settings navigation, device lists, battery
-profiles, notifications, and folders. Pointer/focus automation is prohibited.
+Python and shell equivalents are in the root README. The old asset-count checklist
+and legacy layout tasks are superseded by the migration inventory and automated
+regression suite. Manual consumer UI review remains useful for new artwork.

@@ -1,25 +1,26 @@
-# Icon theme compliance design
+# Implementation design
 
-## Validation
+`scripts/theme.py` defines directory ordering, size ranges and variant defaults.
+`scripts/build.py` validates canonical sources and emits complete themes under
+ignored `build/`. `metadata/migration.json` maps each original master/alias to its
+new path and records resolved alias targets. Native canvas sizes replace fake
+size-directory aliases. Full-color directories precede symbolic directories;
+both representations retain their original lookup names.
 
-`scripts/validate_icons.py` uses Python's standard library for XML and manifest handling. It validates canvas
-contracts, symbolic forbidden content and classes, editor metadata, exact exceptions, symlink containment, baseline
-counts, and Inkscape-reported application/panel bounds. `scripts/icon-exceptions.json` is the only exception source.
+`scripts/validate_icons.py` checks XML, the restricted semantic CSS grammar,
+inherited fill/stroke/color, exact exemptions, aliases and metadata. Generated
+artwork is compared against the source with only the allowed stylesheet change.
+`scripts/install.py` serializes concurrent installs, stages both themes on the
+destination filesystem, validates, retains old themes and rolls back failures.
 
-## Preview pipeline
+Rendering checks compile holonight-qt's IconRenderer directly with Qt Core/Gui/Svg.
+No KDE dependency or replacement recoloring implementation is introduced. The
+consumer's five supported roles are exercised; reserved background/selection-text
+roles are not used by current artwork. Fixed-color assets carry a stylesheet guard
+to avoid the consumer's legacy tinting fallback. See the [design contract](../../icon-design-rules.md).
 
-`scripts/generate_icon_previews.py` renders masters with Inkscape and composes stripped PNG contact sheets with
-ImageMagick. Stable path sorting, fixed backgrounds, fixed tile geometry, and explicit render sizes keep output
-reviewable. Application targets are 16, 24, 32, 48, 64, 128, and 256 px; symbolic targets are 16, 20, 22, 24, 28,
-and 32 px. Panel and folder sheets cover their consumer scale.
-
-## Artwork decisions
-
-The folder family keeps its established filled geometry and gains only an explicit 24-unit viewport. The four
-first-party tiles share one centered inset transform, preserving their silhouette and optical relationships. Kiro
-keeps its official proportions and AWS VPN keeps the explicitly consumed 64-unit contract.
-
-Insync uses one stable arc/device base with a lower-left marker region. Warning, offline, pause, success, and sync
-states differ by shape, not color alone. Bluetooth artwork is unchanged. Teams is uniformly refit without changing
-its mark. Symbolic masters retain upstream names and meanings; the compliance pass removes editor data and unused
-semantic definitions while preserving their compact filled details.
+Places permits only the relative size links declared in `metadata/places.json`.
+Two empty real master directories, 24 and 32, reserve monochrome and colorful
+artwork respectively. Extra optical masters require demonstrated visual need.
+See [Places design](../../places-design.md) for pending migration dispositions,
+exact size ranges and Scale=2 index references to the existing directories.

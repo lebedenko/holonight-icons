@@ -1,0 +1,33 @@
+{
+  "apps/64/acvc-64.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "apps/256/holonight-ai.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "apps/256/holonight-pkg-manager.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "apps/256/holonight-settings.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "apps/256/holonight-shell.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "apps/100/kiro.svg": {
+    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
+    "scope": "asset"
+  },
+  "devices/24/symbolic/video-display-brightness-symbolic.svg": {
+    "rationale": "Near-transparent decorative display shadow; foreground remains semantic.",
+    "scope": "elements",
+    "ids": [
+      "decorative-shadow"
+    ]
+  }
+}

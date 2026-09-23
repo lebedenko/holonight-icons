@@ -1,201 +1,303 @@
 #!/usr/bin/env python3
-"""Validate HoloNight SVG structure and alias integrity using the standard library."""
-
-from __future__ import annotations
-
+"""Validate the deliberately small SVG/CSS contract, aliases and theme metadata."""
+import argparse
+import configparser
 import json
+import math
 import re
-import shutil
-import subprocess
 import sys
 from pathlib import Path
 from xml.etree import ElementTree as ET
+from templates import manifest, default_output, validate_frozen
+from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, directories, directory_metadata, recolor
 
-ROOT = Path(__file__).resolve().parents[1]
-THEME = ROOT / "HoloNight"
-EXCEPTIONS_FILE = ROOT / "scripts/icon-exceptions.json"
-SVG_NS = "{http://www.w3.org/2000/svg}"
-FORBIDDEN_SYMBOLIC = {"image", "text", "filter", "mask", "clipPath"}
-EDITOR_MARKERS = ("inkscape", "sodipodi")
-SUPPORTED_CLASSES = {
-    "ColorScheme-Text",
-    "ColorScheme-Highlight",
-    "ColorScheme-NeutralText",
-    "ColorScheme-PositiveText",
-    "ColorScheme-NegativeText",
-}
-APP_SIZES = {16, 24, 32, 48, 64, 128, 256}
-FIRST_PARTY_APPS = {
-    "holonight-ai.svg", "holonight-pkg-manager.svg",
-    "holonight-settings.svg", "holonight-shell.svg",
-}
+SHAPES = {'path','rect','circle','ellipse','polygon','polyline','line','use','text','image'}
+CSS_RULE = re.compile(r'\.ColorScheme-([A-Za-z]+)\s*\{\s*color\s*:\s*(#[0-9a-fA-F]{6})\s*;?\s*\}')
 
 
-def load_exceptions() -> tuple[dict[tuple[str, str], dict], list[str]]:
-    errors: list[str] = []
+def local(tag):
+    return tag.rsplit('}', 1)[-1]
+
+
+def declarations(text):
+    result = {}
+    for item in text.split(';'):
+        if not item.strip():
+            continue
+        key, value = item.split(':', 1)
+        result[key.strip()] = value.strip()
+    return result
+
+
+def validate_svg(path, exemption=None, native=None):
+    errors = []
     try:
-        data = json.loads(EXCEPTIONS_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        return {}, [f"{EXCEPTIONS_FILE.relative_to(ROOT)}: invalid manifest: {exc}"]
-    entries: dict[tuple[str, str], dict] = {}
-    required = {"path", "rule", "upstream_contract", "rationale", "reviewed_sizes"}
-    for index, item in enumerate(data.get("exceptions", [])):
-        missing = required - item.keys()
-        if missing:
-            errors.append(f"exception {index}: missing {', '.join(sorted(missing))}")
-            continue
-        if any(token in item["path"] for token in ("*", "?", "[")):
-            errors.append(f"exception {index}: wildcard paths are prohibited")
-        path = ROOT / item["path"]
-        if not path.is_file() or path.is_symlink():
-            errors.append(f"exception {index}: path is not a real file: {item['path']}")
-        key = (item["path"], item["rule"])
-        if key in entries:
-            errors.append(f"exception {index}: duplicate path/rule entry")
-        entries[key] = item
-    return entries, errors
+        root = ET.fromstring(path.read_text())
+        box = [float(x) for x in re.split(r'[ ,]+', root.get('viewBox',''))]
+        if local(root.tag) != 'svg' or len(box) != 4 or not all(map(math.isfinite, box)) or min(box[2:]) <= 0:
+            raise ValueError('invalid svg root/viewBox')
+        if native is not None and max(box[2:]) != native:
+            errors.append('canvas does not match native size directory')
+    except (OSError, ET.ParseError, ValueError) as exc:
+        return [f'invalid SVG: {exc}']
+    styles = [e for e in root.iter() if local(e.tag) == 'style']
+    fixed_asset = exemption and exemption.get('scope') == 'asset'
+    fixed_ids = set(exemption.get('ids', [])) if exemption else set()
+    seen_fixed = set()
+    if fixed_asset:
+        if any('currentColor' in str(e.attrib) or 'ColorScheme-' in str(e.attrib) for e in root.iter()):
+            errors.append('whole-asset exemption masks semantic artwork')
+    # Fixed artwork also needs the holonight-qt tinting guard.
+    if len(styles) != 1 or styles[0].get('id') != 'current-color-scheme' or styles[0].get('type') != 'text/css':
+        errors.append('requires exactly one style with current-color-scheme ID and text/css type')
+    definitions = []
+    for style in styles:
+        css = style.text or ''
+        definitions.extend(role for role, _ in CSS_RULE.findall(css))
+        if CSS_RULE.sub('',css).strip():
+            errors.append('unsupported CSS: only semantic color definitions are allowed')
+    if set(definitions) != ROLES or len(definitions) != len(ROLES):
+        errors.append('missing, duplicate or unsupported stylesheet roles')
+    semantic_paints = 0
+    fixed_paints = 0
+    used_fixed = set()
+    ids = [e.get('id') for e in root.iter() if e.get('id')]
+    if len(ids) != len(set(ids)):
+        errors.append('duplicate element IDs')
 
-
-def local_name(tag: str) -> str:
-    return tag.rsplit("}", 1)[-1]
-
-
-def parse_viewbox(value: str) -> tuple[float, float, float, float] | None:
-    try:
-        numbers = tuple(float(part) for part in re.split(r"[ ,]+", value.strip()))
-    except ValueError:
-        return None
-    return numbers if len(numbers) == 4 else None
-
-
-def inkscape_bounds(path: Path, element_id: str | None = None) -> tuple[float, float, float, float]:
-    command = ["inkscape", str(path)]
-    if element_id:
-        command.append(f"--query-id={element_id}")
-    command.extend(("--query-x", "--query-y", "--query-width", "--query-height"))
-    result = subprocess.run(command, check=True, capture_output=True, text=True)
-    values = tuple(float(value) for value in result.stdout.splitlines())
-    if len(values) != 4:
-        raise ValueError(f"unexpected Inkscape query result: {result.stdout!r}")
-    return values
-
-
-def validate() -> list[str]:
-    exceptions, errors = load_exceptions()
-    used_exceptions: set[tuple[str, str]] = set()
-    real_files = sorted(path for path in THEME.rglob("*.svg") if not path.is_symlink())
-    aliases = sorted(path for path in THEME.rglob("*.svg") if path.is_symlink())
-
-    for alias in aliases:
-        try:
-            target = alias.resolve(strict=True)
-        except FileNotFoundError:
-            errors.append(f"{alias.relative_to(ROOT)}: broken alias")
-            continue
-        if not target.is_file() or THEME not in target.parents:
-            errors.append(f"{alias.relative_to(ROOT)}: alias escapes the icon theme")
-
-    for path in real_files:
-        rel = path.relative_to(ROOT).as_posix()
-        try:
-            text = path.read_text(encoding="utf-8")
-            root = ET.fromstring(text)
-        except (OSError, UnicodeDecodeError, ET.ParseError) as exc:
-            errors.append(f"{rel}: invalid XML: {exc}")
-            continue
-        if local_name(root.tag) != "svg":
-            errors.append(f"{rel}: root element is not svg")
-            continue
-        viewbox = parse_viewbox(root.get("viewBox", ""))
-        if viewbox is None or viewbox[2] <= 0 or viewbox[3] <= 0:
-            errors.append(f"{rel}: missing or invalid viewBox")
-            continue
-
-        expected = None
-        if "/symbolic/" in rel or "/scalable/places/" in rel or "/24x24/panel/" in rel:
-            expected = (0.0, 0.0, 24.0, 24.0)
-        elif rel.startswith("HoloNight/scalable/apps/"):
-            expected = (0.0, 0.0, 256.0, 256.0)
-        if expected and viewbox != expected:
-            key = (rel, "canvas")
-            if key in exceptions:
-                used_exceptions.add(key)
+    def walk(element, inherited, role=None, exempt=False, hidden=False, owners=frozenset()):
+        nonlocal semantic_paints, fixed_paints
+        tag = local(element.tag)
+        hidden = hidden or tag in {'defs','clipPath','mask'}
+        exempt = exempt or fixed_asset or element.get('id') in fixed_ids
+        if element.get('id') in fixed_ids:
+            seen_fixed.add(element.get('id'))
+            owners = owners | {element.get('id')}
+        values = dict(inherited)
+        classes = element.get('class','').split()
+        if classes:
+            if len(classes) != 1 or classes[0] not in {'ColorScheme-'+r for r in ROLES}:
+                errors.append('unsupported or ambiguous semantic class')
             else:
-                errors.append(f"{rel}: expected viewBox {' '.join(map(str, expected))}")
-
-        if any(marker in text for marker in EDITOR_MARKERS):
-            errors.append(f"{rel}: editor metadata is prohibited")
-
-        if "/symbolic/" in rel:
-            for element in root.iter():
-                name = local_name(element.tag)
-                if name in FORBIDDEN_SYMBOLIC:
-                    errors.append(f"{rel}: forbidden symbolic element <{name}>")
-                classes = element.get("class", "").split()
-                unsupported = sorted(set(classes) - SUPPORTED_CLASSES)
-                if unsupported:
-                    errors.append(f"{rel}: unsupported semantic class {', '.join(unsupported)}")
-
-    inkscape = shutil.which("inkscape")
-    if not inkscape:
-        errors.append("Inkscape is required for geometry validation")
-    else:
-        for name in sorted(FIRST_PARTY_APPS):
-            path = THEME / "scalable/apps" / name
-            try:
-                x, y, width, height = inkscape_bounds(path)
-            except (OSError, ValueError, subprocess.CalledProcessError) as exc:
-                errors.append(f"{path.relative_to(ROOT)}: cannot query visible bounds: {exc}")
-                continue
-            if x < 19.99 or y < 19.99 or x + width > 236.01 or y + height > 236.01:
-                errors.append(f"{path.relative_to(ROOT)}: visible artwork exceeds 20…236 safe area")
-
-        insync_bounds = []
-        for path in sorted((THEME / "24x24/panel").glob("insync-*.svg")):
-            try:
-                insync_bounds.append((path, inkscape_bounds(path, "insync-base")))
-            except (OSError, ValueError, subprocess.CalledProcessError) as exc:
-                errors.append(f"{path.relative_to(ROOT)}: cannot query Insync base: {exc}")
-        if insync_bounds:
-            reference_path, reference = insync_bounds[0]
-            for path, bounds in insync_bounds[1:]:
-                if any(abs(left - right) > 0.5 for left, right in zip(reference, bounds)):
-                    errors.append(
-                        f"{path.relative_to(ROOT)}: Insync base differs from "
-                        f"{reference_path.name} by more than 0.5 unit"
-                    )
-
-        teams = THEME / "24x24/panel/teams-tray.svg"
+                role = classes[0]
+                if role in {'ColorScheme-Background', 'ColorScheme-HighlightedText'}:
+                    errors.append('role not yet supported by holonight-qt renderer')
+                values.pop('color', None)  # local class overrides inherited color
         try:
-            x, y, width, height = inkscape_bounds(teams)
-            if x < 1.99 or y < 1.99 or x + width > 22.01 or y + height > 22.01:
-                errors.append(f"{teams.relative_to(ROOT)}: visible artwork exceeds 2…22 safe area")
-        except (OSError, ValueError, subprocess.CalledProcessError) as exc:
-            errors.append(f"{teams.relative_to(ROOT)}: cannot query visible bounds: {exc}")
-
-    for key, item in exceptions.items():
-        if key not in used_exceptions:
-            errors.append(f"{item['path']}: unused exception for rule {item['rule']}")
-        if set(item["reviewed_sizes"]) != APP_SIZES:
-            errors.append(f"{item['path']}: canvas exception must review all application sizes")
-
-    if len(real_files) != 154:
-        errors.append(f"HoloNight: expected 154 real SVGs, found {len(real_files)}")
-    if len(aliases) != 58:
-        errors.append(f"HoloNight: expected 58 SVG aliases, found {len(aliases)}")
+            inline = declarations(element.get('style',''))
+        except ValueError:
+            errors.append('malformed inline style')
+            inline = {}
+        for key in ('fill','stroke','stop-color','color'):
+            value = inline.get(key,element.get(key))
+            if value is not None and value != 'inherit':
+                values[key] = value
+        if not fixed_asset and ('color' in inline or element.get('color') is not None):
+            errors.append('inline/presentation color overrides semantic role')
+        if not fixed_asset and (tag in {'script','foreignObject','image','text','use','animate','set'} or any(k.startswith('on') for k in element.attrib)):
+            errors.append(f'unsupported semantic element/animation: {tag}')
+        if (tag in SHAPES and not hidden) or tag == 'stop':
+            for paint in (('stop-color',) if tag == 'stop' else ('fill','stroke')):
+                value = values.get(paint, 'none' if paint == 'stroke' else 'black')
+                if value == 'none':
+                    continue
+                if value == 'currentColor':
+                    if not role or 'color' in values:
+                        errors.append('currentColor without effective semantic role')
+                    semantic_paints += 1
+                elif (paint != 'stop-color' and re.fullmatch(r'url\(#[\w-]+\)', value)
+                      and any(e.get('id') == value[5:-1] and local(e.tag) in {'linearGradient','radialGradient'} for e in root.iter())):
+                    continue
+                elif not exempt:
+                    errors.append(f'unclassified effective {paint}: {value}')
+                else:
+                    fixed_paints += 1
+                    used_fixed.update(owners)
+        for child in element:
+            walk(child, values, role, exempt, hidden, owners)
+    walk(root, {})
+    if not fixed_asset and not semantic_paints:
+        errors.append('semantic artwork has no effective semantic paints')
+    if fixed_asset and not fixed_paints:
+        errors.append('stale whole-asset exemption: no fixed paints')
+    if fixed_ids != seen_fixed or fixed_ids != used_fixed:
+        errors.append('stale element exemption')
     return errors
 
 
-def main() -> int:
-    errors = validate()
+def alias_errors(tree):
+    errors = []
+    for path in tree.rglob('*'):
+        if not path.is_symlink():
+            continue
+        try:
+            target = path.resolve(strict=True)
+            rel = path.relative_to(tree)
+            if target.is_dir():
+                expected = PLACES['directory_aliases'].get(rel.name) if rel.parent == Path('places') else None
+                if expected is None or str(path.readlink()) != expected or target != (tree / 'places' / expected).absolute() or (tree / 'places' / expected).is_symlink():
+                    errors.append(f'{path}: undeclared or invalid size-directory alias')
+                continue
+            if Path(path.readlink()).is_absolute() or not target.is_relative_to(tree.resolve()) or not target.is_file() or target.suffix != '.svg':
+                errors.append(f'{path}: alias must be relative, internal and point to an SVG file')
+        except (OSError, RuntimeError):
+            errors.append(f'{path}: broken alias or cycle')
+    return errors
+
+
+def validate_places(tree):
+    errors = []
+    places = tree / 'places'
+    declared = {*map(str, PLACES['authored_sizes']), *PLACES['directory_aliases']}
+    if not places.is_dir() or places.is_symlink():
+        errors.append('Places root must be a real directory')
+    elif {p.name for p in places.iterdir()} != declared:
+        errors.append('Places size directories differ from declared masters and aliases')
+    for size in PLACES['authored_sizes']:
+        directory = places / str(size)
+        if not directory.is_dir() or directory.is_symlink():
+            errors.append(f'{directory}: authored size must be a real directory')
+    for alias, target in PLACES['directory_aliases'].items():
+        p = tree / 'places' / alias
+        if not p.is_symlink() or str(p.readlink()) != target:
+            errors.append(f'{p}: missing or changed size-directory alias')
+    for rel, target in PLACES['lookup_aliases'].items():
+        path = tree / rel
+        if not path.is_symlink() or str(path.readlink()) != target:
+            errors.append(f'{path}: missing or changed Places lookup alias')
+    inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
+    if set(PLACES['migration_dispositions']) != {i['old'] for i in inventory if i['path'].startswith('places/')}:
+        errors.append('Places dispositions must cover exactly historical Places entries')
+    return errors
+
+
+def validate_source(tree=SOURCE):
+    errors = alias_errors(tree)
+    exemptions = json.loads((ROOT / 'metadata/fixed-artwork.json').read_text())
+    for rel, item in exemptions.items():
+        path = tree / rel
+        if (not path.is_file() or path.is_symlink() or not item.get('rationale')
+                or item.get('scope') not in ('asset','elements')
+                or Path(rel).is_absolute() or '..' in Path(rel).parts
+                or any(c in rel for c in '*?[')
+                or (item.get('scope') == 'elements' and not item.get('ids'))):
+            errors.append(f'{rel}: stale or invalid exemption')
+    try:
+        templates = {e['output']: e for e in manifest(ROOT)}
+        for rel, entry in templates.items():
+            if rel in exemptions or not (tree / rel).is_file() or (tree / rel).is_symlink():
+                errors.append(f'{rel}: template missing or masked by fixed exemption')
+    except (ValueError, KeyError, OSError) as exc:
+        return errors + [str(exc)]
+    for path in sorted(tree.rglob('*.svg')):
+        if path.is_symlink():
+            continue
+        rel = path.relative_to(tree)
+        try:
+            native = int(rel.parts[1])
+            directory_metadata(str(rel.parent))
+        except (ValueError, KeyError, IndexError):
+            errors.append(f'{rel}: invalid context/size directory')
+            continue
+        if str(rel) in templates:
+            try:
+                from templates import resolve, RULE
+                from theme import PALETTES
+                css = next(e.text for e in ET.fromstring(path.read_text()).iter() if local(e.tag) == 'style')
+                defaults = {'ColorScheme-'+r:v for r,v in PALETTES['dark'].items()}
+                defaults.update({c:PALETTES['presets']['holonight-dark'][t] for c,t in templates[str(rel)]['classes'].items()})
+                if dict(RULE.findall(css or '')) != defaults:
+                    errors.append(f'{rel}: canonical template defaults must be Dark')
+                output = resolve(path.read_text(), templates[str(rel)], PALETTES['presets']['holonight-dark'], PALETTES['dark'])
+                validate_frozen(output)
+            except (ValueError, KeyError, ET.ParseError, StopIteration) as exc:
+                errors.append(f'{rel}: {exc}')
+            continue
+        errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
+    errors.extend(validate_places(tree))
+    inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
+    for item in inventory:
+        path = tree / item['path']
+        if item['path'].startswith('places/'):
+            disposition = PLACES['migration_dispositions'].get(item['old'], {})
+            if disposition.get('path') != item['path'] or not disposition.get('rationale'):
+                errors.append(f'{path}: missing Places disposition')
+            elif disposition.get('status') == 'pending-redesign':
+                if path.exists(): errors.append(f'{path}: deferred name unexpectedly present')
+            elif disposition.get('status') == 'replacement':
+                if not path.is_file() or path.resolve() != (tree / disposition.get('target', '')).resolve():
+                    errors.append(f'{path}: Places replacement target changed')
+            else: errors.append(f'{path}: invalid Places disposition')
+            continue
+        if not path.is_file():
+            errors.append(f'missing migrated lookup name: {item["old"]}')
+        elif 'target' in item:
+            try:
+                if not path.is_symlink() or path.resolve() != (tree / item['target']).resolve():
+                    errors.append(f'{path}: migrated alias target changed')
+            except (OSError, RuntimeError):
+                errors.append(f'{path}: alias cycle')
+    return errors
+
+
+def validate_theme(tree, name):
+    errors = alias_errors(tree) + validate_places(tree)
+    try:
+        config = configparser.ConfigParser(interpolation=None, strict=True)
+        config.read_string((tree / 'index.theme').read_text())
+        theme = config['Icon Theme']
+        if theme['Name'] != name or theme['Inherits'] != VARIANTS[name][1] or theme['FollowsColorScheme'] != 'true':
+            errors.append('invalid theme identity, fallback order or FollowsColorScheme')
+        dirs = theme['Directories'].split(',')
+        if dirs != directories():
+            errors.append('directory list/duplicate-name precedence differs from source')
+        scaled = [d + '/.' for d in dirs if d.startswith('places/')]
+        if theme.get('ScaledDirectories', '').split(',') != scaled:
+            errors.append('scaled directory metadata differs from source')
+        if set(config.sections()) != {'Icon Theme', *dirs, *scaled}:
+            errors.append('missing or extra metadata sections')
+        for directory in dirs + scaled:
+            if not (tree / directory).is_dir() or (not directory.startswith('places/') and not any((tree / directory).glob('*.svg'))):
+                errors.append(f'{directory}: missing/empty directory')
+            actual = dict(config[directory])
+            expected = {k.lower():v for k,v in directory_metadata(directory).items()}
+            if actual != expected:
+                errors.append(f'{directory}: invalid context, scalable type or size range')
+        actual_files = {str(p.relative_to(tree)) for p in tree.rglob('*.svg')}
+        source_files = {str(p.relative_to(SOURCE)) for p in SOURCE.rglob('*.svg')}
+        if actual_files != source_files:
+            errors.append('generated icon inventory differs from source')
+        templates = {e['output']: e for e in manifest(ROOT)}
+        for rel in source_files & actual_files:
+            src, dst = SOURCE / rel, tree / rel
+            if src.is_symlink():
+                if not dst.is_symlink() or src.readlink() != dst.readlink():
+                    errors.append(f'{rel}: generated alias changed')
+            elif dst.is_symlink() or dst.read_text() != (default_output(ROOT, templates[rel], VARIANTS[name][0]) if rel in templates else recolor(src.read_text(),VARIANTS[name][0])):
+                errors.append(f'{rel}: generated artwork differs beyond semantic defaults')
+        for filename in ('LICENSES/GPL-3.0-only.txt', 'LICENSES/GPL-3.0-or-later.txt', 'THIRD_PARTY_NOTICES.md'):
+            if (tree / filename).read_bytes() != (ROOT / filename).read_bytes():
+                errors.append(f'{filename}: missing or changed attribution/license')
+        if (tree / 'REUSE.toml').read_text() != (ROOT / 'REUSE.toml').read_text().replace('icons/', ''):
+            errors.append('generated REUSE paths differ from source attribution')
+    except (OSError, ValueError, KeyError, configparser.Error, RuntimeError) as exc:
+        errors.append(f'invalid theme metadata/tree: {exc}')
+    return [f'{tree}: {error}' for error in errors]
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--theme-root', type=Path, default=BUILD)
+    args = parser.parse_args()
+    errors = validate_source()
+    for name in VARIANTS:
+        errors.extend(validate_theme(args.theme_root / name,name))
     if errors:
-        for error in errors:
-            print(f"ERROR: {error}", file=sys.stderr)
-        print(f"Icon validation failed with {len(errors)} error(s).", file=sys.stderr)
+        print('\n'.join(errors),file=sys.stderr)
         return 1
-    print("Icon validation passed: 154 SVG masters and 58 aliases.")
+    print('Validated source, migration inventory and both theme variants.')
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())

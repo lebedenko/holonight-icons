@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+ <style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#232629; }
+ .ColorScheme-Background { color:#eff0f1; }
+ .ColorScheme-Highlight { color:#3daee9; }
+ .ColorScheme-HighlightedText { color:#ffffff; }
+ .ColorScheme-PositiveText { color:#27ae60; }
+ .ColorScheme-NeutralText { color:#f67400; }
+ .ColorScheme-NegativeText { color:#da4453; }
+</style>
+  <defs>
+    <linearGradient id="tile" x1="38" y1="28" x2="222" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17243b"/>
+      <stop offset="1" stop-color="#090e1b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="40" y1="34" x2="218" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5debff"/>
+      <stop offset=".52" stop-color="#57a8ff"/>
+      <stop offset="1" stop-color="#b56cff"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(4.571429 4.571429) scale(.9642857)">
+  <path fill="url(#tile)" stroke="url(#accent)" stroke-width="8" stroke-linejoin="round"
+        d="M54 20h132l50 50v132l-34 34H70l-50-50V54z"/>
+  <path fill="#253653" opacity=".72" d="M54 35h126l41 41v8L174 47H47v127l-12 12V60z"/>
+  <path fill="#101b30" stroke="#ddf8ff" stroke-width="12" stroke-linejoin="round"
+        d="m128 65 67 35v76l-67 37-67-37v-76z"/>
+  <path fill="none" stroke="#65e7ff" stroke-width="12" stroke-linejoin="round"
+        d="m61 100 67 37 67-37M128 137v76M94 82l68 37"/>
+  <path fill="#b56cff" d="m156 160 11 7 11-7v25l-11 7-11-7z"/>
+  </g>
+</svg>

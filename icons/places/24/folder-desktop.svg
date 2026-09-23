@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="svg14" width="24" height="24" viewBox="0 0 24 24">
+ <style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .HoloNight-background { color:#0c1118; }
+ .HoloNight-surface { color:#131a24; }
+ .HoloNight-accentCyan { color:#56d7ff; }
+ .HoloNight-accentBlue { color:#5ea2ff; }
+ .HoloNight-accentViolet { color:#9a8cff; }
+</style>
+ <defs id="defs10">
+  <linearGradient id="rim" x1="0" x2="1" y1="0" y2=".5">
+   <stop id="stop1" class="HoloNight-accentCyan" offset="0" stop-color="currentColor" />
+   <stop id="stop2" class="HoloNight-accentBlue" offset=".55" stop-color="currentColor" />
+   <stop id="stop3" class="HoloNight-accentViolet" offset="1" stop-color="currentColor" />
+  </linearGradient>
+  <linearGradient id="face" x1="0" x2=".6" y1="0" y2="1">
+   <stop id="stop4" class="HoloNight-surface" offset="0" stop-color="currentColor" />
+   <stop id="stop5" offset=".65" stop-color="currentColor" class="HoloNight-background" />
+   <stop id="stop6" class="HoloNight-surface" offset="1" stop-color="currentColor" />
+  </linearGradient>
+  <linearGradient id="face-edge-light" x1="0" x2="1" y1="0" y2="0">
+   <stop id="face-edge-left" class="HoloNight-accentCyan" offset="0" stop-color="currentColor" stop-opacity=".18" />
+   <stop id="face-edge-left-fade" class="HoloNight-accentCyan" offset=".22" stop-color="currentColor" stop-opacity=".045" />
+   <stop id="face-edge-center" class="HoloNight-accentBlue" offset=".5" stop-color="currentColor" stop-opacity="0" />
+   <stop id="face-edge-right-fade" class="HoloNight-accentViolet" offset=".78" stop-color="currentColor" stop-opacity=".045" />
+   <stop id="face-edge-right" class="HoloNight-accentViolet" offset="1" stop-color="currentColor" stop-opacity=".18" />
+  </linearGradient>
+ </defs>
+ <g id="artwork" transform="translate(12 12) scale(0.823045267489712) translate(-16 -15.525)">
+  <path id="folder" fill="url(#rim)" d="M5.6 6.05h5.65c.275 0 .475.085.685.3l2.08 2.08q.21.195.455.195h11.92q.425 0 .71.305l.75.785q.3.3.3.725v12.95q0 .415-.29.72l-.535.535q-.335.355-.8.355H5.5q-.47 0-.805-.35l-.495-.495q-.35-.35-.35-.815V7.925q0-.385.27-.66l.945-.96q.22-.255.535-.255" />
+  <path id="recessed-face" fill="url(#face)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="face-tint" fill="url(#rim)" opacity=".08" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="face-edge-shading" fill="url(#face-edge-light)" d="M5.78 7.435h6.595q.235 0 .4.175l1.195 1.195q.17.17.455.17h11.95q.345 0 .585.25l.605.64q.23.23.23.59V23.35q0 .27-.22.51l-.51.5q-.24.21-.56.21H5.555q-.275 0-.515-.225l-.6-.6q-.215-.235-.215-.515V8.995q0-.31.23-.535l.79-.8q.22-.225.535-.225" />
+  <path id="desktop" fill="none" stroke="url(#rim)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" d="M10.8 12.7h10.4v7H10.8Z M16 19.7v2 M13.7 21.7h4.6" />
+ </g>
+</svg>

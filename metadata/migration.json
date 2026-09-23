@@ -1,0 +1,911 @@
+{
+  "source": "Original HoloNight tree before context-first migration",
+  "icons": [
+    {
+      "old": "24x24/panel/blueman-active.svg",
+      "path": "status/24/blueman-active.svg"
+    },
+    {
+      "old": "24x24/panel/blueman-disabled.svg",
+      "path": "status/24/blueman-disabled.svg"
+    },
+    {
+      "old": "24x24/panel/blueman-tray-active.svg",
+      "path": "status/24/blueman-tray-active.svg"
+    },
+    {
+      "old": "24x24/panel/blueman-tray-disabled.svg",
+      "path": "status/24/blueman-tray-disabled.svg"
+    },
+    {
+      "old": "24x24/panel/blueman-tray.svg",
+      "path": "status/24/blueman-tray.svg"
+    },
+    {
+      "old": "24x24/panel/insync-alert.svg",
+      "path": "status/24/insync-alert.svg"
+    },
+    {
+      "old": "24x24/panel/insync-normal.svg",
+      "path": "status/24/insync-normal.svg"
+    },
+    {
+      "old": "24x24/panel/insync-offline.svg",
+      "path": "status/24/insync-offline.svg"
+    },
+    {
+      "old": "24x24/panel/insync-paused.svg",
+      "path": "status/24/insync-paused.svg"
+    },
+    {
+      "old": "24x24/panel/insync-synced.svg",
+      "path": "status/24/insync-synced.svg"
+    },
+    {
+      "old": "24x24/panel/insync-syncing.svg",
+      "path": "status/24/insync-syncing.svg"
+    },
+    {
+      "old": "24x24/panel/slack-indicator.svg",
+      "path": "status/24/slack-indicator.svg"
+    },
+    {
+      "old": "24x24/panel/teams-tray.svg",
+      "path": "status/24/teams-tray.svg"
+    },
+    {
+      "old": "scalable/actions/go-down.svg",
+      "path": "actions/24/go-down.svg"
+    },
+    {
+      "old": "scalable/actions/go-next.svg",
+      "path": "actions/24/go-next.svg"
+    },
+    {
+      "old": "scalable/actions/go-previous.svg",
+      "path": "actions/24/go-previous.svg"
+    },
+    {
+      "old": "scalable/actions/go-up.svg",
+      "path": "actions/24/go-up.svg"
+    },
+    {
+      "old": "scalable/apps/acvc-64.svg",
+      "path": "apps/64/acvc-64.svg"
+    },
+    {
+      "old": "scalable/apps/holonight-ai.svg",
+      "path": "apps/256/holonight-ai.svg"
+    },
+    {
+      "old": "scalable/apps/holonight-pkg-manager.svg",
+      "path": "apps/256/holonight-pkg-manager.svg"
+    },
+    {
+      "old": "scalable/apps/holonight-settings.svg",
+      "path": "apps/256/holonight-settings.svg"
+    },
+    {
+      "old": "scalable/apps/holonight-shell.svg",
+      "path": "apps/256/holonight-shell.svg"
+    },
+    {
+      "old": "scalable/apps/kiro.svg",
+      "path": "apps/100/kiro.svg"
+    },
+    {
+      "old": "scalable/places/folder-activities.svg",
+      "path": "places/24/folder-activities.svg"
+    },
+    {
+      "old": "scalable/places/folder-android.svg",
+      "path": "places/24/folder-android.svg"
+    },
+    {
+      "old": "scalable/places/folder-apple.svg",
+      "path": "places/24/folder-apple.svg"
+    },
+    {
+      "old": "scalable/places/folder-applications.svg",
+      "path": "places/24/folder-applications.svg"
+    },
+    {
+      "old": "scalable/places/folder-arduino.svg",
+      "path": "places/24/folder-arduino.svg"
+    },
+    {
+      "old": "scalable/places/folder-backup.svg",
+      "path": "places/24/folder-backup.svg"
+    },
+    {
+      "old": "scalable/places/folder-books.svg",
+      "path": "places/24/folder-books.svg"
+    },
+    {
+      "old": "scalable/places/folder-cd.svg",
+      "path": "places/24/folder-cd.svg"
+    },
+    {
+      "old": "scalable/places/folder-code.svg",
+      "path": "places/24/folder-code.svg"
+    },
+    {
+      "old": "scalable/places/folder-desktop.svg",
+      "path": "places/24/folder-desktop.svg"
+    },
+    {
+      "old": "scalable/places/folder-development.svg",
+      "path": "places/24/folder-development.svg"
+    },
+    {
+      "old": "scalable/places/folder-docker.svg",
+      "path": "places/24/folder-docker.svg"
+    },
+    {
+      "old": "scalable/places/folder-documents-open.svg",
+      "path": "places/24/folder-documents-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-documents.svg",
+      "path": "places/24/folder-documents.svg"
+    },
+    {
+      "old": "scalable/places/folder-download-open.svg",
+      "path": "places/24/folder-download-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-download.svg",
+      "path": "places/24/folder-download.svg"
+    },
+    {
+      "old": "scalable/places/folder-downloads.svg",
+      "path": "places/24/folder-downloads.svg"
+    },
+    {
+      "old": "scalable/places/folder-drag-accept.svg",
+      "path": "places/24/folder-drag-accept.svg"
+    },
+    {
+      "old": "scalable/places/folder-dropbox.svg",
+      "path": "places/24/folder-dropbox.svg"
+    },
+    {
+      "old": "scalable/places/folder-favorites.svg",
+      "path": "places/24/folder-favorites.svg"
+    },
+    {
+      "old": "scalable/places/folder-games.svg",
+      "path": "places/24/folder-games.svg"
+    },
+    {
+      "old": "scalable/places/folder-git.svg",
+      "path": "places/24/folder-git.svg"
+    },
+    {
+      "old": "scalable/places/folder-github.svg",
+      "path": "places/24/folder-github.svg"
+    },
+    {
+      "old": "scalable/places/folder-gitlab.svg",
+      "path": "places/24/folder-gitlab.svg"
+    },
+    {
+      "old": "scalable/places/folder-gnome.svg",
+      "path": "places/24/folder-gnome.svg"
+    },
+    {
+      "old": "scalable/places/folder-google-drive.svg",
+      "path": "places/24/folder-google-drive.svg"
+    },
+    {
+      "old": "scalable/places/folder-image-people.svg",
+      "path": "places/24/folder-image-people.svg"
+    },
+    {
+      "old": "scalable/places/folder-important.svg",
+      "path": "places/24/folder-important.svg"
+    },
+    {
+      "old": "scalable/places/folder-java.svg",
+      "path": "places/24/folder-java.svg"
+    },
+    {
+      "old": "scalable/places/folder-kde.svg",
+      "path": "places/24/folder-kde.svg"
+    },
+    {
+      "old": "scalable/places/folder-linux.svg",
+      "path": "places/24/folder-linux.svg"
+    },
+    {
+      "old": "scalable/places/folder-locked.svg",
+      "path": "places/24/folder-locked.svg"
+    },
+    {
+      "old": "scalable/places/folder-mail-cloud.svg",
+      "path": "places/24/folder-mail-cloud.svg"
+    },
+    {
+      "old": "scalable/places/folder-mail.svg",
+      "path": "places/24/folder-mail.svg"
+    },
+    {
+      "old": "scalable/places/folder-mega.svg",
+      "path": "places/24/folder-mega.svg"
+    },
+    {
+      "old": "scalable/places/folder-meocloud.svg",
+      "path": "places/24/folder-meocloud.svg"
+    },
+    {
+      "old": "scalable/places/folder-music-open.svg",
+      "path": "places/24/folder-music-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-music.svg",
+      "path": "places/24/folder-music.svg"
+    },
+    {
+      "old": "scalable/places/folder-network.svg",
+      "path": "places/24/folder-network.svg"
+    },
+    {
+      "old": "scalable/places/folder-nextcloud.svg",
+      "path": "places/24/folder-nextcloud.svg"
+    },
+    {
+      "old": "scalable/places/folder-notes.svg",
+      "path": "places/24/folder-notes.svg"
+    },
+    {
+      "old": "scalable/places/folder-obsidian.svg",
+      "path": "places/24/folder-obsidian.svg"
+    },
+    {
+      "old": "scalable/places/folder-onedrive.svg",
+      "path": "places/24/folder-onedrive.svg"
+    },
+    {
+      "old": "scalable/places/folder-open.svg",
+      "path": "places/24/folder-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-owncloud.svg",
+      "path": "places/24/folder-owncloud.svg"
+    },
+    {
+      "old": "scalable/places/folder-pcloud.svg",
+      "path": "places/24/folder-pcloud.svg"
+    },
+    {
+      "old": "scalable/places/folder-photo.svg",
+      "path": "places/24/folder-photo.svg"
+    },
+    {
+      "old": "scalable/places/folder-pictures-open.svg",
+      "path": "places/24/folder-pictures-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-pictures.svg",
+      "path": "places/24/folder-pictures.svg"
+    },
+    {
+      "old": "scalable/places/folder-print.svg",
+      "path": "places/24/folder-print.svg"
+    },
+    {
+      "old": "scalable/places/folder-private.svg",
+      "path": "places/24/folder-private.svg"
+    },
+    {
+      "old": "scalable/places/folder-projects.svg",
+      "path": "places/24/folder-projects.svg"
+    },
+    {
+      "old": "scalable/places/folder-public.svg",
+      "path": "places/24/folder-public.svg"
+    },
+    {
+      "old": "scalable/places/folder-publicshare-open.svg",
+      "path": "places/24/folder-publicshare-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-publicshare.svg",
+      "path": "places/24/folder-publicshare.svg",
+      "target": "places/24/folder-public.svg"
+    },
+    {
+      "old": "scalable/places/folder-recent.svg",
+      "path": "places/24/folder-recent.svg"
+    },
+    {
+      "old": "scalable/places/folder-remote-open.svg",
+      "path": "places/24/folder-remote-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-remote.svg",
+      "path": "places/24/folder-remote.svg"
+    },
+    {
+      "old": "scalable/places/folder-script.svg",
+      "path": "places/24/folder-script.svg"
+    },
+    {
+      "old": "scalable/places/folder-snap.svg",
+      "path": "places/24/folder-snap.svg"
+    },
+    {
+      "old": "scalable/places/folder-steam.svg",
+      "path": "places/24/folder-steam.svg"
+    },
+    {
+      "old": "scalable/places/folder-sync.svg",
+      "path": "places/24/folder-sync.svg"
+    },
+    {
+      "old": "scalable/places/folder-syncthing.svg",
+      "path": "places/24/folder-syncthing.svg"
+    },
+    {
+      "old": "scalable/places/folder-systemd.svg",
+      "path": "places/24/folder-systemd.svg"
+    },
+    {
+      "old": "scalable/places/folder-tar.svg",
+      "path": "places/24/folder-tar.svg"
+    },
+    {
+      "old": "scalable/places/folder-templates-open.svg",
+      "path": "places/24/folder-templates-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-templates.svg",
+      "path": "places/24/folder-templates.svg"
+    },
+    {
+      "old": "scalable/places/folder-torrent.svg",
+      "path": "places/24/folder-torrent.svg"
+    },
+    {
+      "old": "scalable/places/folder-unlocked.svg",
+      "path": "places/24/folder-unlocked.svg"
+    },
+    {
+      "old": "scalable/places/folder-vbox.svg",
+      "path": "places/24/folder-vbox.svg"
+    },
+    {
+      "old": "scalable/places/folder-video.svg",
+      "path": "places/24/folder-video.svg"
+    },
+    {
+      "old": "scalable/places/folder-videos-open.svg",
+      "path": "places/24/folder-videos-open.svg"
+    },
+    {
+      "old": "scalable/places/folder-videos.svg",
+      "path": "places/24/folder-videos.svg"
+    },
+    {
+      "old": "scalable/places/folder-visiting.svg",
+      "path": "places/24/folder-visiting.svg"
+    },
+    {
+      "old": "scalable/places/folder-vmware.svg",
+      "path": "places/24/folder-vmware.svg"
+    },
+    {
+      "old": "scalable/places/folder-wifi.svg",
+      "path": "places/24/folder-wifi.svg"
+    },
+    {
+      "old": "scalable/places/folder-wine.svg",
+      "path": "places/24/folder-wine.svg"
+    },
+    {
+      "old": "scalable/places/folder.svg",
+      "path": "places/24/folder.svg"
+    },
+    {
+      "old": "scalable/places/inode-directory.svg",
+      "path": "places/24/inode-directory.svg",
+      "target": "places/24/folder.svg"
+    },
+    {
+      "old": "scalable/places/user-desktop.svg",
+      "path": "places/24/user-desktop.svg",
+      "target": "places/24/folder-desktop.svg"
+    },
+    {
+      "old": "scalable/places/user-home.svg",
+      "path": "places/24/user-home.svg",
+      "target": "places/24/folder.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-card-symbolic.svg",
+      "path": "devices/24/symbolic/audio-card-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-card.svg",
+      "path": "devices/24/symbolic/audio-card.svg",
+      "target": "devices/24/symbolic/audio-card-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-headphones-symbolic.svg",
+      "path": "devices/24/symbolic/audio-headphones-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-headphones.svg",
+      "path": "devices/24/symbolic/audio-headphones.svg",
+      "target": "devices/24/symbolic/audio-headphones-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-headset-symbolic.svg",
+      "path": "devices/24/symbolic/audio-headset-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/audio-headset.svg",
+      "path": "devices/24/symbolic/audio-headset.svg",
+      "target": "devices/24/symbolic/audio-headset-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/computer-laptop-symbolic.svg",
+      "path": "devices/24/symbolic/computer-laptop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/computer-laptop.svg",
+      "path": "devices/24/symbolic/computer-laptop.svg",
+      "target": "devices/24/symbolic/computer-laptop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/computer-symbolic.svg",
+      "path": "devices/24/symbolic/computer-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/computer.svg",
+      "path": "devices/24/symbolic/computer.svg",
+      "target": "devices/24/symbolic/computer-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk-encrypted-symbolic.svg",
+      "path": "devices/24/symbolic/drive-harddisk-encrypted-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk-encrypted.svg",
+      "path": "devices/24/symbolic/drive-harddisk-encrypted.svg",
+      "target": "devices/24/symbolic/drive-harddisk-encrypted-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk-root-symbolic.svg",
+      "path": "devices/24/symbolic/drive-harddisk-root-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk-root.svg",
+      "path": "devices/24/symbolic/drive-harddisk-root.svg",
+      "target": "devices/24/symbolic/drive-harddisk-root-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk-symbolic.svg",
+      "path": "devices/24/symbolic/drive-harddisk-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-harddisk.svg",
+      "path": "devices/24/symbolic/drive-harddisk.svg",
+      "target": "devices/24/symbolic/drive-harddisk-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-removable-media-symbolic.svg",
+      "path": "devices/24/symbolic/drive-removable-media-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/drive-removable-media.svg",
+      "path": "devices/24/symbolic/drive-removable-media.svg",
+      "target": "devices/24/symbolic/drive-removable-media-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-keyboard-symbolic.svg",
+      "path": "devices/24/symbolic/input-keyboard-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-keyboard-virtual-symbolic.svg",
+      "path": "devices/24/symbolic/input-keyboard-virtual-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-keyboard-virtual.svg",
+      "path": "devices/24/symbolic/input-keyboard-virtual.svg",
+      "target": "devices/24/symbolic/input-keyboard-virtual-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-keyboard.svg",
+      "path": "devices/24/symbolic/input-keyboard.svg",
+      "target": "devices/24/symbolic/input-keyboard-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-mouse-battery-symbolic.svg",
+      "path": "devices/24/symbolic/input-mouse-battery-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-mouse-battery.svg",
+      "path": "devices/24/symbolic/input-mouse-battery.svg",
+      "target": "devices/24/symbolic/input-mouse-battery-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-mouse-symbolic.svg",
+      "path": "devices/24/symbolic/input-mouse-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-mouse.svg",
+      "path": "devices/24/symbolic/input-mouse.svg",
+      "target": "devices/24/symbolic/input-mouse-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-tablet-symbolic.svg",
+      "path": "devices/24/symbolic/input-tablet-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-tablet.svg",
+      "path": "devices/24/symbolic/input-tablet.svg",
+      "target": "devices/24/symbolic/input-tablet-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-touchpad-symbolic.svg",
+      "path": "devices/24/symbolic/input-touchpad-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-touchpad.svg",
+      "path": "devices/24/symbolic/input-touchpad.svg",
+      "target": "devices/24/symbolic/input-touchpad-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-touchscreen-symbolic.svg",
+      "path": "devices/24/symbolic/input-touchscreen-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-touchscreen.svg",
+      "path": "devices/24/symbolic/input-touchscreen.svg",
+      "target": "devices/24/symbolic/input-touchscreen-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-tvremote-symbolic.svg",
+      "path": "devices/24/symbolic/input-tvremote-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/input-tvremote.svg",
+      "path": "devices/24/symbolic/input-tvremote.svg",
+      "target": "devices/24/symbolic/input-tvremote-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/keyboard-enter-symbolic.svg",
+      "path": "devices/24/symbolic/keyboard-enter-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/keyboard-enter.svg",
+      "path": "devices/24/symbolic/keyboard-enter.svg",
+      "target": "devices/24/symbolic/keyboard-enter-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/keyboard-spacebar-symbolic.svg",
+      "path": "devices/24/symbolic/keyboard-spacebar-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/keyboard-spacebar.svg",
+      "path": "devices/24/symbolic/keyboard-spacebar.svg",
+      "target": "devices/24/symbolic/keyboard-spacebar-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-flash-memory-stick-symbolic.svg",
+      "path": "devices/24/symbolic/media-flash-memory-stick-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-flash-memory-stick.svg",
+      "path": "devices/24/symbolic/media-flash-memory-stick.svg",
+      "target": "devices/24/symbolic/media-flash-memory-stick-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-flash-sd-mmc-symbolic.svg",
+      "path": "devices/24/symbolic/media-flash-sd-mmc-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-flash-sd-mmc.svg",
+      "path": "devices/24/symbolic/media-flash-sd-mmc.svg",
+      "target": "devices/24/symbolic/media-flash-sd-mmc-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-optical-data-symbolic.svg",
+      "path": "devices/24/symbolic/media-optical-data-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-optical-data.svg",
+      "path": "devices/24/symbolic/media-optical-data.svg",
+      "target": "devices/24/symbolic/media-optical-data-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-optical-mixed-cd-symbolic.svg",
+      "path": "devices/24/symbolic/media-optical-mixed-cd-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/media-optical-mixed-cd.svg",
+      "path": "devices/24/symbolic/media-optical-mixed-cd.svg",
+      "target": "devices/24/symbolic/media-optical-mixed-cd-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/multimedia-player-ipod-mini-blue-symbolic.svg",
+      "path": "devices/24/symbolic/multimedia-player-ipod-mini-blue-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/multimedia-player-ipod-mini-blue.svg",
+      "path": "devices/24/symbolic/multimedia-player-ipod-mini-blue.svg",
+      "target": "devices/24/symbolic/multimedia-player-ipod-mini-blue-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-bluetooth-symbolic.svg",
+      "path": "devices/24/symbolic/network-bluetooth-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-bluetooth.svg",
+      "path": "devices/24/symbolic/network-bluetooth.svg",
+      "target": "devices/24/symbolic/network-bluetooth-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-modem-symbolic.svg",
+      "path": "devices/24/symbolic/network-modem-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-modem.svg",
+      "path": "devices/24/symbolic/network-modem.svg",
+      "target": "devices/24/symbolic/network-modem-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-rj11-female-symbolic.svg",
+      "path": "devices/24/symbolic/network-rj11-female-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-rj11-female.svg",
+      "path": "devices/24/symbolic/network-rj11-female.svg",
+      "target": "devices/24/symbolic/network-rj11-female-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-rj45-female-symbolic.svg",
+      "path": "devices/24/symbolic/network-rj45-female-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-rj45-female.svg",
+      "path": "devices/24/symbolic/network-rj45-female.svg",
+      "target": "devices/24/symbolic/network-rj45-female-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-vpn-symbolic.svg",
+      "path": "devices/24/symbolic/network-vpn-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-vpn.svg",
+      "path": "devices/24/symbolic/network-vpn.svg",
+      "target": "devices/24/symbolic/network-vpn-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-wireless-hotspot-symbolic.svg",
+      "path": "devices/24/symbolic/network-wireless-hotspot-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/network-wireless-hotspot.svg",
+      "path": "devices/24/symbolic/network-wireless-hotspot.svg",
+      "target": "devices/24/symbolic/network-wireless-hotspot-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/phone-battery-symbolic.svg",
+      "path": "devices/24/symbolic/phone-battery-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/phone-battery.svg",
+      "path": "devices/24/symbolic/phone-battery.svg",
+      "target": "devices/24/symbolic/phone-battery-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/smartphone-symbolic.svg",
+      "path": "devices/24/symbolic/smartphone-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/smartphone.svg",
+      "path": "devices/24/symbolic/smartphone.svg",
+      "target": "devices/24/symbolic/smartphone-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/tablet-symbolic.svg",
+      "path": "devices/24/symbolic/tablet-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/tablet.svg",
+      "path": "devices/24/symbolic/tablet.svg",
+      "target": "devices/24/symbolic/tablet-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/video-display-brightness-symbolic.svg",
+      "path": "devices/24/symbolic/video-display-brightness-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/video-display-brightness.svg",
+      "path": "devices/24/symbolic/video-display-brightness.svg",
+      "target": "devices/24/symbolic/video-display-brightness-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/video-television-symbolic.svg",
+      "path": "devices/24/symbolic/video-television-symbolic.svg"
+    },
+    {
+      "old": "symbolic/devices/video-television.svg",
+      "path": "devices/24/symbolic/video-television.svg",
+      "target": "devices/24/symbolic/video-television-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-design-symbolic.svg",
+      "path": "places/24/symbolic/folder-design-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-design.svg",
+      "path": "places/24/symbolic/folder-design.svg",
+      "target": "places/24/symbolic/folder-design-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-desktop-symbolic.svg",
+      "path": "places/24/symbolic/folder-desktop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-desktop.svg",
+      "path": "places/24/symbolic/folder-desktop.svg",
+      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-download-symbolic.svg",
+      "path": "places/24/symbolic/folder-download-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-download.svg",
+      "path": "places/24/symbolic/folder-download.svg",
+      "target": "places/24/symbolic/folder-download-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-git-symbolic.svg",
+      "path": "places/24/symbolic/folder-git-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-git.svg",
+      "path": "places/24/symbolic/folder-git.svg",
+      "target": "places/24/symbolic/folder-git-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-open-symbolic.svg",
+      "path": "places/24/symbolic/folder-open-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-open.svg",
+      "path": "places/24/symbolic/folder-open.svg",
+      "target": "places/24/symbolic/folder-open-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-pictures-symbolic.svg",
+      "path": "places/24/symbolic/folder-pictures-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-pictures.svg",
+      "path": "places/24/symbolic/folder-pictures.svg",
+      "target": "places/24/symbolic/folder-pictures-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-publicshare-symbolic.svg",
+      "path": "places/24/symbolic/folder-publicshare-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-publicshare.svg",
+      "path": "places/24/symbolic/folder-publicshare.svg",
+      "target": "places/24/symbolic/folder-publicshare-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-root-symbolic.svg",
+      "path": "places/24/symbolic/folder-root-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-root.svg",
+      "path": "places/24/symbolic/folder-root.svg",
+      "target": "places/24/symbolic/folder-root-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-sound-symbolic.svg",
+      "path": "places/24/symbolic/folder-sound-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-sound.svg",
+      "path": "places/24/symbolic/folder-sound.svg",
+      "target": "places/24/symbolic/folder-sound-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-symbolic.svg",
+      "path": "places/24/symbolic/folder-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-table-symbolic.svg",
+      "path": "places/24/symbolic/folder-table-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-table.svg",
+      "path": "places/24/symbolic/folder-table.svg",
+      "target": "places/24/symbolic/folder-table-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-tar-symbolic.svg",
+      "path": "places/24/symbolic/folder-tar-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-tar.svg",
+      "path": "places/24/symbolic/folder-tar.svg",
+      "target": "places/24/symbolic/folder-tar-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-temp-symbolic.svg",
+      "path": "places/24/symbolic/folder-temp-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder-temp.svg",
+      "path": "places/24/symbolic/folder-temp.svg",
+      "target": "places/24/symbolic/folder-temp-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/folder.svg",
+      "path": "places/24/symbolic/folder.svg",
+      "target": "places/24/symbolic/folder-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-desktop-symbolic.svg",
+      "path": "places/24/symbolic/user-desktop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-desktop.svg",
+      "path": "places/24/symbolic/user-desktop.svg",
+      "target": "places/24/symbolic/user-desktop-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-trash-full-symbolic.svg",
+      "path": "places/24/symbolic/user-trash-full-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-trash-full.svg",
+      "path": "places/24/symbolic/user-trash-full.svg",
+      "target": "places/24/symbolic/user-trash-full-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-trash-symbolic.svg",
+      "path": "places/24/symbolic/user-trash-symbolic.svg"
+    },
+    {
+      "old": "symbolic/places/user-trash.svg",
+      "path": "places/24/symbolic/user-trash.svg",
+      "target": "places/24/symbolic/user-trash-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-balanced-symbolic.svg",
+      "path": "status/24/symbolic/power-profile-balanced-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-balanced.svg",
+      "path": "status/24/symbolic/power-profile-balanced.svg",
+      "target": "status/24/symbolic/power-profile-balanced-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-performance-symbolic.svg",
+      "path": "status/24/symbolic/power-profile-performance-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-performance.svg",
+      "path": "status/24/symbolic/power-profile-performance.svg",
+      "target": "status/24/symbolic/power-profile-performance-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-power-saver-symbolic.svg",
+      "path": "status/24/symbolic/power-profile-power-saver-symbolic.svg"
+    },
+    {
+      "old": "symbolic/status/power-profile-power-saver.svg",
+      "path": "status/24/symbolic/power-profile-power-saver.svg",
+      "target": "status/24/symbolic/power-profile-power-saver-symbolic.svg"
+    }
+  ]
+}

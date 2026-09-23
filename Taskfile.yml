@@ -1,34 +1,43 @@
 version: "3"
 
 tasks:
+  build:
+    desc: Generate complete light and dark themes
+    cmds: [python3 scripts/build.py]
+  validate:
+    desc: Build and validate both variants and the migration inventory
+    cmds:
+      - task: build
+      - python3 scripts/validate_icons.py
+  validate:icons:
+    desc: Validate SVG semantics, metadata and aliases in both variants
+    cmds: [{task: validate}]
+  test:
+    desc: Run validator, build and installation regression tests
+    cmds: [python3 -m unittest discover -s tests -v]
+  test:render:
+    desc: Test palettes using the actual holonight-qt IconRenderer (Qt only)
+    cmds:
+      - task: build
+      - sh scripts/check-rendering.sh
+  preview:icons:
+    desc: Render all families at 16/22/24/32 pixels and 2x on both backgrounds
+    cmds: [python3 scripts/generate_icon_previews.py]
   license-check:
     desc: Validate REUSE licensing metadata
-    cmds: [reuse lint]
-
-  validate:
-    desc: Validate HoloNight theme metadata and directory layout
     cmds:
-      - ./scripts/validate-theme.sh
-
-  validate:icons:
-    desc: Validate SVG structure, contracts, and aliases
-    cmds:
-      - python3 ./scripts/validate_icons.py
-
-  preview:icons:
-    desc: Render deterministic icon-family contact sheets
-    cmds:
-      - python3 ./scripts/generate_icon_previews.py --label after
-
+      - reuse --no-multiprocessing lint
+      - reuse --no-multiprocessing --root build/HoloNight lint
+      - reuse --no-multiprocessing --root build/HoloNight-Dark lint
+      - reuse --no-multiprocessing --root build/holonight-icons lint
   verify:
-    desc: Run theme and icon validation, then render previews
+    desc: Validate, test rendering and installation, generate previews, check licensing
     cmds:
       - task: validate
-      - task: validate:icons
+      - task: test
+      - task: test:render
       - task: preview:icons
-
+      - task: license-check
   install:local:
-    desc: Install HoloNight into the current user's icon directory
-    cmds:
-      - ./scripts/install-local.sh
-      - XDG_MENU_PREFIX=arch- kbuildsycoca6 --noincremental
+    desc: Stage, validate and install both variants with recoverable backups
+    cmds: [sh scripts/install-local.sh]
