@@ -45,3 +45,10 @@ path = ["icons/places/24/folder-recent.svg", "icons/places/32/folder-recent.svg"
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Generic open-folder flap and symbolic outline derived from the first-party Places family.
+[[annotations]]
+path = ["icons/places/24/folder-open.svg", "icons/places/32/folder-open.svg", "icons/places/24/symbolic/folder-open-symbolic.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"

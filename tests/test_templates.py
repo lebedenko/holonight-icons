@@ -39,7 +39,7 @@ class TemplateTests(unittest.TestCase):
             'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c'],
         }
         from templates import RULE
-        self.assertEqual(len(manifest(ROOT)), 28)
+        self.assertEqual(len(manifest(ROOT)), 30)
         for variant, tokens in expected.items():
             self.assertEqual(PALETTES['presets']['holonight-'+variant], tokens)
             self.assertEqual(list(PALETTES[variant].values()), semantic[variant])
@@ -151,6 +151,10 @@ class TemplateTests(unittest.TestCase):
                 historical = theme/'places/24/symbolic/folder-download.svg'
                 self.assertTrue(historical.is_symlink())
                 self.assertEqual(historical.read_bytes(), glyphs[2])
+                open_alias = theme/'places/24/symbolic/folder-open.svg'
+                self.assertTrue(open_alias.is_symlink())
+                self.assertEqual(open_alias.read_bytes(),
+                                 (theme/'places/24/symbolic/folder-open-symbolic.svg').read_bytes())
                 for preset, values in PALETTES['presets'].items():
                     subprocess.run([sys.executable, str(bundle/'scripts/recolor.py'), name,
                                     '--preset',preset,'--no-cache'],
@@ -170,13 +174,15 @@ class TemplateTests(unittest.TestCase):
                 def fail_new_master(path, target):
                     if '.holonight-recolor-stage-' in str(path):
                         calls.append(str(target))
-                        if str(target).endswith('/24/folder-recent.svg'):
-                            raise OSError('simulated Recent master replacement failure')
+                        if str(target).endswith('/24/folder-open.svg'):
+                            raise OSError('simulated Open master replacement failure')
                     return real_replace(path,target)
                 with patch.object(Path, 'replace', fail_new_master):
-                    with self.assertRaisesRegex(OSError,'Recent master'):
+                    with self.assertRaisesRegex(OSError,'Open master'):
                         recolor_theme(data,bundle,name,self.storm,False)
-                self.assertEqual(len(calls),47)  # 23 replacements, failed 24th, 23 rollbacks
+                failed_index = next(i for i, entry in enumerate(entries)
+                                    if entry['output'] == 'places/24/folder-open.svg')
+                self.assertEqual(len(calls), failed_index * 2 + 1)
                 for entry in entries:
                     self.assertEqual((theme/entry['output']).read_bytes(),original[entry['output']])
                 backups = list((data/'icons').glob('.holonight-recolor-backup-*'))

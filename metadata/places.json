@@ -42,7 +42,9 @@
     "folder-trash",
     "folder-trash-symbolic",
     "folder-trash-full",
-    "folder-trash-full-symbolic"
+    "folder-trash-full-symbolic",
+    "folder-open",
+    "folder-open-symbolic"
   ],
   "lookup_aliases": {
     "places/24/user-home.svg": "folder-home.svg",
@@ -77,7 +79,8 @@
     "places/24/user-trash-full.svg": "folder-trash-full.svg",
     "places/32/user-trash-full.svg": "folder-trash-full.svg",
     "places/24/symbolic/user-trash-full.svg": "folder-trash-full-symbolic.svg",
-    "places/24/symbolic/user-trash-full-symbolic.svg": "folder-trash-full-symbolic.svg"
+    "places/24/symbolic/user-trash-full-symbolic.svg": "folder-trash-full-symbolic.svg",
+    "places/24/symbolic/folder-open.svg": "folder-open-symbolic.svg"
   },
   "migration_dispositions": {
     "scalable/places/folder-activities.svg": {
@@ -301,9 +304,10 @@
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "scalable/places/folder-open.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/folder-open.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Restore the generic open folder with a lowered, tilted flap and visible interior in both colorful masters.",
+      "target": "places/24/folder-open.svg"
     },
     "scalable/places/folder-owncloud.svg": {
       "status": "pending-redesign",
@@ -548,14 +552,16 @@
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-open-symbolic.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/symbolic/folder-open-symbolic.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Restore the monochrome open-folder outline with a distinct tilted front flap.",
+      "target": "places/24/symbolic/folder-open-symbolic.svg"
     },
     "symbolic/places/folder-open.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/symbolic/folder-open.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Historical symbolic alias for the generic open-folder outline.",
+      "target": "places/24/symbolic/folder-open-symbolic.svg"
     },
     "symbolic/places/folder-pictures-symbolic.svg": {
       "status": "replacement",

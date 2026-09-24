@@ -314,6 +314,30 @@
       "rationale": "Approved folder body with rounded trash glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
     },
     {
+      "source": "icons/places/32/folder-open.svg",
+      "output": "places/32/folder-open.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Open folder with a lowered diagonal flap, visible shaded interior and restrained face lighting; freeze its five decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/places/24/folder-open.svg",
+      "output": "places/24/folder-open.svg",
+      "classes": {
+        "HoloNight-background": "background",
+        "HoloNight-surface": "surface",
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "Simplified small open folder with a tilted front flap and clear interior gap; freeze its five decorative tokens after explicit generation."
+    },
+    {
       "source": "icons/places/32/folder-trash-full.svg",
       "output": "places/32/folder-trash-full.svg",
       "classes": {

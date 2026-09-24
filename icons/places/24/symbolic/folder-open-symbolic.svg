@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+ <style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+</style>
+ <g class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+  <path id="back-pocket" d="M3.1 12.8V6.7q0-1 .95-1h4.6q.45 0 .75.32l1.7 1.7q.28.28.7.28h7.7q1 0 1 1v3.2M3.1 17.8v1.15q0 1 .95 1h15.9q.95 0 .95-1v-7.25" />
+  <path id="front-flap" d="M3.1 13.8q0-.47.5-.57l16.2-3.03q1.1-.2 1.1.9v7.9q0 .95-.95.95H4.05q-.95 0-.95-.95Z" />
+ </g>
+</svg>

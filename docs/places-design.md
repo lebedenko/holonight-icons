@@ -1,7 +1,7 @@
 # Places: two SVG master directories
 
 Places provides Home, the generic folder, Downloads, Documents, Desktop, Pictures,
-Music, Videos, Projects, Templates, Public, Recent, empty Trash and full Trash. Other historical artwork remains deferred.
+Music, Videos, Projects, Templates, Public, Recent, empty Trash, full Trash and the generic open folder. Other historical artwork remains deferred.
 Both real directories retain `.gitkeep` files. No new master directory is added.
 
 | Display sizes | Master | Artwork |
@@ -61,7 +61,7 @@ centers its 18.3 px path width plus 1.7 px rounded stroke in the 20 px safe area
 The historical symbolic `folder.svg` aliases this outline; regular lookup retains
 precedence. Larger symbolic requests reuse this 24 px master.
 
-`metadata/templates.json` lists all 28 regular assets across the two master sizes. Each maps only its five
+`metadata/templates.json` lists all 30 regular assets across the two master sizes. Each maps only its five
 used tokens: background, surface, accentCyan, accentBlue and accentViolet.
 The recoloring JSON input still requires all six tokens, including textPrimary.
 Canonical templates use holonight-dark. HoloNight exports holonight-light and
@@ -71,7 +71,7 @@ compatibility presets. Semantic defaults are an offline holonight-qt snapshot.
 Regular exports have frozen literal paints and an unused standard semantic
 guard preventing runtime tinting. Symbolic artwork responds to runtime palettes
 and never enters the on-demand recoloring manifest. The single installed bundle
-lives outside icon lookup directories; recoloring stages and validates all 28
+lives outside icon lookup directories; recoloring stages and validates all 30
 regular outputs, preserves backups and rolls back partial replacement failures.
 
 ## Verification
@@ -245,13 +245,13 @@ Regular aliases restore `user-desktop`, `folder-photo`, `folder-video` and
 `folder-publicshare`. Historical symbolic Desktop, Pictures, Publicshare and
 Sound names (including User Desktop, with and without `-symbolic`) resolve to the
 corresponding glyphs. The migration inventory is unchanged; only their explicit
-Places dispositions are restored. Open-folder and unrelated names remain deferred.
+Places dispositions are restored. Category-specific open-folder and unrelated names remain deferred.
 
-All fourteen folders receive individual regular/symbolic state sheets and enlarged
+All fifteen folders receive individual regular/symbolic state sheets and enlarged
 master comparisons in `build/previews/`. Numbered `folder-family-<page>-*.png`
 comparisons show two folders per page at full resolution, keeping labels readable
 as the family grows. `folder-family-overview-<panel>-states.png` and symbolic
-counterparts compare all fourteen types in one sheet for each theme/background.
+counterparts compare all fifteen types in one sheet for each theme/background.
 Qt lookup exercises every proof name and alias at eleven
 sizes and both scales, including regular-name precedence and symbolic reuse.
 Temporary-XDG installation tests recolor all 28 outputs and check all aliases,
@@ -306,3 +306,32 @@ and slots are identical between states. At 16 px, paper details are compact and
 disabled regular artwork remains faint on matching backgrounds, consistent with
 the family. `task verify` passed all 32 Python tests, Qt rendering and all-size
 lookup checks, temporary-XDG installation/recoloring recovery and REUSE licensing.
+
+## Generic open folder
+
+`folder-open.svg` has separate 24 and 32 px colorful masters. A rounded, tabbed
+back pocket exposes a dark interior above the lowered diagonal front flap. The
+24 px master uses broad shapes and a faint interior tint so the opening stays visible when scaled to 16 px;
+the 32 px master adds restrained shading inside the pocket and on the flap. Both
+stay within the family's 20 and 28 px painted widths, with no exterior glow.
+The 24 px `folder-open-symbolic.svg` uses a rounded 1.7-unit
+ColorScheme-Text outline for the back and tilted flap, with a 2-unit safe area.
+The historical symbolic `folder-open.svg` aliases that master.
+
+The two regular masters bring the token-template inventory to 30. They use the
+existing five folder tokens and Dark canonical defaults; exports are frozen
+literal artwork with the unused semantic guard. Only the three generic
+`folder-open` historical dispositions are restored. Category-specific open
+folder names remain deferred; the migration inventory and size aliases are
+unchanged. Manifest-driven lookup, rendering, preview, and temporary-XDG
+recoloring checks include the new folder.
+
+Open-folder visual review completed on 2026-09-24 using the individual regular
+and symbolic sheets and enlarged masters. Both themes were checked on light and
+dark backgrounds at 16/22/24/32 px and 2×, including selected and 45% disabled
+states. The flap stays separate from the back pocket at 16 px, and the diagonal
+front edge remains legible. The faint 24 px interior tint helps distinguish the
+opening in the light theme. The 32 px shading stays within the folder, and the
+symbolic strokes and gaps remain clear. As elsewhere in the family, disabled
+regular art is faint on a matching background. `task verify` passed all 39 Python
+tests, Qt rendering and lookup, temporary-XDG recoloring recovery and REUSE.

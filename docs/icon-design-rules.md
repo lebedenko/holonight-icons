@@ -53,7 +53,7 @@ Fixed brands, full-color applications, folder illustrations, weather art and
 intentional decorative shading retain their paint. Every exemption has an exact
 asset path and rationale in `metadata/fixed-artwork.json`; globs are prohibited.
 Mixed artwork exempts exact element IDs and keeps the responsive portion semantic.
-Places contains fourteen folder types (28 regular token templates), including the seven
+Places contains fifteen folder types (30 regular token templates), including the seven
 Desktop, Pictures, Music, Videos, Projects, Templates and Public additions plus Recent and both Trash states; see the [Places specification](places-design.md).
 There is no weather artwork in the current inventory.
 
@@ -79,13 +79,13 @@ References: [Breeze generation](https://github.com/KDE/breeze-icons/blob/master/
 [KDE stylesheet contract](https://github.com/KDE/kiconthemes/blob/master/src/kiconcolors.cpp),
 [Icon Theme Specification](https://specifications.freedesktop.org/icon-theme/latest/).
 
-Places visual review covers all fourteen folder types listed in the Places specification;
+Places visual review covers all fifteen folder types listed in the Places specification;
 unrelated historical artwork remains deferred.
 
 ## Explicit token templates
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
-currently it lists all fourteen regular folder types at both master sizes. Author these assets in the canonical tree
+currently it lists all fifteen regular folder types at both master sizes. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions
 for templates: validate their paints before exporting them as frozen artwork.

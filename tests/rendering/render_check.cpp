@@ -328,9 +328,11 @@ void checks(const QString &root) {
                 }
             }
             require(left>=2*factor && top>=2*factor && right<(native-2)*factor && bottom<(native-2)*factor,
-                    "Places painted bounds exceed safe area: "+rel);
+                    QString("Places painted bounds exceed safe area: %1, left=%2 right=%3 top=%4 bottom=%5")
+                        .arg(rel).arg(left).arg(right).arg(top).arg(bottom));
             if (!rel.contains("symbolic"))
-                require(qAbs((right-left+1)-((native-4)*factor))<=2,"Places painted width mismatch: "+rel);
+                require(qAbs((right-left+1)-((native-4)*factor))<=2,
+                        QString("Places painted width mismatch: %1, left=%2 right=%3").arg(rel).arg(left).arg(right));
         }
         // Confirm status badge colors, not only foreground changes.
         for (const QString name : {"insync-alert", "insync-synced"}) {
