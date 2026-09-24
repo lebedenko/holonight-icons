@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+</style><circle id="disc" cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" class="ColorScheme-Text" stroke-width="1.65" /><circle id="hub" cx="12" cy="12" r="2.15" fill="none" stroke="currentColor" class="ColorScheme-Text" stroke-width="1.65" /><path id="sheen" d="M6.1 6.1a8.3 8.3 0 0 1 5.9-2.4" fill="none" stroke="currentColor" class="ColorScheme-Text" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /><path id="rim-detail" d="M17.9 17.9a8.3 8.3 0 0 1-5.9 2.4" fill="none" stroke="currentColor" class="ColorScheme-Text" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /></svg>

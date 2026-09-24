@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .HoloNight-accentCyan { color:#56d7ff; }
+ .HoloNight-accentBlue { color:#5ea2ff; }
+ .HoloNight-accentViolet { color:#9a8cff; }
+</style><defs><linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop class="HoloNight-accentCyan" offset="0" stop-color="currentColor"/><stop class="HoloNight-accentBlue" offset=".55" stop-color="currentColor"/><stop class="HoloNight-accentViolet" offset="1" stop-color="currentColor"/></linearGradient></defs><g transform="translate(16 16) scale(1.35) translate(-12 -12)"><circle id="glow-disc" cx="12" cy="12" r="8.5" fill="none" stroke="url(#rim)" stroke-width="2.4" opacity=".14" /><circle id="glow-hub" cx="12" cy="12" r="2.15" fill="none" stroke="url(#rim)" stroke-width="2.4" opacity=".14" /><path id="glow-sheen" d="M6.1 6.1a8.3 8.3 0 0 1 5.9-2.4" fill="none" stroke="url(#rim)" stroke-width="2.4" opacity=".14" stroke-linecap="round" stroke-linejoin="round" /><path id="glow-rim-detail" d="M17.9 17.9a8.3 8.3 0 0 1-5.9 2.4" fill="none" stroke="url(#rim)" stroke-width="2.4" opacity=".14" stroke-linecap="round" stroke-linejoin="round" /><circle id="disc" cx="12" cy="12" r="8.5" fill="none" stroke="url(#rim)" stroke-width="1.65" /><circle id="hub" cx="12" cy="12" r="2.15" fill="none" stroke="url(#rim)" stroke-width="1.65" /><path id="sheen" d="M6.1 6.1a8.3 8.3 0 0 1 5.9-2.4" fill="none" stroke="url(#rim)" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /><path id="rim-detail" d="M17.9 17.9a8.3 8.3 0 0 1-5.9 2.4" fill="none" stroke="url(#rim)" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /></g></svg>

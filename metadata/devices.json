@@ -1,0 +1,409 @@
+{
+  "authored_sizes": [
+    24,
+    32
+  ],
+  "directory_aliases": {
+    "16": "24",
+    "20": "24",
+    "22": "24",
+    "48": "32",
+    "64": "32",
+    "96": "32",
+    "128": "32",
+    "256": "32",
+    "512": "32"
+  },
+  "proof_names": [
+    "drive-harddisk",
+    "drive-ssd",
+    "drive-removable",
+    "media-sdcard",
+    "drive-optical"
+  ],
+  "lookup_aliases": {
+    "devices/24/drive-removable-media.svg": "drive-removable.svg",
+    "devices/32/drive-removable-media.svg": "drive-removable.svg",
+    "devices/24/symbolic/drive-removable-media-symbolic.svg": "drive-removable-symbolic.svg",
+    "devices/24/media-flash-sd-mmc.svg": "media-sdcard.svg",
+    "devices/32/media-flash-sd-mmc.svg": "media-sdcard.svg",
+    "devices/24/symbolic/media-flash-sd-mmc-symbolic.svg": "media-sdcard-symbolic.svg",
+    "devices/24/media-optical-data.svg": "drive-optical.svg",
+    "devices/32/media-optical-data.svg": "drive-optical.svg",
+    "devices/24/symbolic/media-optical-data-symbolic.svg": "drive-optical-symbolic.svg",
+    "devices/24/media-optical-mixed-cd.svg": "drive-optical.svg",
+    "devices/32/media-optical-mixed-cd.svg": "drive-optical.svg",
+    "devices/24/symbolic/media-optical-mixed-cd-symbolic.svg": "drive-optical-symbolic.svg",
+    "devices/24/symbolic/drive-harddisk.svg": "drive-harddisk-symbolic.svg",
+    "devices/24/symbolic/drive-ssd.svg": "drive-ssd-symbolic.svg",
+    "devices/24/symbolic/drive-removable.svg": "drive-removable-symbolic.svg",
+    "devices/24/symbolic/media-sdcard.svg": "media-sdcard-symbolic.svg",
+    "devices/24/symbolic/drive-optical.svg": "drive-optical-symbolic.svg",
+    "devices/24/symbolic/drive-removable-media.svg": "drive-removable-symbolic.svg",
+    "devices/24/symbolic/media-flash-sd-mmc.svg": "media-sdcard-symbolic.svg",
+    "devices/24/symbolic/media-optical-data.svg": "drive-optical-symbolic.svg",
+    "devices/24/symbolic/media-optical-mixed-cd.svg": "drive-optical-symbolic.svg"
+  },
+  "migration_dispositions": {
+    "symbolic/devices/audio-card-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-card-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/audio-card.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-card.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/audio-headphones-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-headphones-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/audio-headphones.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-headphones.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/audio-headset-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-headset-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/audio-headset.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/audio-headset.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/computer-laptop-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/computer-laptop-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/computer-laptop.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/computer-laptop.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/computer-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/computer-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/computer.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/computer.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/drive-harddisk-encrypted-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/drive-harddisk-encrypted-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/drive-harddisk-encrypted.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/drive-harddisk-encrypted.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/drive-harddisk-root-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/drive-harddisk-root-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/drive-harddisk-root.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/drive-harddisk-root.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/drive-harddisk-symbolic.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/drive-harddisk-symbolic.svg",
+      "target": "devices/24/symbolic/drive-harddisk-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/drive-harddisk.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/drive-harddisk.svg",
+      "target": "devices/24/symbolic/drive-harddisk-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/drive-removable-media-symbolic.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/drive-removable-media-symbolic.svg",
+      "target": "devices/24/symbolic/drive-removable-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/drive-removable-media.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/drive-removable-media.svg",
+      "target": "devices/24/symbolic/drive-removable-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/input-keyboard-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-keyboard-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-keyboard-virtual-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-keyboard-virtual-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-keyboard-virtual.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-keyboard-virtual.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-keyboard.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-keyboard.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-mouse-battery-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-mouse-battery-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-mouse-battery.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-mouse-battery.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-mouse-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-mouse-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-mouse.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-mouse.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-tablet-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-tablet-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-tablet.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-tablet.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-touchpad-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-touchpad-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-touchpad.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-touchpad.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-touchscreen-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-touchscreen-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-touchscreen.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-touchscreen.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-tvremote-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-tvremote-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/input-tvremote.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/input-tvremote.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/keyboard-enter-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/keyboard-enter-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/keyboard-enter.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/keyboard-enter.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/keyboard-spacebar-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/keyboard-spacebar-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/keyboard-spacebar.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/keyboard-spacebar.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/media-flash-memory-stick-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/media-flash-memory-stick-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/media-flash-memory-stick.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/media-flash-memory-stick.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/media-flash-sd-mmc-symbolic.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-flash-sd-mmc-symbolic.svg",
+      "target": "devices/24/symbolic/media-sdcard-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/media-flash-sd-mmc.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-flash-sd-mmc.svg",
+      "target": "devices/24/symbolic/media-sdcard-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/media-optical-data-symbolic.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-optical-data-symbolic.svg",
+      "target": "devices/24/symbolic/drive-optical-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/media-optical-data.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-optical-data.svg",
+      "target": "devices/24/symbolic/drive-optical-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/media-optical-mixed-cd-symbolic.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-optical-mixed-cd-symbolic.svg",
+      "target": "devices/24/symbolic/drive-optical-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/media-optical-mixed-cd.svg": {
+      "status": "replacement",
+      "path": "devices/24/symbolic/media-optical-mixed-cd.svg",
+      "target": "devices/24/symbolic/drive-optical-symbolic.svg",
+      "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
+    },
+    "symbolic/devices/multimedia-player-ipod-mini-blue-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/multimedia-player-ipod-mini-blue-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/multimedia-player-ipod-mini-blue.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/multimedia-player-ipod-mini-blue.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-bluetooth-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-bluetooth-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-bluetooth.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-bluetooth.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-modem-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-modem-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-modem.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-modem.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-rj11-female-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-rj11-female-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-rj11-female.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-rj11-female.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-rj45-female-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-rj45-female-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-rj45-female.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-rj45-female.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-vpn-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-vpn-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-vpn.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-vpn.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-wireless-hotspot-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-wireless-hotspot-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/network-wireless-hotspot.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/network-wireless-hotspot.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/phone-battery-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/phone-battery-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/phone-battery.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/phone-battery.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/smartphone-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/smartphone-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/smartphone.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/smartphone.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/tablet-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/tablet-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/tablet.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/tablet.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/video-display-brightness-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/video-display-brightness-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/video-display-brightness.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/video-display-brightness.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/video-television-symbolic.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/video-television-symbolic.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    },
+    "symbolic/devices/video-television.svg": {
+      "status": "retired",
+      "path": "devices/24/symbolic/video-television.svg",
+      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+    }
+  }
+}

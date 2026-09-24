@@ -360,6 +360,106 @@
         "HoloNight-accentViolet": "accentViolet"
       },
       "rationale": "Approved folder body with rounded trash-full glyph in the shared rim gradient; crisp at 24 px, eight-layer contained glow at 32 px. Freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/devices/24/drive-harddisk.svg",
+      "output": "devices/24/drive-harddisk.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/24/drive-ssd.svg",
+      "output": "devices/24/drive-ssd.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/24/drive-removable.svg",
+      "output": "devices/24/drive-removable.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/24/media-sdcard.svg",
+      "output": "devices/24/media-sdcard.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/24/drive-optical.svg",
+      "output": "devices/24/drive-optical.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/drive-harddisk.svg",
+      "output": "devices/32/drive-harddisk.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/drive-ssd.svg",
+      "output": "devices/32/drive-ssd.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/drive-removable.svg",
+      "output": "devices/32/drive-removable.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/media-sdcard.svg",
+      "output": "devices/32/media-sdcard.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/drive-optical.svg",
+      "output": "devices/32/drive-optical.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
     }
   ]
 }

@@ -22,12 +22,5 @@
   "apps/100/kiro.svg": {
     "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
     "scope": "asset"
-  },
-  "devices/24/symbolic/video-display-brightness-symbolic.svg": {
-    "rationale": "Near-transparent decorative display shadow; foreground remains semantic.",
-    "scope": "elements",
-    "ids": [
-      "decorative-shadow"
-    ]
   }
 }

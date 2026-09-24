@@ -38,6 +38,12 @@ No KDE source code or library is shipped in the theme. Rendering tests compile t
 GPL-3.0-or-later IconRenderer from a separate holonight-qt checkout without copying
 or distributing it as part of the installed themes.
 
+The HDD, SSD, USB drive, SD card and optical drive glyphs at
+`icons/devices/{24,32}/` and `icons/devices/24/symbolic/` are first-party
+artwork by Andrii L (2026), licensed GPL-3.0-or-later. They follow the supplied
+Devices mockup silhouettes and Home accent gradient. Historical lookup aliases,
+generated exports and installed canonical templates carry the same attribution.
+
 Names and marks represented by provider, distribution, product and application
 icons belong to their respective owners. Their use identifies compatible software
 and does not imply sponsorship, endorsement or ownership of those trademarks.

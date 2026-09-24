@@ -39,7 +39,7 @@ class TemplateTests(unittest.TestCase):
             'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c'],
         }
         from templates import RULE
-        self.assertEqual(len(manifest(ROOT)), 30)
+        self.assertEqual(len(manifest(ROOT)), 40)
         for variant, tokens in expected.items():
             self.assertEqual(PALETTES['presets']['holonight-'+variant], tokens)
             self.assertEqual(list(PALETTES[variant].values()), semantic[variant])

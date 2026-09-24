@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .HoloNight-accentCyan { color:#56d7ff; }
+ .HoloNight-accentBlue { color:#5ea2ff; }
+ .HoloNight-accentViolet { color:#9a8cff; }
+</style><defs><linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop class="HoloNight-accentCyan" offset="0" stop-color="currentColor"/><stop class="HoloNight-accentBlue" offset=".55" stop-color="currentColor"/><stop class="HoloNight-accentViolet" offset="1" stop-color="currentColor"/></linearGradient></defs><path id="body" d="M5 4h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z" fill="none" stroke="url(#rim)" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /><path id="badge" d="M6.8 8h10.4v8H6.8z" fill="none" stroke="url(#rim)" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" /><path id="label-s1" d="M9.4 10.4H8v1.35h1.4v1.45H8" fill="none" stroke="url(#rim)" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" /><path id="label-s2" d="M12.3 10.4h-1.4v1.35h1.4v1.45h-1.4" fill="none" stroke="url(#rim)" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" /><path id="label-d" d="M13.8 10.4h.7c1.8 0 1.8 2.8 0 2.8h-.7z" fill="none" stroke="url(#rim)" stroke-width="0.85" stroke-linecap="round" stroke-linejoin="round" /></svg>

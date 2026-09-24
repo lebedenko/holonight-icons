@@ -5,7 +5,7 @@ and proportions; the native size is the longer viewBox dimension (the 75×100 Ki
 mark belongs in `apps/100`). Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
-`metadata/places.json` are permitted. They explicitly advertise scaled reuse;
+`metadata/places.json` and `metadata/devices.json` are permitted. They explicitly advertise scaled reuse;
 Places has two real master directories: 24 for colorful regular and theme-responsive monochrome symbolic
 artwork at 16–24 px, and 32 for colorful artwork at 32 px and above. Extra optical
 masters require demonstrated visual need. Explicit `-symbolic` names stay
@@ -72,7 +72,7 @@ need a contrasting surface; do not silently recolor its mark to solve that.
 
 Run `task verify`. New source files automatically gain directory metadata, but
 removing or retargeting migrated lookup names fails validation except for the exact
-Places-only dispositions recorded in `metadata/places.json`. Update REUSE
+Places and Devices dispositions recorded in their metadata files. Update REUSE
 attribution when adding artwork. Do not edit generated output.
 
 References: [Breeze generation](https://github.com/KDE/breeze-icons/blob/master/icons/CMakeLists.txt),
@@ -85,7 +85,7 @@ unrelated historical artwork remains deferred.
 ## Explicit token templates
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
-currently it lists all fifteen regular folder types at both master sizes. Author these assets in the canonical tree
+it lists all fifteen regular folder types and five Devices glyph types at both master sizes. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions
 for templates: validate their paints before exporting them as frozen artwork.

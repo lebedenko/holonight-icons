@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from build import build
 from install import install
-from theme import BUILD, SOURCE, VARIANTS, PLACES, PALETTES, STYLE, directories, recolor
+from theme import BUILD, SOURCE, VARIANTS, PLACES, DEVICES, PALETTES, STYLE, directories, recolor
 from validate_icons import alias_errors, validate_source, validate_svg, validate_theme
 
 
@@ -77,6 +77,23 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(validate_source(), [])
         for name in VARIANTS:
             self.assertEqual(validate_theme(BUILD / name,name), [])
+
+    def test_devices_masters_aliases_and_retirement(self):
+        tree = SOURCE / 'devices'
+        self.assertEqual({p.name for p in tree.iterdir()},
+                         {'24', '32', *DEVICES['directory_aliases']})
+        for alias, target in DEVICES['directory_aliases'].items():
+            self.assertEqual(str((tree/alias).readlink()), target)
+        self.assertEqual(len(DEVICES['proof_names']), 5)
+        for name in DEVICES['proof_names']:
+            for size in (24,32):
+                self.assertTrue((tree/str(size)/f'{name}.svg').is_file())
+            self.assertTrue((tree/'24/symbolic'/f'{name}-symbolic.svg').is_file())
+        for rel, target in DEVICES['lookup_aliases'].items():
+            self.assertEqual(str((SOURCE/rel).readlink()), target)
+        for item in DEVICES['migration_dispositions'].values():
+            if item['status'] == 'retired':
+                self.assertFalse((SOURCE/item['path']).exists())
 
     def test_alias_failures(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -4,6 +4,7 @@
 .DS_Store
 Thumbs.db
 CLAUDE.md
+AGENTS.md
 /build/
 __pycache__/
 drafts/

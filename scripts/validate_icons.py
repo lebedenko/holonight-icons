@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from templates import manifest, default_output, validate_frozen
-from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, directories, directory_metadata, recolor
+from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, DEVICES, MASTER_CONTEXTS, directories, directory_metadata, recolor
 
 SHAPES = {'path','rect','circle','ellipse','polygon','polyline','line','use','text','image'}
 CSS_RULE = re.compile(r'\.ColorScheme-([A-Za-z]+)\s*\{\s*color\s*:\s*(#[0-9a-fA-F]{6})\s*;?\s*\}')
@@ -134,8 +134,10 @@ def alias_errors(tree):
             target = path.resolve(strict=True)
             rel = path.relative_to(tree)
             if target.is_dir():
-                expected = PLACES['directory_aliases'].get(rel.name) if rel.parent == Path('places') else None
-                if expected is None or str(path.readlink()) != expected or target != (tree / 'places' / expected).absolute() or (tree / 'places' / expected).is_symlink():
+                context = rel.parent.name
+                spec = MASTER_CONTEXTS.get(context) if rel.parent == Path(context) else None
+                expected = spec['directory_aliases'].get(rel.name) if spec else None
+                if expected is None or str(path.readlink()) != expected or target != (tree / context / expected).absolute() or (tree / context / expected).is_symlink():
                     errors.append(f'{path}: undeclared or invalid size-directory alias')
                 continue
             if Path(path.readlink()).is_absolute() or not target.is_relative_to(tree.resolve()) or not target.is_file() or target.suffix != '.svg':
@@ -168,6 +170,34 @@ def validate_places(tree):
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
     if set(PLACES['migration_dispositions']) != {i['old'] for i in inventory if i['path'].startswith('places/')}:
         errors.append('Places dispositions must cover exactly historical Places entries')
+    return errors
+
+
+def validate_devices(tree):
+    errors = []
+    devices = tree / 'devices'
+    declared = {*map(str, DEVICES['authored_sizes']), *DEVICES['directory_aliases']}
+    if not devices.is_dir() or devices.is_symlink() or {p.name for p in devices.iterdir()} != declared:
+        errors.append('Devices size directories differ from declared masters and aliases')
+    for size in DEVICES['authored_sizes']:
+        p = devices / str(size)
+        if not p.is_dir() or p.is_symlink(): errors.append(f'{p}: authored size must be a real directory')
+    for alias, target in DEVICES['directory_aliases'].items():
+        p = devices / alias
+        if not p.is_symlink() or str(p.readlink()) != target:
+            errors.append(f'{p}: missing or changed size-directory alias')
+    for rel, target in DEVICES['lookup_aliases'].items():
+        p = tree / rel
+        if not p.is_symlink() or str(p.readlink()) != target:
+            errors.append(f'{p}: missing or changed Devices lookup alias')
+    inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
+    if set(DEVICES['migration_dispositions']) != {i['old'] for i in inventory if i['path'].startswith('devices/')}:
+        errors.append('Devices dispositions must cover exactly historical Devices entries')
+    expected = {f'{size}/{name}.svg' for size in (24,32) for name in DEVICES['proof_names']}
+    expected |= {f'24/symbolic/{name}-symbolic.svg' for name in DEVICES['proof_names']}
+    expected |= {p.removeprefix('devices/') for p in DEVICES['lookup_aliases']}
+    actual = {str(p.relative_to(devices)) for p in devices.rglob('*.svg')}
+    if actual != expected: errors.append('Devices artwork inventory differs from five families and aliases')
     return errors
 
 
@@ -214,7 +244,7 @@ def validate_source(tree=SOURCE):
                 errors.append(f'{rel}: {exc}')
             continue
         errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
-    errors.extend(validate_places(tree))
+    errors.extend(validate_places(tree) + validate_devices(tree))
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
     for item in inventory:
         path = tree / item['path']
@@ -229,6 +259,17 @@ def validate_source(tree=SOURCE):
                     errors.append(f'{path}: Places replacement target changed')
             else: errors.append(f'{path}: invalid Places disposition')
             continue
+        if item['path'].startswith('devices/'):
+            disposition = DEVICES['migration_dispositions'].get(item['old'], {})
+            if disposition.get('path') != item['path'] or not disposition.get('rationale'):
+                errors.append(f'{path}: missing Devices disposition')
+            elif disposition.get('status') == 'retired':
+                if path.exists(): errors.append(f'{path}: retired name unexpectedly present')
+            elif disposition.get('status') == 'replacement':
+                if not path.is_file() or path.resolve() != (tree / disposition.get('target', '')).resolve():
+                    errors.append(f'{path}: Devices replacement target changed')
+            else: errors.append(f'{path}: invalid Devices disposition')
+            continue
         if not path.is_file():
             errors.append(f'missing migrated lookup name: {item["old"]}')
         elif 'target' in item:
@@ -241,7 +282,7 @@ def validate_source(tree=SOURCE):
 
 
 def validate_theme(tree, name):
-    errors = alias_errors(tree) + validate_places(tree)
+    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree)
     try:
         config = configparser.ConfigParser(interpolation=None, strict=True)
         config.read_string((tree / 'index.theme').read_text())
@@ -251,13 +292,13 @@ def validate_theme(tree, name):
         dirs = theme['Directories'].split(',')
         if dirs != directories():
             errors.append('directory list/duplicate-name precedence differs from source')
-        scaled = [d + '/.' for d in dirs if d.startswith('places/')]
+        scaled = [d + '/.' for d in dirs if d.split('/')[0] in MASTER_CONTEXTS]
         if theme.get('ScaledDirectories', '').split(',') != scaled:
             errors.append('scaled directory metadata differs from source')
         if set(config.sections()) != {'Icon Theme', *dirs, *scaled}:
             errors.append('missing or extra metadata sections')
         for directory in dirs + scaled:
-            if not (tree / directory).is_dir() or (not directory.startswith('places/') and not any((tree / directory).glob('*.svg'))):
+            if not (tree / directory).is_dir() or (directory.split('/')[0] not in MASTER_CONTEXTS and not any((tree / directory).glob('*.svg'))):
                 errors.append(f'{directory}: missing/empty directory')
             actual = dict(config[directory])
             expected = {k.lower():v for k,v in directory_metadata(directory).items()}

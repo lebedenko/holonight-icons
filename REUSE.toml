@@ -6,10 +6,17 @@ SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = ["icons/actions/**/*.svg", "icons/apps/**/*.svg", "icons/devices/**/*.svg", "icons/status/24/symbolic/*.svg"]
+path = ["icons/actions/**/*.svg", "icons/apps/**/*.svg", "icons/status/24/symbolic/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
 SPDX-License-Identifier = "GPL-3.0-only"
+
+# First-party device glyphs and their regular/symbolic aliases.
+[[annotations]]
+path = ["icons/devices/**/*.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
 
 # Generic folder derivatives of the approved first-party Home artwork.
 [[annotations]]

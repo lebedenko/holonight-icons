@@ -102,6 +102,44 @@ QStringList folderNames(const QString &root) {
     }
     return names;
 }
+void deviceReview(const QString &root) {
+    const auto names=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object()["proof_names"].toArray();
+    for (const auto value : names) for (bool symbolic : {false,true}) {
+        const auto base=value.toString();
+        const QList<int> sizes{16,22,24,32};
+        const int cell=82, label=160, height=4*3*82+45;
+        QImage sheet(label+8*cell,height,QImage::Format_ARGB32_Premultiplied);
+        sheet.fill(Qt::white);
+        QPainter painter(&sheet);
+        painter.setPen(Qt::black);
+        painter.drawText(8,24,base+(symbolic?" symbolic":" regular")+" — 16 / 22 / 24 / 32 px; 1× then 2×");
+        int row=0;
+        for (const QString theme : {"HoloNight", "HoloNight-Dark"}) for (bool dark : {false,true}) {
+            const QColor bg(dark?"#0c1118":"#e7eef5");
+            const QColor fg(dark?"#e7edf5":"#1b2533");
+            for (int state=0;state<3;++state,++row) {
+                const int y=40+row*82;
+                const QColor surface=state==1?QColor("#385b83"):bg;
+                painter.fillRect(label,y,8*cell,82,surface);
+                painter.setPen(Qt::black);
+                painter.drawText(QRect(4,y,label-8,82),Qt::AlignVCenter,theme+(dark?" dark ":" light ")+(state==0?"default":state==1?"selected":"disabled"));
+                int col=0;
+                for (int scale : {1,2}) for (int size : sizes) {
+                    const auto rel=symbolic?"24/symbolic/"+base+"-symbolic.svg":QString::number(size<32?24:32)+'/'+base+".svg";
+                    const auto svg=read(root+'/'+theme+"/devices/"+rel);
+                    const auto icon=symbolic?IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(state==1?Qt::white:fg))
+                                            :plain(svg,size*scale);
+                    painter.setOpacity(state==2?.45:1);
+                    painter.drawImage(label+col*cell+(cell-icon.width())/2,y+(82-icon.height())/2,icon);
+                    painter.setOpacity(1);
+                    ++col;
+                }
+            }
+        }
+        painter.end();
+        require(sheet.save(root+"/previews/"+base+(symbolic?"-symbolic-states.png":"-states.png")),"Cannot save Devices state review");
+    }
+}
 void folderReview(const QString &root) {
     for (const QString base : folderNames(root)) for (bool symbolic : {false,true}) {
         QImage sheet(1100, 12*100+45, QImage::Format_ARGB32_Premultiplied);
@@ -282,7 +320,7 @@ void checks(const QString &root) {
             }
             ++checked;
         }
-        for (const QString name : {"go-down", "insync-alert", "audio-card-symbolic"}) {
+        for (const QString name : {"go-down", "insync-alert", "drive-harddisk-symbolic"}) {
             const auto icon=QIcon::fromTheme(name);
             require(!icon.isNull(),"Qt lookup failed: "+name);
             require(visible(icon.pixmap(24,24).toImage()),"Empty Qt lookup: "+name);
@@ -309,6 +347,30 @@ void checks(const QString &root) {
                 require(!icon.isNull(),"Missing Places lookup: "+name);
                 const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
                 require(actual==expected,QString("Places master lookup mismatch: %1 %2 @%3 in %4").arg(name).arg(size).arg(scale).arg(theme));
+            }
+        }
+        const auto devices=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object();
+        QMap<QString,QString> deviceNames;
+        for (const auto value : devices["proof_names"].toArray()) {
+            const auto base=value.toString();
+            deviceNames[base]=base;
+            deviceNames[base+"-symbolic"]=base+"-symbolic";
+        }
+        const auto deviceAliases=devices["lookup_aliases"].toObject();
+        for (auto it=deviceAliases.begin();it!=deviceAliases.end();++it) {
+            if (it.key().contains("/symbolic/") && !it.key().endsWith("-symbolic.svg")) continue;
+            deviceNames[QFileInfo(it.key()).baseName()]=QFileInfo(it.value().toString()).baseName();
+        }
+        for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
+            for (auto it=deviceNames.begin();it!=deviceNames.end();++it) {
+                const bool symbolic=it.key().endsWith("-symbolic");
+                const auto rel=symbolic ? "24/symbolic/"+it.value()+".svg"
+                                        : QString::number(size<32?24:32)+'/'+it.value()+".svg";
+                const auto expected=plain(read(root+'/'+theme+"/devices/"+rel),size*scale);
+                const auto icon=QIcon::fromTheme(it.key());
+                require(!icon.isNull(),"Missing Devices lookup: "+it.key());
+                const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                require(actual==expected,QString("Devices master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(theme));
             }
         }
         // High-resolution alpha bounds include strokes and fractional coverage.
@@ -357,7 +419,7 @@ int main(int argc,char **argv) {
             else if(option=="--size") previewSize=QString::fromLocal8Bit(argv[++i]).toInt();
             else require(false,"Unknown preview option");
         }
-        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); }
+        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); }
         else checks(root);
     } catch (const std::exception &error) {
         QTextStream(stderr)<<error.what()<<'\n'; return 1;

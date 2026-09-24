@@ -13,6 +13,8 @@ CONTEXTS = {'actions':'Actions', 'apps':'Applications', 'categories':'Categories
 PALETTES = json.loads((ROOT / 'metadata/palettes.json').read_text())
 ROLES = set(PALETTES['light'])
 PLACES = json.loads((ROOT / 'metadata/places.json').read_text())
+DEVICES = json.loads((ROOT / 'metadata/devices.json').read_text())
+MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES}
 STYLE = re.compile(r'''(<style\b[^>]*\bid\s*=\s*["']current-color-scheme["'][^>]*>)(.*?)(</style>)''', re.S)
 
 
@@ -29,10 +31,11 @@ def recolor(text, variant):
 def directories(source=SOURCE):
     # Full-color names precede same-size symbolic aliases, as in the old index.
     dirs = {str(p.parent.relative_to(source)) for p in source.rglob('*.svg')}
-    for alias in [*map(str, PLACES['authored_sizes']), *PLACES['directory_aliases']]:
-        for suffix in ('', '/symbolic'):
-            if (source / 'places' / (alias + suffix)).is_dir():
-                dirs.add('places/' + alias + suffix)
+    for context, spec in MASTER_CONTEXTS.items():
+        for alias in [*map(str, spec['authored_sizes']), *spec['directory_aliases']]:
+            for suffix in ('', '/symbolic'):
+                if (source / context / (alias + suffix)).is_dir():
+                    dirs.add(context + '/' + alias + suffix)
     return sorted(dirs,
                   key=lambda s: ('symbolic' in s.split('/'), s))
 
@@ -43,10 +46,10 @@ def directory_metadata(directory):
     size = int(native)
     if size < 16 or size > 512 or suffix not in ([], ['symbolic']):
         raise ValueError('invalid native size or representation directory')
-    maximum = max(size, 32 if suffix or context in ('actions','status','devices') else 512)
+    maximum = max(size, 32 if suffix or context in ('actions','status') else 512)
     result = {'Context':CONTEXTS[context], 'Size':str(size), 'Type':'Scalable',
-            'MinSize':str(size) if context == 'places' else '16',
-            'MaxSize':str(size) if context == 'places' else str(maximum)}
+            'MinSize':str(size) if context in MASTER_CONTEXTS else '16',
+            'MaxSize':str(size) if context in MASTER_CONTEXTS else str(maximum)}
     if scaled:
         result['Scale'] = '2'
     return result
@@ -57,7 +60,7 @@ def index_text(name, source=SOURCE):
     result = f'[Icon Theme]\nName={name}\nComment=HoloNight {VARIANTS[name][0]} icon theme\nInherits={VARIANTS[name][1]}\nFollowsColorScheme=true\nDirectories={",".join(dirs)}\n'
     # Distinct index keys, same directory: QSettings normalizes trailing slashes.
     # Explicit DPR entries avoid Qt nearest-size fallback shadowing exact masters.
-    scaled = [d + '/.' for d in dirs if d.startswith('places/')]
+    scaled = [d + '/.' for d in dirs if d.split('/')[0] in MASTER_CONTEXTS]
     result += 'ScaledDirectories=' + ','.join(scaled) + '\n'
     for directory in dirs + scaled:
         result += f'\n[{directory}]\n' + ''.join(f'{k}={v}\n' for k,v in directory_metadata(directory).items())
