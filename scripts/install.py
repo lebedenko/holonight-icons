@@ -7,8 +7,9 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
-from build import build, bundle_files
-from theme import BUILD, ROOT, VARIANTS
+from build import build
+from stage import validate_bundle
+from theme import BUILD, VARIANTS
 from validate_icons import validate_theme
 
 
@@ -26,16 +27,7 @@ def install(base, refresh=True):
                     raise ValueError('\n'.join(errors))
             bundle = stage / 'holonight-icons'
             shutil.copytree(BUILD / 'holonight-icons', bundle, symlinks=True)
-            paths = list(bundle.rglob('*'))
-            if any(path.is_symlink() for path in paths):
-                raise ValueError('Installed template bundle must not contain symlinks')
-            if {str(path.relative_to(bundle)) for path in paths if path.is_file()} != bundle_files():
-                raise ValueError('Installed template bundle inventory differs from source')
-            for path in paths:
-                if path.is_file():
-                    rel = path.relative_to(bundle)
-                    if path.read_bytes() != (ROOT / rel).read_bytes():
-                        raise ValueError(f'Invalid installed template bundle file: {rel}')
+            validate_bundle(bundle)
             destinations = {name: base / name for name in VARIANTS}
             destinations['holonight-icons'] = base.parent / 'holonight-icons'
             # Unique backup directory keeps every previous installation recoverable.

@@ -26,6 +26,7 @@ tasks:
   license-check:
     desc: Validate REUSE licensing metadata
     cmds:
+      - task: build
       - reuse --no-multiprocessing lint
       - reuse --no-multiprocessing --root build/HoloNight lint
       - reuse --no-multiprocessing --root build/HoloNight-Dark lint

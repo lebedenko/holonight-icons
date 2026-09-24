@@ -20,7 +20,13 @@ roles are not used by current artwork. Fixed-color assets carry a stylesheet gua
 to avoid the consumer's legacy tinting fallback. See the [design contract](../../icon-design-rules.md).
 
 Places permits only the relative size links declared in `metadata/places.json`.
-Two empty real master directories, 24 and 32, reserve monochrome and colorful
-artwork respectively. Extra optical masters require demonstrated visual need.
-See [Places design](../../places-design.md) for pending migration dispositions,
+Two real master directories provide colorful 24 and 32 px artwork, with monochrome
+symbolic artwork under 24/symbolic. Fourteen Places types and 28 regular token templates
+are shipped. Extra optical masters require demonstrated visual need.
+See [Places design](../../places-design.md) for explicit migration dispositions,
 exact size ranges and Scale=2 index references to the existing directories.
+
+Template exports resolve semantic tokens to frozen paints with the standard stylesheet
+guard. Other generated artwork changes stylesheet defaults only. The immutable shared
+bundle stays outside icon lookup directories. System packaging and its validation
+contract are described in the [umbrella packaging SDD](../umbrella-packaging/README.md).

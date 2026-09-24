@@ -28,6 +28,27 @@ Build and installation use Python 3.10+ and its standard library. Task is a
 convenience wrapper; `python3 scripts/build.py`, `python3 scripts/validate_icons.py`
 and `sh scripts/install-local.sh` are equivalent entry points.
 
+### System packaging
+
+Package both variants and the immutable recoloring bundle into an unused staging root:
+
+```sh
+python3 scripts/stage.py --destdir /tmp/holonight-icons-package
+```
+
+This builds and validates the payload before staging `usr/share/icons/HoloNight`,
+`usr/share/icons/HoloNight-Dark` and `usr/share/holonight-icons`. Existing payload
+destinations and symlinked parent directories are rejected. Relative icon aliases
+and licensing metadata are preserved. Packaging does not run cache tools, create
+backups, change user settings or require privilege. The umbrella installer owns
+deployment, dependency checks, icon caches, upgrade cleanup and uninstall.
+
+The system bundle's `/usr/share/holonight-icons/scripts/recolor.py` command still
+targets an existing user-local theme under XDG_DATA_HOME; it does not modify the
+system themes. Install a user-local copy first if recoloring is desired.
+
+### User-local installation
+
 Installation stages and validates both variants under
 `${XDG_DATA_HOME:-$HOME/.local/share}/icons` before replacement. Each previous pair
 is retained in a unique `.holonight-backup-*` directory there; failed replacement

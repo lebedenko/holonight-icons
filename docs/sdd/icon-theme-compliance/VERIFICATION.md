@@ -30,13 +30,18 @@ behavior when changing artwork or consumer palette integration.
 The old `previews/before` and `previews/after` images here are historical migration
 artifacts, not current generated output or evidence for this implementation.
 
-## Empty Places structure
+## Places artwork and system packaging
 
 Follow [the Places acceptance criteria](../../places-design.md). Validate the two
 real masters, nine exact relative directory links and all eleven advertised sizes,
 including Scale=2 entries and temporary-XDG installation. Missing masters, wrong
 links and undeclared directories must fail. Historical migration inventory remains
-unchanged; all Places names are pending redesign. Temporary fixtures test Qt lookup
-at every display size and 2× DPR, symbolic reuse and name precedence. Empty Places
-previews are reported explicitly while other families still render. Places visual
-review resumes when new SVGs are added.
+unchanged; restored aliases and deferred names follow the explicit Places dispositions.
+The fourteen types include regular 24/32 px masters, monochrome symbolic artwork and
+28 regular token templates. Temporary fixtures test Qt lookup at every display size
+and 2× DPR, symbolic reuse and name precedence. Review current Places previews on both
+backgrounds, including enlarged gradient sheets.
+
+System packaging tests invoke `scripts/stage.py --destdir` in disposable roots, verify
+both themes and the single shared bundle, reject occupied/symlinked destinations and
+invalid artifacts, and check rollback and absence of host cache/user-install effects.
