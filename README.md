@@ -101,6 +101,9 @@ colorful and symbolic masters, a 32 px colorful master, and declared size aliase
 `metadata/devices.json` records retained historical aliases and retired imported
 names without changing the migration inventory.
 
+The Kiro app logo is retired in `metadata/apps.json` pending verified
+redistribution rights. Its historical migration entry remains unchanged.
+
 ### On-demand template recoloring
 
 `HoloNight` ships holonight-light; `HoloNight-Dark` ships holonight-dark.

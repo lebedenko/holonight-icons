@@ -78,6 +78,19 @@ class ThemeTests(unittest.TestCase):
         for name in VARIANTS:
             self.assertEqual(validate_theme(BUILD / name,name), [])
 
+    def test_retired_kiro_logo_is_absent(self):
+        retired = 'apps/100/kiro.svg'
+        self.assertFalse((SOURCE / retired).exists())
+        for name in VARIANTS:
+            self.assertFalse((BUILD / name / retired).exists())
+        with tempfile.TemporaryDirectory() as tmp:
+            tree = Path(tmp) / 'icons'
+            shutil.copytree(SOURCE, tree, symlinks=True)
+            (tree / retired).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / 'tests/fixtures/inherited.svg', tree / retired)
+            self.assertTrue(any('retired name unexpectedly present' in error
+                                for error in validate_source(tree)))
+
     def test_devices_masters_aliases_and_retirement(self):
         tree = SOURCE / 'devices'
         self.assertEqual({p.name for p in tree.iterdir()},

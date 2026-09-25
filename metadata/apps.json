@@ -1,0 +1,9 @@
+{
+  "migration_dispositions": {
+    "scalable/apps/kiro.svg": {
+      "status": "retired",
+      "path": "apps/100/kiro.svg",
+      "rationale": "Removed the Kiro brand mark pending verified redistribution rights."
+    }
+  }
+}

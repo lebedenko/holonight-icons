@@ -18,9 +18,5 @@
   "apps/256/holonight-shell.svg": {
     "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
     "scope": "asset"
-  },
-  "apps/100/kiro.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
   }
 }

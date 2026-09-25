@@ -1,8 +1,7 @@
 # Artwork and recoloring contract
 
 The canonical tree is `icons/<context>/<native-size>/`. Keep the original canvas
-and proportions; the native size is the longer viewBox dimension (the 75×100 Kiro
-mark belongs in `apps/100`). Panel artwork belongs in `status`. Full-color and
+and proportions; the native size is the longer viewBox dimension. Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
 `metadata/places.json` and `metadata/devices.json` are permitted. They explicitly advertise scaled reuse;
@@ -72,7 +71,7 @@ need a contrasting surface; do not silently recolor its mark to solve that.
 
 Run `task verify`. New source files automatically gain directory metadata, but
 removing or retargeting migrated lookup names fails validation except for the exact
-Places and Devices dispositions recorded in their metadata files. Update REUSE
+Applications, Places and Devices dispositions recorded in their metadata files. Update REUSE
 attribution when adding artwork. Do not edit generated output.
 
 References: [Breeze generation](https://github.com/KDE/breeze-icons/blob/master/icons/CMakeLists.txt),
