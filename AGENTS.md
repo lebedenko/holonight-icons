@@ -1,5 +1,7 @@
 # HoloNight Icons
 
+Use Conventional Commits for every new commit: `type(scope): imperative summary`, or `type: imperative summary` when a scope adds no clarity.
+
 This repository owns source artwork, aliases, theme metadata, and generated icon themes.
 Read `docs/icon-design-rules.md` and the relevant Places or Devices specification before editing artwork.
 
