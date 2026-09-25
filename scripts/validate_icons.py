@@ -246,8 +246,19 @@ def validate_source(tree=SOURCE):
         errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
     errors.extend(validate_places(tree) + validate_devices(tree))
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
+    app_dispositions = json.loads((ROOT / 'metadata/apps.json').read_text())['migration_dispositions']
+    if set(app_dispositions) != {'scalable/apps/kiro.svg'}:
+        errors.append('unexpected Applications migration dispositions')
     for item in inventory:
         path = tree / item['path']
+        if item['old'] in app_dispositions:
+            disposition = app_dispositions[item['old']]
+            if (disposition.get('status') != 'retired' or disposition.get('path') != item['path']
+                    or not disposition.get('rationale')):
+                errors.append(f'{path}: invalid Applications disposition')
+            elif path.exists():
+                errors.append(f'{path}: retired name unexpectedly present')
+            continue
         if item['path'].startswith('places/'):
             disposition = PLACES['migration_dispositions'].get(item['old'], {})
             if disposition.get('path') != item['path'] or not disposition.get('rationale'):
