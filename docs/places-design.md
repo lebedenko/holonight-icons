@@ -6,7 +6,7 @@ Both real directories retain `.gitkeep` files. No new master directory is added.
 
 | Display sizes | Master | Artwork |
 | --- | --- | --- |
-| 16, 20, 22, 24 | 24 | Simplified colorful regular folder |
+| 16, 20, 22, 24 | 24 | Monochrome semantic regular glyph |
 | 32, 48, 64, 96, 128, 256, 512 | 32 | Detailed colorful regular folder |
 | All symbolic requests | 24/symbolic | Monochrome rounded glyphs |
 
@@ -20,6 +20,12 @@ entry uses Scalable metadata with MinSize=MaxSize=Size. Scale=2 entries in
 ScaledDirectories reference the same directories with a `/.` suffix; there are
 no physical `@2x` directories. Regular names precede symbolic alternatives.
 Larger symbolic requests reuse the 24 px glyph without a colorful fallback.
+
+The size-aware rule above is the required contract for replacement artwork. The
+currently installed 24 px regular masters are colorful and need a separate
+artwork replacement before Dolphin's small Places icons can change. Validate
+ordinary and `-symbolic` aliases through `index.theme`, including inherited
+themes and scale 2, when that replacement is made.
 
 Both regular masters provide `folder-home.svg` and a `user-home.svg` alias.
 `24/symbolic/folder-home-symbolic.svg` provides the glyph, with a

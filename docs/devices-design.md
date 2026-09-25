@@ -8,9 +8,15 @@ stroke; the 32 px master adds a faint stroke glow. SSD and SD labels are paths.
 
 | Requested size | Master |
 | --- | --- |
-| 16, 20, 22, 24 | 24 colorful |
+| 16, 20, 22, 24 | 24 monochrome semantic |
 | 32, 48, 64, 96, 128, 256, 512 | 32 colorful |
 | Every symbolic request | 24/symbolic monochrome |
+
+This is the contract for replacement artwork. The current 24 px regular masters
+are colorful; a separate artwork change must replace them. Verify ordinary and
+`-symbolic` aliases with generated `index.theme` lookup at every advertised size,
+scale 2, and through representative inheritance before claiming the small-size
+result in Dolphin.
 
 Every non-master size is a relative directory alias directly to its master.
 Symbolic names use ColorScheme-Text/currentColor. Consumer palettes provide

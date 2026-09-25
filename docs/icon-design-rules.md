@@ -6,10 +6,22 @@ mark belongs in `apps/100`). Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
 `metadata/places.json` and `metadata/devices.json` are permitted. They explicitly advertise scaled reuse;
-Places has two real master directories: 24 for colorful regular and theme-responsive monochrome symbolic
-artwork at 16–24 px, and 32 for colorful artwork at 32 px and above. Extra optical
+Places and Devices use monochrome semantic regular artwork at 16–24 px and colorful
+regular artwork at 32 px and above. The 24 px directory must supply the ordinary
+name with semantic paint as well as explicit symbolic names. Extra optical
 masters require demonstrated visual need. Explicit `-symbolic` names stay
 monochrome at every requested size, reusing the 24-unit master.
+
+Check every ordinary and `-symbolic` alias through the generated `index.theme` at
+16, 20, 22, 24, 32, 48, 64, 96, 128, 256, and 512 px and at scale 2. Confirm
+that size metadata selects the small semantic artwork through 24 px, the colorful
+artwork from 32 px, and the small semantic master for every explicit symbolic
+request. Repeat representative lookups through inherited themes. A successful
+filesystem alias check alone does not prove icon-theme lookup precedence.
+
+The existing 24 px regular Places and Devices sources predate this contract.
+The family descriptions below record current artwork for provenance; they do
+not waive the small-size replacement requirement.
 
 Use simple silhouettes, clear counters and consistent optical weight. For a new
 24-unit UI symbol, start with a 2-unit safe area, rounded 1.7-unit strokes and at
