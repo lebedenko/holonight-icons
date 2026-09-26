@@ -20,6 +20,11 @@ tasks:
     cmds:
       - task: build
       - sh scripts/check-rendering.sh
+  test:gtk:
+    desc: Verify GTK 3 and GTK 4 symbolic lookup and foreground recoloring
+    cmds:
+      - task: build
+      - python3 scripts/check-gtk-symbolic.py
   preview:icons:
     desc: Render all families at 16/22/24/32 pixels and 2x on both backgrounds
     cmds: [python3 scripts/generate_icon_previews.py]
@@ -37,6 +42,7 @@ tasks:
       - task: validate
       - task: test
       - task: test:render
+      - task: test:gtk
       - task: preview:icons
       - task: license-check
   install:local:

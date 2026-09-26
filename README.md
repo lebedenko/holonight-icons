@@ -11,8 +11,11 @@ the dark variant must select `HoloNight-Dark` in their desktop or shell settings
 Both themes declare `FollowsColorScheme=true`. Semantic SVGs respond to palettes
 in KDE-aware consumers and HoloNight's own Qt renderer. No KDE Frameworks library
 is required. Desktop settings or external integration select the variant; this
-repository has no automatic switcher. GTK symbolic recoloring and cross-desktop
-automatic switching are outside its contract.
+repository has no automatic switcher. Explicit Places and Devices `-symbolic`
+names recolor from the GTK foreground color in GTK 3 and GTK 4. The
+[size-aware contract](docs/sdd/size-aware-icons/README.md) defines their lookup
+and the separate ordinary-name artwork behavior. Cross-desktop automatic
+switching is outside this repository's contract.
 
 Install your distribution's Papirus, Breeze and hicolor icon theme packages to
 supply inherited icons. Inheritance is recursive: the declared list is not a
@@ -68,6 +71,7 @@ and alias. Generated themes carry licensing and attribution alongside the icons.
 task validate:icons
 task test
 task test:render
+task test:gtk
 task preview:icons
 task verify
 ```
@@ -77,6 +81,9 @@ packages and a sibling `holonight-qt` checkout. Set `HOLONIGHT_QT_SOURCE` to use
 checkout elsewhere. Tests compile its actual `src/icons/iconrenderer.cpp`; they
 add no dependency to the installed icon themes or Shell. CI pins a known renderer
 revision. `task verify` also requires REUSE (`reuse lint`).
+The GTK check requires Python GObject introspection, GTK 3 and GTK 4
+introspection typelibs, Xvfb and `xvfb-run`. On Ubuntu, install `python3-gi`,
+`gir1.2-gtk-3.0`, `gir1.2-gtk-4.0`, `librsvg2-common` and `xvfb`.
 
 Family contact sheets are generated under `build/previews/` on light and dark
 backgrounds at 16, 22, 24 and 32 pixels, each at 1× and 2×. Read the

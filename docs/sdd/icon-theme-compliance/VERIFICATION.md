@@ -3,7 +3,11 @@
 Run `task verify` from the repository root. Python tests require only the standard
 library. Rendering requires Qt 6 Core/Gui/Svg development files, CMake, C++17 and a
 holonight-qt checkout (`HOLONIGHT_QT_SOURCE`, default sibling). REUSE is required for
-licensing checks. No KDE Frameworks packages are required.
+licensing checks. No KDE Frameworks packages are required. The GTK symbolic
+check also requires Python GObject introspection, GTK 3 and GTK 4 typelibs,
+Xvfb and `xvfb-run` (Ubuntu: `python3-gi`, `gir1.2-gtk-3.0`,
+`gir1.2-gtk-4.0`, `librsvg2-common`, `xvfb`). Missing packages fail with an
+install hint. The SVG pixbuf loader is needed for GTK 3.
 
 The regression fixtures cover stylesheet IDs/roles, hard-coded and implicit paints,
 inline overrides, inherited group styling, fixed/mixed exemptions, missing classes,

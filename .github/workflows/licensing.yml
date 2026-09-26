@@ -12,13 +12,14 @@ jobs:
           repository: lebedenko/holonight-qt
           ref: 27970cfe3ed3dc8bf0585dfee7927eae697979ac
           path: holonight-qt
-      - run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev qt6-svg-dev
+      - run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev qt6-svg-dev python3-gi gir1.2-gtk-3.0 gir1.2-gtk-4.0 librsvg2-common xvfb
       - working-directory: holonight-icons
         run: |
           python3 scripts/build.py
           python3 scripts/validate_icons.py
           python3 -m unittest discover -s tests -v
           sh scripts/check-rendering.sh
+          python3 scripts/check-gtk-symbolic.py
           python3 scripts/generate_icon_previews.py
           pipx run --spec reuse==6.2.0 reuse lint
           pipx run --spec reuse==6.2.0 reuse --root build/HoloNight lint

@@ -17,6 +17,12 @@ that size metadata selects the small semantic artwork through 24 px, the colorfu
 artwork from 32 px, and the small semantic master for every explicit symbolic
 request. Repeat representative lookups through inherited themes. A successful
 filesystem alias check alone does not prove icon-theme lookup precedence.
+For every explicit Places and Devices `-symbolic` name, GTK 3 and GTK 4 must
+recognize the resolved icon as symbolic and visibly recolor it when the GTK
+foreground changes. Verify both generated variants at 24 and 32 px for all
+canonical names, and Home and hard disk at every advertised size and scale 2.
+Ordinary small icon names retain the size-aware semantic artwork contract;
+GTK symbolic recoloring is required for explicit `-symbolic` names and aliases.
 
 The existing 24 px regular Places and Devices sources predate this contract.
 The family descriptions below record current artwork for provenance; they do
