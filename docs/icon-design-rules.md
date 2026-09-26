@@ -24,9 +24,9 @@ canonical names, and Home and hard disk at every advertised size and scale 2.
 Ordinary small icon names retain the size-aware semantic artwork contract;
 GTK symbolic recoloring is required for explicit `-symbolic` names and aliases.
 
-The existing 24 px regular Places and Devices sources predate this contract.
-The family descriptions below record current artwork for provenance; they do
-not waive the small-size replacement requirement.
+The Places 24 px regular names use the same semantic glyphs as their explicit
+`-symbolic` aliases. Devices still need their colorful 24 px regular masters
+replaced to meet this contract.
 
 Use simple silhouettes, clear counters and consistent optical weight. For a new
 24-unit UI symbol, start with a 2-unit safe area, rounded 1.7-unit strokes and at
@@ -70,7 +70,7 @@ Fixed brands, full-color applications, folder illustrations, weather art and
 intentional decorative shading retain their paint. Every exemption has an exact
 asset path and rationale in `metadata/fixed-artwork.json`; globs are prohibited.
 Mixed artwork exempts exact element IDs and keeps the responsive portion semantic.
-Places contains fifteen folder types (30 regular token templates), including the seven
+Places contains fifteen folder types (15 colorful token templates), including the seven
 Desktop, Pictures, Music, Videos, Projects, Templates and Public additions plus Recent and both Trash states; see the [Places specification](places-design.md).
 There is no weather artwork in the current inventory.
 
@@ -102,7 +102,8 @@ unrelated historical artwork remains deferred.
 ## Explicit token templates
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
-it lists all fifteen regular folder types and five Devices glyph types at both master sizes. Author these assets in the canonical tree
+it lists fifteen colorful 32 px Places folder types and five Devices glyph
+types at both master sizes. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions
 for templates: validate their paints before exporting them as frozen artwork.

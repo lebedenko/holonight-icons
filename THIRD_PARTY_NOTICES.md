@@ -20,16 +20,16 @@ Light, Dark, Day and Storm colors are an offline snapshot of holonight-qt's
 `data/holonight-{light,dark,day,storm}.colors`, recorded 2026-09-23. The metadata records
 semantic role mapping. The independently authored Home artwork at
 `icons/places/32/folder-home.svg`, `icons/places/24/folder-home.svg` and
-`icons/places/24/symbolic/folder-home-symbolic.svg`, including their user-home
+`icons/places/24/folder-home-symbolic.svg`, including their user-home
 aliases, refines the supplied HoloNight mockup and revised draft, with house glow
 and inset folder lighting in the 32 px master; copyright 2026 Andrii L <lebeden@gmail.com>,
 GPL-3.0-or-later. Its canonical source and generated literal variants share that
 attribution. The generic folder derivatives at `icons/places/24/folder.svg`,
-`icons/places/32/folder.svg` and `icons/places/24/symbolic/folder-symbolic.svg`,
+`icons/places/32/folder.svg` and `icons/places/24/folder-symbolic.svg`,
 including their inode-directory and symbolic folder aliases, share this first-party
 copyright and GPL-3.0-or-later license. The Downloads derivatives at
 `icons/places/24/folder-download.svg`, `icons/places/32/folder-download.svg` and
-`icons/places/24/symbolic/folder-download-symbolic.svg`, with their folder-downloads
+`icons/places/24/folder-download-symbolic.svg`, with their folder-downloads
 and historical symbolic folder-download aliases, share this first-party copyright
 and GPL-3.0-or-later license. Their arrow-and-tray motif follows the supplied
 mockup description in the implementation plan; the mockup image was unavailable.
@@ -50,13 +50,13 @@ and does not imply sponsorship, endorsement or ownership of those trademarks.
 
 Documents artwork at `icons/places/24/folder-documents.svg`,
 `icons/places/32/folder-documents.svg` and
-`icons/places/24/symbolic/folder-documents-symbolic.svg` adapts the page glyph
+`icons/places/24/folder-documents-symbolic.svg` adapts the page glyph
 from the first-party `places.png` reference onto the approved folder bodies.
 Copyright 2026 Andrii L; GPL-3.0-or-later.
 
 Desktop, Pictures, Music, Videos, Projects, Templates and Public artwork at
 `icons/places/{24,32}/folder-{desktop,pictures,music,videos,projects,templates,public}.svg`
-and `icons/places/24/symbolic/folder-{desktop,pictures,music,videos,projects,templates,public}-symbolic.svg`
+and `icons/places/24/folder-{desktop,pictures,music,videos,projects,templates,public}-symbolic.svg`
 uses the first-party `places.png` silhouettes with the approved Home folder bodies
 and shared gradient. Copyright 2026 Andrii L <lebeden@gmail.com>;
 GPL-3.0-or-later. REUSE.toml enumerates all 21 canonical paths explicitly.
@@ -66,7 +66,7 @@ canonical template bundle carry the same attribution.
 
 Recent and Trash artwork at
 `icons/places/{24,32}/folder-{recent,trash,trash-full}.svg` and
-`icons/places/24/symbolic/folder-{recent,trash,trash-full}-symbolic.svg` is first-party
+`icons/places/24/folder-{recent,trash,trash-full}-symbolic.svg` is first-party
 artwork by Andrii L (2026), licensed GPL-3.0-or-later. Recent's clock and empty
 Trash's bin adapt the first-party `places.png` reference; the raised lid and paper
 shapes of full Trash are original additions. Regular versions reuse the approved

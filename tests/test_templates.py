@@ -39,7 +39,7 @@ class TemplateTests(unittest.TestCase):
             'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c'],
         }
         from templates import RULE
-        self.assertEqual(len(manifest(ROOT)), 40)
+        self.assertEqual(len(manifest(ROOT)), 25)
         for variant, tokens in expected.items():
             self.assertEqual(PALETTES['presets']['holonight-'+variant], tokens)
             self.assertEqual(list(PALETTES[variant].values()), semantic[variant])
@@ -145,16 +145,16 @@ class TemplateTests(unittest.TestCase):
             for name, variant in [('HoloNight','light'), ('HoloNight-Dark','dark')]:
                 theme = data/'icons'/name
                 original = {e['output']:(theme/e['output']).read_bytes() for e in entries}
-                symbolics = [theme/f'places/24/symbolic/{name}-symbolic.svg'
+                symbolics = [theme/f'places/24/{name}-symbolic.svg'
                              for name in PLACES['proof_names'] if not name.endswith('-symbolic')]
                 glyphs = [p.read_bytes() for p in symbolics]
-                historical = theme/'places/24/symbolic/folder-download.svg'
+                historical = theme/'places/24/folder-download-symbolic.svg'
                 self.assertTrue(historical.is_symlink())
                 self.assertEqual(historical.read_bytes(), glyphs[2])
-                open_alias = theme/'places/24/symbolic/folder-open.svg'
+                open_alias = theme/'places/24/folder-open-symbolic.svg'
                 self.assertTrue(open_alias.is_symlink())
                 self.assertEqual(open_alias.read_bytes(),
-                                 (theme/'places/24/symbolic/folder-open-symbolic.svg').read_bytes())
+                                 (theme/'places/24/folder-open.svg').read_bytes())
                 for preset, values in PALETTES['presets'].items():
                     subprocess.run([sys.executable, str(bundle/'scripts/recolor.py'), name,
                                     '--preset',preset,'--no-cache'],
@@ -174,14 +174,14 @@ class TemplateTests(unittest.TestCase):
                 def fail_new_master(path, target):
                     if '.holonight-recolor-stage-' in str(path):
                         calls.append(str(target))
-                        if str(target).endswith('/24/folder-open.svg'):
+                        if str(target).endswith('/32/folder-open.svg'):
                             raise OSError('simulated Open master replacement failure')
                     return real_replace(path,target)
                 with patch.object(Path, 'replace', fail_new_master):
                     with self.assertRaisesRegex(OSError,'Open master'):
                         recolor_theme(data,bundle,name,self.storm,False)
                 failed_index = next(i for i, entry in enumerate(entries)
-                                    if entry['output'] == 'places/24/folder-open.svg')
+                                    if entry['output'] == 'places/32/folder-open.svg')
                 self.assertEqual(len(calls), failed_index * 2 + 1)
                 for entry in entries:
                     self.assertEqual((theme/entry['output']).read_bytes(),original[entry['output']])

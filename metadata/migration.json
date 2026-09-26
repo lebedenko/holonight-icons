@@ -738,147 +738,147 @@
     },
     {
       "old": "symbolic/places/folder-design-symbolic.svg",
-      "path": "places/24/symbolic/folder-design-symbolic.svg"
+      "path": "places/24/folder-design-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-design.svg",
-      "path": "places/24/symbolic/folder-design.svg",
-      "target": "places/24/symbolic/folder-design-symbolic.svg"
+      "path": "places/24/folder-design.svg",
+      "target": "places/24/folder-design-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-desktop-symbolic.svg",
-      "path": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "path": "places/24/folder-desktop-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-desktop.svg",
-      "path": "places/24/symbolic/folder-desktop.svg",
-      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "path": "places/24/folder-desktop.svg",
+      "target": "places/24/folder-desktop.svg"
     },
     {
       "old": "symbolic/places/folder-download-symbolic.svg",
-      "path": "places/24/symbolic/folder-download-symbolic.svg"
+      "path": "places/24/folder-download-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-download.svg",
-      "path": "places/24/symbolic/folder-download.svg",
-      "target": "places/24/symbolic/folder-download-symbolic.svg"
+      "path": "places/24/folder-download.svg",
+      "target": "places/24/folder-download.svg"
     },
     {
       "old": "symbolic/places/folder-git-symbolic.svg",
-      "path": "places/24/symbolic/folder-git-symbolic.svg"
+      "path": "places/24/folder-git-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-git.svg",
-      "path": "places/24/symbolic/folder-git.svg",
-      "target": "places/24/symbolic/folder-git-symbolic.svg"
+      "path": "places/24/folder-git.svg",
+      "target": "places/24/folder-git-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-open-symbolic.svg",
-      "path": "places/24/symbolic/folder-open-symbolic.svg"
+      "path": "places/24/folder-open-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-open.svg",
-      "path": "places/24/symbolic/folder-open.svg",
-      "target": "places/24/symbolic/folder-open-symbolic.svg"
+      "path": "places/24/folder-open.svg",
+      "target": "places/24/folder-open.svg"
     },
     {
       "old": "symbolic/places/folder-pictures-symbolic.svg",
-      "path": "places/24/symbolic/folder-pictures-symbolic.svg"
+      "path": "places/24/folder-pictures-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-pictures.svg",
-      "path": "places/24/symbolic/folder-pictures.svg",
-      "target": "places/24/symbolic/folder-pictures-symbolic.svg"
+      "path": "places/24/folder-pictures.svg",
+      "target": "places/24/folder-pictures.svg"
     },
     {
       "old": "symbolic/places/folder-publicshare-symbolic.svg",
-      "path": "places/24/symbolic/folder-publicshare-symbolic.svg"
+      "path": "places/24/folder-publicshare-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-publicshare.svg",
-      "path": "places/24/symbolic/folder-publicshare.svg",
-      "target": "places/24/symbolic/folder-publicshare-symbolic.svg"
+      "path": "places/24/folder-publicshare.svg",
+      "target": "places/24/folder-publicshare.svg"
     },
     {
       "old": "symbolic/places/folder-root-symbolic.svg",
-      "path": "places/24/symbolic/folder-root-symbolic.svg"
+      "path": "places/24/folder-root-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-root.svg",
-      "path": "places/24/symbolic/folder-root.svg",
-      "target": "places/24/symbolic/folder-root-symbolic.svg"
+      "path": "places/24/folder-root.svg",
+      "target": "places/24/folder-root-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-sound-symbolic.svg",
-      "path": "places/24/symbolic/folder-sound-symbolic.svg"
+      "path": "places/24/folder-sound-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-sound.svg",
-      "path": "places/24/symbolic/folder-sound.svg",
-      "target": "places/24/symbolic/folder-sound-symbolic.svg"
+      "path": "places/24/folder-sound.svg",
+      "target": "places/24/folder-sound.svg"
     },
     {
       "old": "symbolic/places/folder-symbolic.svg",
-      "path": "places/24/symbolic/folder-symbolic.svg"
+      "path": "places/24/folder-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-table-symbolic.svg",
-      "path": "places/24/symbolic/folder-table-symbolic.svg"
+      "path": "places/24/folder-table-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-table.svg",
-      "path": "places/24/symbolic/folder-table.svg",
-      "target": "places/24/symbolic/folder-table-symbolic.svg"
+      "path": "places/24/folder-table.svg",
+      "target": "places/24/folder-table-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-tar-symbolic.svg",
-      "path": "places/24/symbolic/folder-tar-symbolic.svg"
+      "path": "places/24/folder-tar-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-tar.svg",
-      "path": "places/24/symbolic/folder-tar.svg",
-      "target": "places/24/symbolic/folder-tar-symbolic.svg"
+      "path": "places/24/folder-tar.svg",
+      "target": "places/24/folder-tar-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-temp-symbolic.svg",
-      "path": "places/24/symbolic/folder-temp-symbolic.svg"
+      "path": "places/24/folder-temp-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder-temp.svg",
-      "path": "places/24/symbolic/folder-temp.svg",
-      "target": "places/24/symbolic/folder-temp-symbolic.svg"
+      "path": "places/24/folder-temp.svg",
+      "target": "places/24/folder-temp-symbolic.svg"
     },
     {
       "old": "symbolic/places/folder.svg",
-      "path": "places/24/symbolic/folder.svg",
-      "target": "places/24/symbolic/folder-symbolic.svg"
+      "path": "places/24/folder.svg",
+      "target": "places/24/folder.svg"
     },
     {
       "old": "symbolic/places/user-desktop-symbolic.svg",
-      "path": "places/24/symbolic/user-desktop-symbolic.svg"
+      "path": "places/24/user-desktop-symbolic.svg"
     },
     {
       "old": "symbolic/places/user-desktop.svg",
-      "path": "places/24/symbolic/user-desktop.svg",
-      "target": "places/24/symbolic/user-desktop-symbolic.svg"
+      "path": "places/24/user-desktop.svg",
+      "target": "places/24/user-desktop.svg"
     },
     {
       "old": "symbolic/places/user-trash-full-symbolic.svg",
-      "path": "places/24/symbolic/user-trash-full-symbolic.svg"
+      "path": "places/24/user-trash-full-symbolic.svg"
     },
     {
       "old": "symbolic/places/user-trash-full.svg",
-      "path": "places/24/symbolic/user-trash-full.svg",
-      "target": "places/24/symbolic/user-trash-full-symbolic.svg"
+      "path": "places/24/user-trash-full.svg",
+      "target": "places/24/user-trash-full.svg"
     },
     {
       "old": "symbolic/places/user-trash-symbolic.svg",
-      "path": "places/24/symbolic/user-trash-symbolic.svg"
+      "path": "places/24/user-trash-symbolic.svg"
     },
     {
       "old": "symbolic/places/user-trash.svg",
-      "path": "places/24/symbolic/user-trash.svg",
-      "target": "places/24/symbolic/user-trash-symbolic.svg"
+      "path": "places/24/user-trash.svg",
+      "target": "places/24/user-trash.svg"
     },
     {
       "old": "symbolic/status/power-profile-balanced-symbolic.svg",

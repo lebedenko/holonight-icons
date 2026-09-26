@@ -221,65 +221,60 @@ class PlacesTests(unittest.TestCase):
             self.assertEqual({str(p.relative_to(tree/'places')) for p in (tree/'places').rglob('*.svg')},
                              {f'{size}/{name}.svg' for name in PLACES['proof_names']
                               if not name.endswith('-symbolic') for size in (24,32)} |
-                             {f'24/symbolic/{name}.svg' for name in PLACES['proof_names']
+                             {f'24/{name}.svg' for name in PLACES['proof_names']
                               if name.endswith('-symbolic')} |
                              {p.removeprefix('places/') for p in PLACES['lookup_aliases']})
             self.assertEqual({d for d in directories(tree) if d.startswith('places/')},
-                             {'places/'+s for s in expected} | {'places/'+s+'/symbolic' for s in ('16','20','22','24')})
+                             {'places/'+s for s in expected})
             for size in (24,32):
                 self.assertFalse((tree/f'places/{size}').is_symlink())
                 self.assertTrue((tree/f'places/{size}/.gitkeep').is_file())
             for alias, target in PLACES['directory_aliases'].items():
                 self.assertEqual(str((tree/'places'/alias).readlink()),target)
 
-    def test_folder_preserves_approved_home_body(self):
-        # Exact text comparison also protects gradient definitions and drawing order.
-        for size in (24, 32):
-            removed = {'house'}
-            if size == 32:
-                removed.update({'path14', *(f'house-glow-{i}' for i in range(1, 9))})
-            home = (SOURCE/f'places/{size}/folder-home.svg').read_text()
-            body = ''.join(line for line in home.splitlines(keepends=True)
-                           if not any(f'id="{name}"' in line for name in removed))
-            self.assertEqual((SOURCE/f'places/{size}/folder.svg').read_text(), body)
+    def test_small_places_are_semantic_and_symbolic_aliases(self):
+        names = [name for name in PLACES['proof_names'] if not name.endswith('-symbolic')]
+        self.assertFalse((SOURCE/'places/24/symbolic').exists())
+        for tree in [SOURCE, *(BUILD/name for name in VARIANTS)]:
+            regular_names = {p.stem for p in (tree/'places/24').glob('*.svg')
+                             if not p.stem.endswith('-symbolic')}
+            symbolic_names = {p.stem.removesuffix('-symbolic') for p in
+                              (tree/'places/24').glob('*-symbolic.svg')}
+            self.assertEqual(regular_names, symbolic_names)
+            self.assertTrue(all((tree/f'places/24/{name}-symbolic.svg').is_symlink()
+                                for name in regular_names))
+            for name in names:
+                regular = tree/f'places/24/{name}.svg'
+                symbolic = tree/f'places/24/{name}-symbolic.svg'
+                self.assertTrue(regular.is_file() and not regular.is_symlink())
+                self.assertEqual(validate_svg(regular), [])
+                self.assertTrue(symbolic.is_symlink())
+                self.assertEqual(symbolic.readlink(), Path(f'{name}.svg'))
+                self.assertEqual(symbolic.read_bytes(), regular.read_bytes())
 
-    def test_download_preserves_approved_folder_body(self):
-        for size in (24, 32):
-            download = (SOURCE/f'places/{size}/folder-download.svg').read_text()
-            body = ''.join(line for line in download.splitlines(keepends=True)
-                           if 'id="download' not in line)
-            self.assertEqual(body, (SOURCE/f'places/{size}/folder.svg').read_text())
-
-    def test_documents_preserves_approved_folder_body(self):
-        for size in (24, 32):
-            documents = (SOURCE/f'places/{size}/folder-documents.svg').read_text()
-            body = ''.join(line for line in documents.splitlines(keepends=True)
-                           if 'id="documents' not in line)
-            self.assertEqual(body, (SOURCE/f'places/{size}/folder.svg').read_text())
-
-    def test_extended_folder_family(self):
+    def test_large_folder_family_keeps_shared_body(self):
         from xml.etree import ElementTree as ET
         from templates import manifest
         entries = {e['source'] for e in manifest(ROOT)}
-        for name in ('desktop', 'pictures', 'music', 'videos', 'projects', 'templates', 'public', 'recent', 'trash', 'trash-full'):
-            for size in (24,32):
-                with self.subTest(name=name, size=size):
-                    path = f'places/{size}/folder-{name}.svg'
-                    self.assertIn('icons/'+path, entries)
-                    artwork = (SOURCE/path).read_text()
-                    body = ''.join(line for line in artwork.splitlines(keepends=True)
-                                   if f'id="{name}' not in line)
-                    self.assertEqual(body, (SOURCE/f'places/{size}/folder.svg').read_text())
-                    layers = [e for e in ET.fromstring(artwork).iter()
-                              if e.get('id', '').startswith(name)]
-                    self.assertEqual(len(layers), 9 if size == 32 else 1)
-                    self.assertTrue(all(e.get('stroke') == 'url(#rim)' for e in layers))
-                    self.assertTrue(all(e.get('d') == layers[-1].get('d') for e in layers))
-                    if size == 32:
-                        self.assertEqual([e.get('opacity') for e in layers[:-1]],
-                                         ['.018','.022','.028','.035','.045','.055','.07','.09'])
-            symbolic = SOURCE/f'places/24/symbolic/folder-{name}-symbolic.svg'
-            self.assertEqual(validate_svg(symbolic), [])
+        names = [name for name in PLACES['proof_names'] if not name.endswith('-symbolic')]
+        for name in names:
+            self.assertIn(f'icons/places/32/{name}.svg', entries)
+            self.assertNotIn(f'icons/places/24/{name}.svg', entries)
+        home = (SOURCE/'places/32/folder-home.svg').read_text()
+        body = ''.join(line for line in home.splitlines(keepends=True)
+                       if not any(f'id="{part}"' in line for part in
+                                  {'house', 'path14', *(f'house-glow-{i}' for i in range(1, 9))}))
+        self.assertEqual((SOURCE/'places/32/folder.svg').read_text(), body)
+        for name, glyph in [('folder-download','download'), ('folder-documents','documents'),
+                            *[(f'folder-{n}',n) for n in ('desktop','pictures','music','videos',
+                                'projects','templates','public','recent','trash','trash-full')]]:
+            artwork = (SOURCE/f'places/32/{name}.svg').read_text()
+            stripped = ''.join(line for line in artwork.splitlines(keepends=True)
+                               if f'id="{glyph}' not in line)
+            self.assertEqual(stripped, (SOURCE/'places/32/folder.svg').read_text())
+            layers = [e for e in ET.fromstring(artwork).iter()
+                      if e.get('id','').startswith(glyph)]
+            self.assertEqual(len(layers), 9)
         for alias, target in PLACES['lookup_aliases'].items():
             self.assertTrue((SOURCE/alias).is_symlink())
             self.assertEqual(str((SOURCE/alias).readlink()), target)

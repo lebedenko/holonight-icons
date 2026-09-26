@@ -47,15 +47,35 @@
     "folder-open-symbolic"
   ],
   "lookup_aliases": {
+    "places/24/user-home-symbolic.svg": "folder-home.svg",
+    "places/24/user-desktop-symbolic.svg": "folder-desktop.svg",
+    "places/24/folder-publicshare-symbolic.svg": "folder-public.svg",
+    "places/24/folder-sound.svg": "folder-music.svg",
+    "places/24/folder-sound-symbolic.svg": "folder-music.svg",
+    "places/24/user-trash-symbolic.svg": "folder-trash.svg",
+    "places/24/user-trash-full-symbolic.svg": "folder-trash-full.svg",
+    "places/24/folder-home-symbolic.svg": "folder-home.svg",
+    "places/24/folder-symbolic.svg": "folder.svg",
+    "places/24/folder-download-symbolic.svg": "folder-download.svg",
+    "places/24/folder-documents-symbolic.svg": "folder-documents.svg",
+    "places/24/folder-desktop-symbolic.svg": "folder-desktop.svg",
+    "places/24/folder-pictures-symbolic.svg": "folder-pictures.svg",
+    "places/24/folder-music-symbolic.svg": "folder-music.svg",
+    "places/24/folder-videos-symbolic.svg": "folder-videos.svg",
+    "places/24/folder-projects-symbolic.svg": "folder-projects.svg",
+    "places/24/folder-templates-symbolic.svg": "folder-templates.svg",
+    "places/24/folder-public-symbolic.svg": "folder-public.svg",
+    "places/24/folder-recent-symbolic.svg": "folder-recent.svg",
+    "places/24/folder-trash-symbolic.svg": "folder-trash.svg",
+    "places/24/folder-trash-full-symbolic.svg": "folder-trash-full.svg",
+    "places/24/folder-open-symbolic.svg": "folder-open.svg",
+    "places/32/folder-sound.svg": "folder-music.svg",
     "places/24/user-home.svg": "folder-home.svg",
     "places/32/user-home.svg": "folder-home.svg",
-    "places/24/symbolic/user-home-symbolic.svg": "folder-home-symbolic.svg",
     "places/24/inode-directory.svg": "folder.svg",
     "places/32/inode-directory.svg": "folder.svg",
-    "places/24/symbolic/folder.svg": "folder-symbolic.svg",
     "places/24/folder-downloads.svg": "folder-download.svg",
     "places/32/folder-downloads.svg": "folder-download.svg",
-    "places/24/symbolic/folder-download.svg": "folder-download-symbolic.svg",
     "places/24/user-desktop.svg": "folder-desktop.svg",
     "places/32/user-desktop.svg": "folder-desktop.svg",
     "places/24/folder-photo.svg": "folder-pictures.svg",
@@ -64,23 +84,14 @@
     "places/32/folder-video.svg": "folder-videos.svg",
     "places/24/folder-publicshare.svg": "folder-public.svg",
     "places/32/folder-publicshare.svg": "folder-public.svg",
-    "places/24/symbolic/folder-desktop.svg": "folder-desktop-symbolic.svg",
-    "places/24/symbolic/user-desktop.svg": "folder-desktop-symbolic.svg",
-    "places/24/symbolic/user-desktop-symbolic.svg": "folder-desktop-symbolic.svg",
-    "places/24/symbolic/folder-pictures.svg": "folder-pictures-symbolic.svg",
-    "places/24/symbolic/folder-publicshare.svg": "folder-public-symbolic.svg",
-    "places/24/symbolic/folder-publicshare-symbolic.svg": "folder-public-symbolic.svg",
-    "places/24/symbolic/folder-sound.svg": "folder-music-symbolic.svg",
-    "places/24/symbolic/folder-sound-symbolic.svg": "folder-music-symbolic.svg",
     "places/24/user-trash.svg": "folder-trash.svg",
     "places/32/user-trash.svg": "folder-trash.svg",
-    "places/24/symbolic/user-trash.svg": "folder-trash-symbolic.svg",
-    "places/24/symbolic/user-trash-symbolic.svg": "folder-trash-symbolic.svg",
     "places/24/user-trash-full.svg": "folder-trash-full.svg",
     "places/32/user-trash-full.svg": "folder-trash-full.svg",
-    "places/24/symbolic/user-trash-full.svg": "folder-trash-full-symbolic.svg",
-    "places/24/symbolic/user-trash-full-symbolic.svg": "folder-trash-full-symbolic.svg",
-    "places/24/symbolic/folder-open.svg": "folder-open-symbolic.svg"
+    "places/24/folder-downloads-symbolic.svg": "folder-download.svg",
+    "places/24/folder-photo-symbolic.svg": "folder-pictures.svg",
+    "places/24/folder-video-symbolic.svg": "folder-videos.svg",
+    "places/24/inode-directory-symbolic.svg": "folder.svg"
   },
   "migration_dispositions": {
     "scalable/places/folder-activities.svg": {
@@ -509,183 +520,183 @@
     },
     "symbolic/places/folder-design-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-design-symbolic.svg",
+      "path": "places/24/folder-design-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-design.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-design.svg",
+      "path": "places/24/folder-design.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-desktop-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-desktop-symbolic.svg",
+      "path": "places/24/folder-desktop-symbolic.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/folder-desktop.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-desktop.svg",
+      "path": "places/24/folder-desktop.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/folder-download-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-download-symbolic.svg",
+      "path": "places/24/folder-download-symbolic.svg",
       "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-download-symbolic.svg"
+      "target": "places/24/folder-download.svg"
     },
     "symbolic/places/folder-download.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-download.svg",
+      "path": "places/24/folder-download.svg",
       "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-download-symbolic.svg"
+      "target": "places/24/folder-download.svg"
     },
     "symbolic/places/folder-git-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-git-symbolic.svg",
+      "path": "places/24/folder-git-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-git.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-git.svg",
+      "path": "places/24/folder-git.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-open-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-open-symbolic.svg",
+      "path": "places/24/folder-open-symbolic.svg",
       "rationale": "Restore the monochrome open-folder outline with a distinct tilted front flap.",
-      "target": "places/24/symbolic/folder-open-symbolic.svg"
+      "target": "places/24/folder-open.svg"
     },
     "symbolic/places/folder-open.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-open.svg",
+      "path": "places/24/folder-open.svg",
       "rationale": "Historical symbolic alias for the generic open-folder outline.",
-      "target": "places/24/symbolic/folder-open-symbolic.svg"
+      "target": "places/24/folder-open.svg"
     },
     "symbolic/places/folder-pictures-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-pictures-symbolic.svg",
+      "path": "places/24/folder-pictures-symbolic.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-pictures-symbolic.svg"
+      "target": "places/24/folder-pictures.svg"
     },
     "symbolic/places/folder-pictures.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-pictures.svg",
+      "path": "places/24/folder-pictures.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-pictures-symbolic.svg"
+      "target": "places/24/folder-pictures.svg"
     },
     "symbolic/places/folder-publicshare-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-publicshare-symbolic.svg",
+      "path": "places/24/folder-publicshare-symbolic.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-public-symbolic.svg"
+      "target": "places/24/folder-public.svg"
     },
     "symbolic/places/folder-publicshare.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-publicshare.svg",
+      "path": "places/24/folder-publicshare.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-public-symbolic.svg"
+      "target": "places/24/folder-public.svg"
     },
     "symbolic/places/folder-root-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-root-symbolic.svg",
+      "path": "places/24/folder-root-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-root.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-root.svg",
+      "path": "places/24/folder-root.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-sound-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-sound-symbolic.svg",
+      "path": "places/24/folder-sound-symbolic.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-music-symbolic.svg"
+      "target": "places/24/folder-music.svg"
     },
     "symbolic/places/folder-sound.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-sound.svg",
+      "path": "places/24/folder-sound.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-music-symbolic.svg"
+      "target": "places/24/folder-music.svg"
     },
     "symbolic/places/folder-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder-symbolic.svg",
+      "path": "places/24/folder-symbolic.svg",
       "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
-      "target": "places/24/symbolic/folder-symbolic.svg"
+      "target": "places/24/folder.svg"
     },
     "symbolic/places/folder-table-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-table-symbolic.svg",
+      "path": "places/24/folder-table-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-table.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-table.svg",
+      "path": "places/24/folder-table.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-tar-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-tar-symbolic.svg",
+      "path": "places/24/folder-tar-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-tar.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-tar.svg",
+      "path": "places/24/folder-tar.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-temp-symbolic.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-temp-symbolic.svg",
+      "path": "places/24/folder-temp-symbolic.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder-temp.svg": {
       "status": "pending-redesign",
-      "path": "places/24/symbolic/folder-temp.svg",
+      "path": "places/24/folder-temp.svg",
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "symbolic/places/folder.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/folder.svg",
+      "path": "places/24/folder.svg",
       "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
-      "target": "places/24/symbolic/folder-symbolic.svg"
+      "target": "places/24/folder.svg"
     },
     "symbolic/places/user-desktop-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-desktop-symbolic.svg",
+      "path": "places/24/user-desktop-symbolic.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/user-desktop.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-desktop.svg",
+      "path": "places/24/user-desktop.svg",
       "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-desktop-symbolic.svg"
+      "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/user-trash-full-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-trash-full-symbolic.svg",
+      "path": "places/24/user-trash-full-symbolic.svg",
       "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-trash-full-symbolic.svg"
+      "target": "places/24/folder-trash-full.svg"
     },
     "symbolic/places/user-trash-full.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-trash-full.svg",
+      "path": "places/24/user-trash-full.svg",
       "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-trash-full-symbolic.svg"
+      "target": "places/24/folder-trash-full.svg"
     },
     "symbolic/places/user-trash-symbolic.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-trash-symbolic.svg",
+      "path": "places/24/user-trash-symbolic.svg",
       "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-trash-symbolic.svg"
+      "target": "places/24/folder-trash.svg"
     },
     "symbolic/places/user-trash.svg": {
       "status": "replacement",
-      "path": "places/24/symbolic/user-trash.svg",
+      "path": "places/24/user-trash.svg",
       "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
-      "target": "places/24/symbolic/folder-trash-symbolic.svg"
+      "target": "places/24/folder-trash.svg"
     }
   }
 }

@@ -4,8 +4,8 @@
 `scripts/build.py` validates canonical sources and emits complete themes under
 ignored `build/`. `metadata/migration.json` maps each original master/alias to its
 new path and records resolved alias targets. Native canvas sizes replace fake
-size-directory aliases. Full-color directories precede symbolic directories;
-both representations retain their original lookup names.
+size-directory aliases. Places keeps regular and explicit symbolic names together at 24 px; Devices
+retains a separate symbolic directory.
 
 `scripts/validate_icons.py` checks XML, the restricted semantic CSS grammar,
 inherited fill/stroke/color, exact exemptions, aliases and metadata. Generated
@@ -20,9 +20,8 @@ roles are not used by current artwork. Fixed-color assets carry a stylesheet gua
 to avoid the consumer's legacy tinting fallback. See the [design contract](../../icon-design-rules.md).
 
 Places permits only the relative size links declared in `metadata/places.json`.
-Two real master directories provide colorful 24 and 32 px artwork, with monochrome
-symbolic artwork under 24/symbolic. Fourteen Places types and 28 regular token templates
-are shipped. Extra optical masters require demonstrated visual need.
+Two real master directories provide monochrome semantic 24 px and colorful 32 px
+artwork. Fifteen Places types and 15 colorful token templates are shipped. Extra optical masters require demonstrated visual need.
 See [Places design](../../places-design.md) for explicit migration dispositions,
 exact size ranges and Scale=2 index references to the existing directories.
 

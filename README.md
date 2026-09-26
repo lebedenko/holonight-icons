@@ -97,10 +97,10 @@ GPL-3.0-only; see [third-party notices](THIRD_PARTY_NOTICES.md), `REUSE.toml` an
 [Places](docs/places-design.md) provides fifteen types: Home, generic folder,
 Downloads, Documents, Desktop, Pictures, Music, Videos, Projects, Templates,
 Public, Recent, empty Trash, full Trash and open folder. Two real SVG master directories hold
-24 px colorful regular and monochrome symbolic artwork, and 32 px detailed
-colorful artwork. Declared relative directory aliases reuse these masters.
+24 px monochrome semantic artwork for regular and explicit symbolic names, and
+32 px detailed colorful artwork. Declared relative directory aliases reuse these masters.
 Restored historical lookup names and deferred names are recorded explicitly in
-`metadata/places.json`; the original migration inventory remains preserved.
+`metadata/places.json`; the migration inventory keeps its historical names with updated flat 24 px paths.
 Previews include both backgrounds, small sizes and enlarged gradient review.
 
 [Devices](docs/devices-design.md) provides five glyph-only families with 24 px
@@ -114,8 +114,8 @@ redistribution rights. Its historical migration entry remains unchanged.
 ### On-demand template recoloring
 
 `HoloNight` ships holonight-light; `HoloNight-Dark` ships holonight-dark.
-All fifteen regular Places types and five Devices types support on-demand
-recoloring at both master sizes (40 templates).
+All fifteen colorful 32 px Places types and five Devices types at both
+master sizes support on-demand recoloring (25 templates).
 Presets are `holonight-light`, `holonight-dark`, `holonight-day` and `holonight-storm`.
 Day/Storm remain explicit compatibility choices. The JSON contract still requires
 all six tokens, even when an individual template uses fewer of them. Runtime monochrome

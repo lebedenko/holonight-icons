@@ -172,7 +172,7 @@ void folderReview(const QString &root) {
                     int col=0;
                     for (int scale : {1,2}) for (int size : {16,22,24,32}) {
                         const int x=340+col*90;
-                        const auto path=symbolic?QString("24/symbolic/")+base+"-symbolic.svg":
+                        const auto path=symbolic?QString("24/")+base+"-symbolic.svg":
                             QString::number(size<32?24:32)+'/'+base+".svg";
                         const auto svg=read(root+'/'+theme+"/places/"+path);
                         if (state=="selected") painter.fillRect(x,y+10,80,80,QColor(dark?"#5ea2ff":"#3e7bdb"));
@@ -256,18 +256,16 @@ void placesLookupChecks(const QString &root) {
         QDir().mkpath(dir);
         QFile svg(dir+"/fixture.svg");
         require(svg.open(QIODevice::WriteOnly),"Cannot write Places master fixture");
-        svg.write(QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 %1 %1\"><rect x=\"3\" y=\"3\" width=\"%2\" height=\"%2\" fill=\"%3\"/></svg>")
-                  .arg(master).arg(master-6).arg(master==24?"#aa3311":"#1144bb").toUtf8());
+        svg.write(master==24 ? read(root+"/../tests/fixtures/inherited.svg") :
+                  QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 %1 %1\"><rect x=\"3\" y=\"3\" width=\"%2\" height=\"%2\" fill=\"#1144bb\"/></svg>")
+                  .arg(master).arg(master-6).toUtf8());
     }
     for (int size : sizes) if (size!=24 && size!=32)
         require(QFile::link(QString::number(size<24?24:32),base+'/'+theme+"/places/"+QString::number(size)),"Cannot create size fixture link");
     auto index=read(root+"/HoloNight/index.theme");
     index.replace("Name=HoloNight", "Name=PlacesFixture");
-    // A later generic symbolic name must not shadow the regular 24px name.
-    QDir().mkpath(base+'/'+theme+"/places/24/symbolic");
-    const auto symbolic=base+'/'+theme+"/places/24/symbolic/fixture-symbolic.svg";
-    require(QFile::copy(root+"/../tests/fixtures/inherited.svg",symbolic),"Cannot create symbolic fixture");
-    require(QFile::link("fixture-symbolic.svg",base+'/'+theme+"/places/24/symbolic/fixture.svg"),"Cannot create name alias fixture");
+    const auto symbolic=base+'/'+theme+"/places/24/fixture-symbolic.svg";
+    require(QFile::link("fixture.svg",symbolic),"Cannot create symbolic fixture link");
     QFile file(base+'/'+theme+"/index.theme");
     require(file.open(QIODevice::WriteOnly),"Cannot write Places fixture index");
     file.write(index); file.close();
@@ -329,13 +327,13 @@ void checks(const QString &root) {
             QMap<QString,QString> lookups;
             for (const auto &base : folderNames(root)) {
                 lookups[base]=QString::number(size<32?24:32)+'/'+base+".svg";
-                lookups[base+"-symbolic"]="24/symbolic/"+base+"-symbolic.svg";
+                lookups[base+"-symbolic"]="24/"+base+"-symbolic.svg";
             }
             const auto aliases=QJsonDocument::fromJson(read(root+"/../metadata/places.json")).object()["lookup_aliases"].toObject();
             for (auto it=aliases.begin();it!=aliases.end();++it) {
                 const auto name=QFileInfo(it.key()).baseName();
-                if (it.key().contains("/symbolic/")) {
-                    if (!lookups.contains(name)) lookups[name]="24/symbolic/"+it.value().toString();
+                if (name.endsWith("-symbolic")) {
+                    lookups[name]="24/"+it.value().toString();
                 } else {
                     lookups[name]=QString::number(size<32?24:32)+'/'+it.value().toString();
                 }
@@ -376,11 +374,11 @@ void checks(const QString &root) {
         // High-resolution alpha bounds include strokes and fractional coverage.
         QStringList masterPaths;
         for (const auto &name : folderNames(root))
-            masterPaths << "24/"+name+".svg" << "32/"+name+".svg" << "24/symbolic/"+name+"-symbolic.svg";
+            masterPaths << "24/"+name+".svg" << "32/"+name+".svg" << "24/"+name+"-symbolic.svg";
         for (const auto &rel : masterPaths) {
             const int native=rel.startsWith("32/")?32:24, factor=100;
             const auto rendered=plain(read(root+'/'+theme+"/places/"+rel),native*factor);
-            if (rel == "24/symbolic/folder-symbolic.svg")
+            if (rel == "24/folder-symbolic.svg")
                 require(rendered.pixelColor(native*factor/2,native*factor/2).alpha()==0,
                         "Symbolic folder interior must remain transparent");
             int left=rendered.width(), right=-1, top=rendered.height(), bottom=-1;
@@ -392,7 +390,7 @@ void checks(const QString &root) {
             require(left>=2*factor && top>=2*factor && right<(native-2)*factor && bottom<(native-2)*factor,
                     QString("Places painted bounds exceed safe area: %1, left=%2 right=%3 top=%4 bottom=%5")
                         .arg(rel).arg(left).arg(right).arg(top).arg(bottom));
-            if (!rel.contains("symbolic"))
+            if (native==32)
                 require(qAbs((right-left+1)-((native-4)*factor))<=2,
                         QString("Places painted width mismatch: %1, left=%2 right=%3").arg(rel).arg(left).arg(right));
         }
