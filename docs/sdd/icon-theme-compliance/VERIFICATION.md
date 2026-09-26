@@ -9,6 +9,18 @@ Xvfb and `xvfb-run` (Ubuntu: `python3-gi`, `gir1.2-gtk-3.0`,
 `gir1.2-gtk-4.0`, `librsvg2-common`, `xvfb`). Missing packages fail with an
 install hint. The SVG pixbuf loader is needed for GTK 3.
 
+The GTK recoloring assertion checks visible red and cyan channel shifts after
+rendering. Scaled GTK strokes can be darker than the requested foreground RGB;
+the test therefore allows that intensity difference while requiring both the
+foreground hue and rendered pixels to change. This corrects the 2026-09-26
+Ubuntu GTK 3 failure for `folder-download-symbolic` at 32 px.
+
+Local verification on 2026-09-26: `task validate`, all 41 Python tests,
+`task test:render`, `task preview:icons`, and `task license-check` passed.
+The GTK 3/4 check passed 100 symbolic cases per theme and toolkit under an
+isolated headless Sway session. `xvfb-run` is unavailable locally, so the
+workflow's exact Xvfb wrapper remains a CI-only check.
+
 The regression fixtures cover stylesheet IDs/roles, hard-coded and implicit paints,
 inline overrides, inherited group styling, fixed/mixed exemptions, missing classes,
 broken/escaping/cyclic aliases, invalid metadata and duplicate-name precedence.
