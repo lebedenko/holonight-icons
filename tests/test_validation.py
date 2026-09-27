@@ -101,7 +101,9 @@ class ThemeTests(unittest.TestCase):
         for name in DEVICES['proof_names']:
             for size in (24,32):
                 self.assertTrue((tree/str(size)/f'{name}.svg').is_file())
-            self.assertTrue((tree/'24/symbolic'/f'{name}-symbolic.svg').is_file())
+            self.assertEqual((tree/'24'/f'{name}-symbolic.svg').readlink(), Path(f'{name}.svg'))
+            self.assertEqual((tree/'24'/f'{name}.svg').read_bytes(),
+                             (tree/'24/symbolic'/f'{name}-symbolic.svg').read_bytes())
         for rel, target in DEVICES['lookup_aliases'].items():
             self.assertEqual(str((SOURCE/rel).readlink()), target)
         for item in DEVICES['migration_dispositions'].values():
@@ -267,7 +269,7 @@ class PlacesTests(unittest.TestCase):
         self.assertEqual((SOURCE/'places/32/folder.svg').read_text(), body)
         for name, glyph in [('folder-download','download'), ('folder-documents','documents'),
                             *[(f'folder-{n}',n) for n in ('desktop','pictures','music','videos',
-                                'projects','templates','public','recent','trash','trash-full')]]:
+                                'projects','templates','public','build','bookmark','network','recent','trash','trash-full')]]:
             artwork = (SOURCE/f'places/32/{name}.svg').read_text()
             stripped = ''.join(line for line in artwork.splitlines(keepends=True)
                                if f'id="{glyph}' not in line)

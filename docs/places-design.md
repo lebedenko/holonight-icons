@@ -6,9 +6,10 @@ directory supplies colorful regular artwork at 32, 48, 64, 96, 128, 256, and
 512 px. Each other size directory is a relative symlink to the corresponding
 master. `index.theme` advertises every size and scale 2.
 
-The fifteen 24 px regular masters are the former glyph-only symbolic sources:
+The eighteen 24 px regular masters are glyph-only semantic sources:
 Home, folder, Downloads, Documents, Desktop, Pictures, Music, Videos, Projects,
-Templates, Public, Recent, empty Trash, full Trash, and open folder. They use
+Templates, Public, Build, Bookmark, Network, Recent, empty Trash, full Trash,
+and open folder. They use
 `ColorScheme-Text` and `currentColor`, with no fixed paint. Each explicit
 `-symbolic.svg` name is a same-directory link to its regular master, so GTK can
 recognize and recolor the symbolic name at every requested size. The same small
@@ -18,7 +19,7 @@ The colorful 32 px masters retain the shared folder body and interior glyphs.
 Home has a rounded house and an open doorway. The generic folder removes the
 house layers and roof highlight. Other folder types add their corresponding
 glyphs. Soft interior glow, rim gradients, and folder shading remain at 32 px.
-The 32 px sources are the fifteen Places entries in `metadata/templates.json`;
+The 32 px sources are the eighteen Places entries in `metadata/templates.json`;
 there are no 24 px Places token templates. Token recoloring applies only after
 an explicit command, and the generated themes contain frozen colorful masters.
 
@@ -27,7 +28,11 @@ aliases such as `user-home.svg`, `inode-directory.svg`, and `folder-downloads.sv
 resolve within each master size. Historical symbolic names such as
 `user-home-symbolic.svg` and `folder-sound-symbolic.svg` live beside the 24 px
 regular masters and link to the corresponding semantic artwork. The historical
-`folder-sound.svg` also has a colorful 32 px alias. The migration inventory in
+`folder-sound.svg` also has a colorful 32 px alias. `folder-development`
+links to Projects at both master sizes; its explicit symbolic name links to
+the 24 px Projects glyph. Build, Bookmark, and Network have tool, ribbon,
+and connected nodes glyphs without a folder body at 24 px. The migration
+inventory in
 `metadata/migration.json` records the flat 24 px paths; deferred historical
 names stay deferred.
 

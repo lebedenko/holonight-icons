@@ -48,7 +48,7 @@ def cases():
             names += [name + '-symbolic' for name in spec['proof_names']]
         aliases += [Path(path).stem for path in spec['lookup_aliases']
                     if path.startswith(f'{context}/24/') and path.endswith('-symbolic.svg')]
-    assert len(names) == 20 and len(set(names)) == 20
+    assert len(names) == 23 and len(set(names)) == 23
     result = {(name, size, 1) for name in set(names + aliases) for size in (24, 32)}
     for name in ('folder-home-symbolic', 'drive-harddisk-symbolic'):
         result.update((name, size, scale) for size in SIZES for scale in (1, 2))

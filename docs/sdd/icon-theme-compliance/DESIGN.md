@@ -21,7 +21,7 @@ to avoid the consumer's legacy tinting fallback. See the [design contract](../..
 
 Places permits only the relative size links declared in `metadata/places.json`.
 Two real master directories provide monochrome semantic 24 px and colorful 32 px
-artwork. Fifteen Places types and 15 colorful token templates are shipped. Extra optical masters require demonstrated visual need.
+artwork. Eighteen Places types and 18 colorful token templates are shipped. Extra optical masters require demonstrated visual need.
 See [Places design](../../places-design.md) for explicit migration dispositions,
 exact size ranges and Scale=2 index references to the existing directories.
 

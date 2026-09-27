@@ -42,7 +42,16 @@
     "devices/24/symbolic/drive-removable-media.svg": "drive-removable-symbolic.svg",
     "devices/24/symbolic/media-flash-sd-mmc.svg": "media-sdcard-symbolic.svg",
     "devices/24/symbolic/media-optical-data.svg": "drive-optical-symbolic.svg",
-    "devices/24/symbolic/media-optical-mixed-cd.svg": "drive-optical-symbolic.svg"
+    "devices/24/symbolic/media-optical-mixed-cd.svg": "drive-optical-symbolic.svg",
+    "devices/24/drive-harddisk-symbolic.svg": "drive-harddisk.svg",
+    "devices/24/drive-ssd-symbolic.svg": "drive-ssd.svg",
+    "devices/24/drive-removable-symbolic.svg": "drive-removable.svg",
+    "devices/24/media-sdcard-symbolic.svg": "media-sdcard.svg",
+    "devices/24/drive-optical-symbolic.svg": "drive-optical.svg",
+    "devices/24/drive-removable-media-symbolic.svg": "drive-removable.svg",
+    "devices/24/media-flash-sd-mmc-symbolic.svg": "media-sdcard.svg",
+    "devices/24/media-optical-data-symbolic.svg": "drive-optical.svg",
+    "devices/24/media-optical-mixed-cd-symbolic.svg": "drive-optical.svg"
   },
   "migration_dispositions": {
     "symbolic/devices/audio-card-symbolic.svg": {

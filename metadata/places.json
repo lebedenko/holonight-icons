@@ -44,7 +44,13 @@
     "folder-trash-full",
     "folder-trash-full-symbolic",
     "folder-open",
-    "folder-open-symbolic"
+    "folder-open-symbolic",
+    "folder-build",
+    "folder-build-symbolic",
+    "folder-bookmark",
+    "folder-bookmark-symbolic",
+    "folder-network",
+    "folder-network-symbolic"
   ],
   "lookup_aliases": {
     "places/24/user-home-symbolic.svg": "folder-home.svg",
@@ -91,7 +97,13 @@
     "places/24/folder-downloads-symbolic.svg": "folder-download.svg",
     "places/24/folder-photo-symbolic.svg": "folder-pictures.svg",
     "places/24/folder-video-symbolic.svg": "folder-videos.svg",
-    "places/24/inode-directory-symbolic.svg": "folder.svg"
+    "places/24/inode-directory-symbolic.svg": "folder.svg",
+    "places/24/folder-build-symbolic.svg": "folder-build.svg",
+    "places/24/folder-bookmark-symbolic.svg": "folder-bookmark.svg",
+    "places/24/folder-network-symbolic.svg": "folder-network.svg",
+    "places/24/folder-development.svg": "folder-projects.svg",
+    "places/32/folder-development.svg": "folder-projects.svg",
+    "places/24/folder-development-symbolic.svg": "folder-projects.svg"
   },
   "migration_dispositions": {
     "scalable/places/folder-activities.svg": {
@@ -146,9 +158,10 @@
       "target": "places/24/folder-desktop.svg"
     },
     "scalable/places/folder-development.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/folder-development.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Restore Development with Projects artwork; small requests use the semantic glyph.",
+      "target": "places/24/folder-development.svg"
     },
     "scalable/places/folder-docker.svg": {
       "status": "pending-redesign",
@@ -290,9 +303,10 @@
       "target": "places/24/folder-music.svg"
     },
     "scalable/places/folder-network.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/folder-network.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Restore Network with connected nodes artwork; small requests use the semantic glyph.",
+      "target": "places/24/folder-network.svg"
     },
     "scalable/places/folder-nextcloud.svg": {
       "status": "pending-redesign",

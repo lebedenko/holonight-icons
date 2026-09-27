@@ -125,7 +125,7 @@ void deviceReview(const QString &root) {
                 painter.drawText(QRect(4,y,label-8,82),Qt::AlignVCenter,theme+(dark?" dark ":" light ")+(state==0?"default":state==1?"selected":"disabled"));
                 int col=0;
                 for (int scale : {1,2}) for (int size : sizes) {
-                    const auto rel=symbolic?"24/symbolic/"+base+"-symbolic.svg":QString::number(size<32?24:32)+'/'+base+".svg";
+                    const auto rel=symbolic?"24/"+base+"-symbolic.svg":QString::number(size<32?24:32)+'/'+base+".svg";
                     const auto svg=read(root+'/'+theme+"/devices/"+rel);
                     const auto icon=symbolic?IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(state==1?Qt::white:fg))
                                             :plain(svg,size*scale);
@@ -362,7 +362,7 @@ void checks(const QString &root) {
         for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
             for (auto it=deviceNames.begin();it!=deviceNames.end();++it) {
                 const bool symbolic=it.key().endsWith("-symbolic");
-                const auto rel=symbolic ? "24/symbolic/"+it.value()+".svg"
+                const auto rel=symbolic ? "24/"+it.value()+".svg"
                                         : QString::number(size<32?24:32)+'/'+it.value()+".svg";
                 const auto expected=plain(read(root+'/'+theme+"/devices/"+rel),size*scale);
                 const auto icon=QIcon::fromTheme(it.key());
