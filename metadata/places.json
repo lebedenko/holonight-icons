@@ -103,7 +103,10 @@
     "places/24/folder-network-symbolic.svg": "folder-network.svg",
     "places/24/folder-development.svg": "folder-projects.svg",
     "places/32/folder-development.svg": "folder-projects.svg",
-    "places/24/folder-development-symbolic.svg": "folder-projects.svg"
+    "places/24/folder-development-symbolic.svg": "folder-projects.svg",
+    "places/24/user-bookmarks.svg": "folder-bookmark.svg",
+    "places/32/user-bookmarks.svg": "folder-bookmark.svg",
+    "places/24/user-bookmarks-symbolic.svg": "folder-bookmark.svg"
   },
   "migration_dispositions": {
     "scalable/places/folder-activities.svg": {

@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from templates import manifest, default_output, validate_frozen
-from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, DEVICES, MASTER_CONTEXTS, directories, directory_metadata, recolor
+from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, DEVICES, ACTIONS, MASTER_CONTEXTS, directories, directory_metadata, recolor
 
 SHAPES = {'path','rect','circle','ellipse','polygon','polyline','line','use','text','image'}
 CSS_RULE = re.compile(r'\.ColorScheme-([A-Za-z]+)\s*\{\s*color\s*:\s*(#[0-9a-fA-F]{6})\s*;?\s*\}')
@@ -201,6 +201,47 @@ def validate_devices(tree):
     return errors
 
 
+def validate_actions(tree):
+    """Actions have two monochrome masters and only three small-size aliases."""
+    errors = []
+    actions = tree / 'actions'
+    declared = {*map(str, ACTIONS['authored_sizes']), *ACTIONS['directory_aliases']}
+    if not actions.is_dir() or actions.is_symlink() or {p.name for p in actions.iterdir()} != declared:
+        errors.append('Actions size directories differ from declared masters and aliases')
+    for size in ACTIONS['authored_sizes']:
+        directory = actions / str(size)
+        if not directory.is_dir() or directory.is_symlink():
+            errors.append(f'{directory}: authored size must be a real directory')
+        for name in ACTIONS['proof_names']:
+            path = directory / f'{name}.svg'
+            if not path.is_file() or path.is_symlink():
+                errors.append(f'{path}: missing real Actions master')
+                continue
+            svg_errors = validate_svg(path, native=size)
+            errors.extend(f'{path}: {e}' for e in svg_errors)
+            root = ET.fromstring(path.read_text()) if not svg_errors else None
+            if root is not None and [float(x) for x in re.split(r'[ ,]+', root.get('viewBox', ''))] != [0, 0, size, size]:
+                errors.append(f'{path}: Actions masters require a square native canvas at origin')
+            if root is not None and any(
+                    local(e.tag) in {'linearGradient', 'radialGradient', 'stop'} or
+                    (e.get('class') is not None and e.get('class') != 'ColorScheme-Text')
+                    for e in root.iter()):
+                errors.append(f'{path}: Actions masters must be monochrome Text artwork')
+    for alias, target in ACTIONS['directory_aliases'].items():
+        path = actions / alias
+        if not path.is_symlink() or str(path.readlink()) != target:
+            errors.append(f'{path}: missing or changed size-directory alias')
+    for rel, target in ACTIONS['lookup_aliases'].items():
+        path = tree / rel
+        if not path.is_symlink() or str(path.readlink()) != target:
+            errors.append(f'{path}: missing or changed Actions lookup alias')
+    expected = {f'{size}/{name}.svg' for size in ACTIONS['authored_sizes'] for name in ACTIONS['proof_names']}
+    expected |= {p.removeprefix('actions/') for p in ACTIONS['lookup_aliases']}
+    if {str(p.relative_to(actions)) for p in actions.rglob('*.svg')} != expected:
+        errors.append('Actions artwork inventory differs from chevrons and navigation aliases')
+    return errors
+
+
 def validate_source(tree=SOURCE):
     errors = alias_errors(tree)
     exemptions = json.loads((ROOT / 'metadata/fixed-artwork.json').read_text())
@@ -244,7 +285,7 @@ def validate_source(tree=SOURCE):
                 errors.append(f'{rel}: {exc}')
             continue
         errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
-    errors.extend(validate_places(tree) + validate_devices(tree))
+    errors.extend(validate_places(tree) + validate_devices(tree) + validate_actions(tree))
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
     app_dispositions = json.loads((ROOT / 'metadata/apps.json').read_text())['migration_dispositions']
     if set(app_dispositions) != {'scalable/apps/kiro.svg'}:
@@ -293,7 +334,7 @@ def validate_source(tree=SOURCE):
 
 
 def validate_theme(tree, name):
-    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree)
+    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree) + validate_actions(tree)
     try:
         config = configparser.ConfigParser(interpolation=None, strict=True)
         config.read_string((tree / 'index.theme').read_text())

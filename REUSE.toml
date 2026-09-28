@@ -6,7 +6,7 @@ SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = ["icons/actions/**/*.svg", "icons/apps/**/*.svg", "icons/status/24/symbolic/*.svg"]
+path = ["icons/apps/**/*.svg", "icons/status/24/symbolic/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
 SPDX-License-Identifier = "GPL-3.0-only"
@@ -63,6 +63,13 @@ SPDX-License-Identifier = "GPL-3.0-or-later"
 # First-party Build, Bookmark, and Network folder glyphs and Development aliases.
 [[annotations]]
 path = ["icons/places/24/folder-build*.svg", "icons/places/32/folder-build.svg", "icons/places/24/folder-bookmark*.svg", "icons/places/32/folder-bookmark.svg", "icons/places/24/folder-network*.svg", "icons/places/32/folder-network.svg", "icons/places/24/folder-development*.svg", "icons/places/32/folder-development.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# First-party chevrons and regular/symbolic navigation aliases.
+[[annotations]]
+path = ["icons/actions/**/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"

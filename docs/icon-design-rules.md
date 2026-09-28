@@ -4,7 +4,7 @@ The canonical tree is `icons/<context>/<native-size>/`. Keep the original canvas
 and proportions; the native size is the longer viewBox dimension. Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
-`metadata/places.json` and `metadata/devices.json` are permitted. They explicitly advertise scaled reuse;
+`metadata/places.json`, `metadata/devices.json` and `metadata/actions.json` are permitted. They explicitly advertise scaled reuse;
 Places and Devices use monochrome semantic regular artwork at 16–24 px and colorful
 regular artwork at 32 px and above. The 24 px directory must supply the ordinary
 name with semantic paint as well as explicit symbolic names. Extra optical
@@ -28,7 +28,7 @@ The Places 24 px regular names use the same semantic glyphs as their explicit
 `-symbolic` aliases. Devices use the same 24 px semantic glyphs for regular and explicit symbolic names.
 
 Use simple silhouettes, clear counters and consistent optical weight. For a new
-24-unit UI symbol, start with a 2-unit safe area, rounded 1.7-unit strokes and at
+24-unit UI symbol, start with a 2-unit safe area, rounded 1.7-unit primary strokes across every 24 px family and at
 least 1.5-unit gaps. Preserve existing application-requested status silhouettes.
 New interaction treatments (selected, hovered, disabled) come from the consumer,
 not separate assets. Domain status badges such as sync errors remain meaningful
@@ -89,7 +89,7 @@ need a contrasting surface; do not silently recolor its mark to solve that.
 
 Run `task verify`. New source files automatically gain directory metadata, but
 removing or retargeting migrated lookup names fails validation except for the exact
-Applications, Places and Devices dispositions recorded in their metadata files. Update REUSE
+Applications, Places and Devices dispositions and Actions lookup aliases recorded in their metadata files. Update REUSE
 attribution when adding artwork. Do not edit generated output.
 
 References: [Breeze generation](https://github.com/KDE/breeze-icons/blob/master/icons/CMakeLists.txt),
@@ -120,3 +120,21 @@ semantic stylesheets; only manifest-listed templates also resolve literal paints
 One template bundle installs under `$XDG_DATA_HOME/holonight-icons`, outside icon
 lookup directories. Recolor only through an explicit command; palette changes
 alone do nothing. Never recover token identity by matching generated hex values.
+
+## Chevron Actions and outline weight
+
+Actions has four first-party chevrons with real 24 and 32 px masters; see
+[Actions specification](actions-design.md). Both sizes are monochrome semantic
+Text artwork. Only 16, 20 and 22 directory aliases reuse 24. Exact size and scale 2
+metadata selects 24 through 24 px and 32 from 32 px; larger requests scale the
+nearest master. Check every canonical name and navigation alias at all five
+advertised sizes, both scales, in both variants and through inheritance. GTK 3/4
+must recognize and recolor every explicit symbolic navigation alias.
+
+The 24 px primary outlines in Devices, Places, Actions and Status render at
+1.7 px. Retain transform-compensated widths, 0.85 px device lettering, 0.5 px
+filled-shape edge treatments and filled silhouettes. Colorful 32 px Places and
+Devices artwork retains its original widths. Consumer selection and disabled
+colors apply to the semantic artwork. Review the outline state sheets at
+16/20/22/24/32 px and 2× on both backgrounds for gaps, counters, clipping and
+consistent weight.

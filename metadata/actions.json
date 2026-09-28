@@ -1,0 +1,35 @@
+{
+  "authored_sizes": [
+    24,
+    32
+  ],
+  "directory_aliases": {
+    "16": "24",
+    "20": "24",
+    "22": "24"
+  },
+  "proof_names": [
+    "chevron-up",
+    "chevron-down",
+    "chevron-left",
+    "chevron-right"
+  ],
+  "lookup_aliases": {
+    "actions/24/go-up.svg": "chevron-up.svg",
+    "actions/24/go-up-symbolic.svg": "chevron-up.svg",
+    "actions/24/go-down.svg": "chevron-down.svg",
+    "actions/24/go-down-symbolic.svg": "chevron-down.svg",
+    "actions/24/go-next.svg": "chevron-right.svg",
+    "actions/24/go-next-symbolic.svg": "chevron-right.svg",
+    "actions/24/go-previous.svg": "chevron-left.svg",
+    "actions/24/go-previous-symbolic.svg": "chevron-left.svg",
+    "actions/32/go-up.svg": "chevron-up.svg",
+    "actions/32/go-up-symbolic.svg": "chevron-up.svg",
+    "actions/32/go-down.svg": "chevron-down.svg",
+    "actions/32/go-down-symbolic.svg": "chevron-down.svg",
+    "actions/32/go-next.svg": "chevron-right.svg",
+    "actions/32/go-next-symbolic.svg": "chevron-right.svg",
+    "actions/32/go-previous.svg": "chevron-left.svg",
+    "actions/32/go-previous-symbolic.svg": "chevron-left.svg"
+  }
+}

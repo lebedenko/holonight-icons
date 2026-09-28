@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from build import build
 from install import install
-from theme import BUILD, SOURCE, VARIANTS, PLACES, DEVICES, PALETTES, STYLE, directories, recolor
-from validate_icons import alias_errors, validate_source, validate_svg, validate_theme
+from theme import BUILD, SOURCE, VARIANTS, PLACES, DEVICES, ACTIONS, PALETTES, STYLE, directories, recolor
+from validate_icons import alias_errors, validate_source, validate_svg, validate_theme, validate_actions
 
 
 class SvgTests(unittest.TestCase):
@@ -312,6 +312,75 @@ class PlacesTests(unittest.TestCase):
             p.unlink()
             (tree/'actions/24/go-down.svg').unlink()
             self.assertTrue(validate_source(tree))
+
+
+class ActionsTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        build()
+
+    def test_masters_navigation_and_exact_metadata(self):
+        import configparser
+        for tree in [SOURCE, *(BUILD/name for name in VARIANTS)]:
+            self.assertEqual(validate_actions(tree), [])
+            self.assertEqual({p.name for p in (tree/'actions').iterdir()}, {'16','20','22','24','32'})
+            for rel, target in ACTIONS['lookup_aliases'].items():
+                self.assertEqual(str((tree/rel).readlink()), target)
+                self.assertEqual((tree/rel).resolve(), (tree/Path(rel).parent/target).resolve())
+        for name in VARIANTS:
+            config = configparser.ConfigParser()
+            config.read(BUILD/name/'index.theme')
+            for size in (16,20,22,24,32):
+                for suffix in ('', '/.'):
+                    section = config[f'actions/{size}{suffix}']
+                    self.assertEqual(section['Size'], str(size))
+                    self.assertEqual(section['MinSize'], str(size))
+                    self.assertEqual(section['MaxSize'], str(size))
+                    self.assertEqual(section.get('Scale', '1'), '2' if suffix else '1')
+            self.assertEqual({d for d in config['Icon Theme']['Directories'].split(',') if d.startswith('actions/')},
+                             {f'actions/{s}' for s in (16,20,22,24,32)})
+
+    def test_invalid_directory_links(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tree = Path(tmp)
+            (tree/'actions/24').mkdir(parents=True)
+            (tree/'actions/32').mkdir()
+            path = tree/'actions/20'
+            path.symlink_to('24')
+            self.assertEqual(alias_errors(tree), [])
+            for target in ('32', '../actions/24', '/tmp', '20', 'missing'):
+                path.unlink(); path.symlink_to(target)
+                self.assertTrue(alias_errors(tree), target)
+            path.unlink()
+            (tree/'actions/48').symlink_to('32')
+            self.assertTrue(alias_errors(tree))
+
+    def test_invalid_navigation_master_and_semantics(self):
+        for mutation in ('target','canvas','rectangle','origin','large-canvas','paint','role','stylesheet','master','directory'):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as tmp:
+                tree = Path(tmp)/'icons'
+                shutil.copytree(SOURCE/'actions', tree/'actions', symlinks=True)
+                path = tree/'actions/24/chevron-up.svg'
+                if mutation == 'large-canvas':
+                    path = tree/'actions/32/chevron-up.svg'
+                text = path.read_text()
+                if mutation == 'target':
+                    alias=tree/'actions/24/go-up.svg'
+                    alias.unlink(); alias.symlink_to('chevron-down.svg')
+                elif mutation == 'master':
+                    path.unlink(); path.symlink_to('chevron-down.svg')
+                elif mutation == 'directory':
+                    shutil.rmtree(tree/'actions/32'); (tree/'actions/32').symlink_to('24')
+                else:
+                    replacements = {'canvas':('viewBox="0 0 24 24"','viewBox="0 0 32 32"'),
+                                    'rectangle':('viewBox="0 0 24 24"','viewBox="0 0 20 24"'),
+                                    'origin':('viewBox="0 0 24 24"','viewBox="1 0 24 24"'),
+                                    'large-canvas':('viewBox="0 0 32 32"','viewBox="0 0 24 24"'),
+                                    'paint':('stroke:currentColor','stroke:#abcdef'),
+                                    'role':('class="ColorScheme-Text"','class="ColorScheme-Highlight"'),
+                                    'stylesheet':('current-color-scheme','missing-style')}
+                    path.write_text(text.replace(*replacements[mutation]))
+                self.assertTrue(validate_actions(tree))
 
 
 if __name__ == '__main__':

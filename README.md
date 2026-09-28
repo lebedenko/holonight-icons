@@ -11,7 +11,7 @@ the dark variant must select `HoloNight-Dark` in their desktop or shell settings
 Both themes declare `FollowsColorScheme=true`. Semantic SVGs respond to palettes
 in KDE-aware consumers and HoloNight's own Qt renderer. No KDE Frameworks library
 is required. Desktop settings or external integration select the variant; this
-repository has no automatic switcher. Explicit Places and Devices `-symbolic`
+repository has no automatic switcher. Explicit Places, Devices and navigation `-symbolic`
 names recolor from the GTK foreground color in GTK 3 and GTK 4. The
 [size-aware contract](docs/sdd/size-aware-icons/README.md) defines their lookup
 and the separate ordinary-name artwork behavior. Cross-desktop automatic
@@ -148,3 +148,8 @@ A shared installation lock serializes installation and recoloring. Previous SVGs
 and recovery.json remain in the printed `.holonight-recolor-backup-*` directory
 under the user icon directory; the recorded output paths can be copied back to
 the recorded theme to restore it. Replacement/cache failures restore prior SVGs.
+
+Chevron Actions have monochrome 24/32 px masters and navigation aliases;
+see the [Actions artwork and lookup contract](docs/actions-design.md).
+All 24 px families use an effective 1.7 px primary outline, preserving fine
+lettering, filled edges and silhouettes.

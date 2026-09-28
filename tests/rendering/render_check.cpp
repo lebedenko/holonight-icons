@@ -246,13 +246,13 @@ void fallbackChecks(const QString &root) {
     require(QIcon::fromTheme("holonight-absent-custom-proof-name").isNull(),"Unexpected custom fallback");
 }
 // Exercise generated size metadata with temporary artwork, independent of inventory.
-void placesLookupChecks(const QString &root) {
+void masterLookupChecks(const QString &root, const QString &context) {
     QTemporaryDir temporary;
     require(temporary.isValid(), "Cannot create Places lookup fixture");
-    const auto base=temporary.path(), theme=QString("PlacesFixture");
+    const auto base=temporary.path(), theme=context+"Fixture";
     const QList<int> sizes{16,20,22,24,32,48,64,96,128,256,512};
     for (int master : {24,32}) {
-        const auto dir=base+'/'+theme+"/places/"+QString::number(master);
+        const auto dir=base+'/'+theme+'/'+context+'/'+QString::number(master);
         QDir().mkpath(dir);
         QFile svg(dir+"/fixture.svg");
         require(svg.open(QIODevice::WriteOnly),"Cannot write Places master fixture");
@@ -260,27 +260,116 @@ void placesLookupChecks(const QString &root) {
                   QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 %1 %1\"><rect x=\"3\" y=\"3\" width=\"%2\" height=\"%2\" fill=\"#1144bb\"/></svg>")
                   .arg(master).arg(master-6).toUtf8());
     }
-    for (int size : sizes) if (size!=24 && size!=32)
-        require(QFile::link(QString::number(size<24?24:32),base+'/'+theme+"/places/"+QString::number(size)),"Cannot create size fixture link");
+    for (int size : sizes) if (size!=24 && size!=32 && (context=="places" || size<24))
+        require(QFile::link(QString::number(size<24?24:32),base+'/'+theme+'/'+context+'/'+QString::number(size)),"Cannot create size fixture link");
     auto index=read(root+"/HoloNight/index.theme");
-    index.replace("Name=HoloNight", "Name=PlacesFixture");
-    const auto symbolic=base+'/'+theme+"/places/24/fixture-symbolic.svg";
+    index.replace("Name=HoloNight", ("Name="+theme).toUtf8());
+    const auto symbolic=base+'/'+theme+'/'+context+"/24/fixture-symbolic.svg";
     require(QFile::link("fixture.svg",symbolic),"Cannot create symbolic fixture link");
+    if (context=="actions")
+        require(QFile::link("fixture.svg",base+'/'+theme+'/'+context+"/32/fixture-symbolic.svg"),"Cannot create 32 px symbolic fixture link");
     QFile file(base+'/'+theme+"/index.theme");
     require(file.open(QIODevice::WriteOnly),"Cannot write Places fixture index");
     file.write(index); file.close();
     QIcon::setThemeSearchPaths({base}); QIcon::setThemeName(theme);
     for (int size : sizes) for (int scale : {1,2}) for (bool sym : {false,true}) {
         const auto icon=QIcon::fromTheme(sym?"fixture-symbolic":"fixture");
-        const auto expected=plain(read(sym?symbolic:base+'/'+theme+"/places/"+QString::number(size<32?24:32)+"/fixture.svg"),size*scale);
+        const auto expected=plain(read(sym && context=="places"?symbolic:base+'/'+theme+'/'+context+'/'+QString::number(size<32?24:32)+"/fixture.svg"),size*scale);
         const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
         require(actual==expected,QString("Places fixture lookup mismatch: %1 @%2 symbolic=%3").arg(size).arg(scale).arg(sym));
     }
-    QTextStream(stdout)<<"Temporary Places fixtures: all 11 display sizes at 1x/2x passed.\n";
+    QTextStream(stdout)<<"Temporary "<<context<<" fixtures: all 11 display sizes at 1x/2x passed.\n";
 }
+// Exercise every Actions spelling directly and through generated-theme inheritance.
+void actionsChecks(const QString &root) {
+    const auto spec=QJsonDocument::fromJson(read(root+"/../metadata/actions.json")).object();
+    QMap<QString,QString> names;
+    for (const auto value : spec["proof_names"].toArray()) names[value.toString()]=value.toString();
+    const auto aliases=spec["lookup_aliases"].toObject();
+    for (auto it=aliases.begin();it!=aliases.end();++it)
+        names[QFileInfo(it.key()).baseName()]=QFileInfo(it.value().toString()).baseName();
+    QTemporaryDir temporary;
+    require(temporary.isValid(),"Cannot create Actions inheritance fixture");
+    QIcon::setThemeSearchPaths({temporary.path(),root});
+    for (const QString theme : {"HoloNight","HoloNight-Dark"}) {
+        const auto wrapper="ActionsProof-"+theme;
+        QDir().mkpath(temporary.path()+'/'+wrapper);
+        QFile index(temporary.path()+'/'+wrapper+"/index.theme");
+        require(index.open(QIODevice::WriteOnly),"Cannot write Actions inheritance fixture");
+        index.write(("[Icon Theme]\nName="+wrapper+"\nInherits="+theme+"\nDirectories=\n").toUtf8());
+        index.close();
+        for (const auto selected : {theme,wrapper}) {
+            QIcon::setThemeName(selected);
+            for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
+                for (auto it=names.begin();it!=names.end();++it) {
+                    const auto path=root+'/'+theme+"/actions/"+QString::number(size<32?24:32)+'/'+it.value()+".svg";
+                    const auto expected=plain(read(path),size*scale);
+                    const auto icon=QIcon::fromTheme(it.key());
+                    require(!icon.isNull(),"Missing Actions lookup: "+it.key());
+                    const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                    require(actual==expected,QString("Actions master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(selected));
+                }
+            }
+        }
+        for (int master : {24,32}) for (const auto value : spec["proof_names"].toArray()) {
+            const auto image=plain(read(root+'/'+theme+"/actions/"+QString::number(master)+'/'+value.toString()+".svg"),master*10);
+            for (int i=0;i<image.width();++i)
+                require(image.pixelColor(i,0).alpha()==0 && image.pixelColor(i,image.height()-1).alpha()==0 &&
+                        image.pixelColor(0,i).alpha()==0 && image.pixelColor(image.width()-1,i).alpha()==0,
+                        "Clipped chevron: "+value.toString());
+        }
+    }
+    QIcon::setThemeSearchPaths({root});
+}
+// Review all changed outlines with consumer foreground, selection and disabled states.
+void outlineReview(const QString &root) {
+    QStringList paths;
+    const auto actions=QJsonDocument::fromJson(read(root+"/../metadata/actions.json")).object();
+    for (const auto value : actions["proof_names"].toArray()) paths << "actions/24/"+value.toString()+".svg";
+    const auto devices=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object();
+    for (const auto value : devices["proof_names"].toArray()) paths << "devices/24/"+value.toString()+".svg";
+    paths << "places/24/folder-build.svg";
+    for (const QString name : {"blueman-tray","blueman-tray-disabled","blueman-tray-active","blueman-disabled","blueman-active","slack-indicator"})
+        paths << "status/24/"+name+".svg";
+    const QList<int> sizes{16,20,22,24,32};
+    for (const auto path : paths) {
+        const auto name=QFileInfo(path).baseName();
+        QImage sheet(1060,45+12*82,QImage::Format_ARGB32_Premultiplied);
+        sheet.fill(Qt::white);
+        QPainter painter(&sheet);
+        painter.setPen(Qt::black);
+        painter.drawText(8,25,name+" — 16 / 20 / 22 / 24 / 32 px; 1x then 2x");
+        int row=0;
+        for (const QString theme : {"HoloNight","HoloNight-Dark"}) for (bool dark : {false,true}) {
+            const QColor bg(dark?"#0c1118":"#e7eef5"), fg(dark?"#e7edf5":"#1b2533");
+            for (int state=0;state<3;++state,++row) {
+                const int y=45+row*82;
+                painter.fillRect(240,y,820,82,state==1?QColor("#385b83"):bg);
+                painter.setPen(Qt::black);
+                painter.drawText(QRect(4,y,232,82),Qt::AlignVCenter,theme+(dark?" dark ":" light ")+(state==0?"default":state==1?"selected":"disabled"));
+                int col=0;
+                for (int scale : {1,2}) for (int size : sizes) {
+                    auto rel=path;
+                    if (path.startsWith("actions/") && size>=32) rel.replace("/24/","/32/");
+                    const auto svg=read(root+'/'+theme+'/'+rel);
+                    const auto image=IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(state==1?Qt::white:fg));
+                    painter.setOpacity(state==2?.45:1);
+                    painter.drawImage(240+col*82+(82-image.width())/2,y+(82-image.height())/2,image);
+                    painter.setOpacity(1);
+                    ++col;
+                }
+            }
+        }
+        painter.end();
+        require(sheet.save(root+"/previews/outline-"+name+"-states.png"),"Cannot save outline review");
+    }
+}
+
 void checks(const QString &root) {
+    actionsChecks(root);
     fallbackChecks(root);
-    placesLookupChecks(root);
+    masterLookupChecks(root,"places");
+    masterLookupChecks(root,"actions");
     const auto roleSvg=read(root+"/../tests/fixtures/roles.svg");
     const IconSemanticColors probes{QColor("#ff0000"), QColor("#00ff00"), QColor("#0000ff"), QColor("#ffff00"), QColor("#ff00ff")};
     const auto roleImage=IconRenderer::renderSvg(roleSvg,{24,24},probes);
@@ -417,7 +506,7 @@ int main(int argc,char **argv) {
             else if(option=="--size") previewSize=QString::fromLocal8Bit(argv[++i]).toInt();
             else require(false,"Unknown preview option");
         }
-        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); }
+        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); outlineReview(root); }
         else checks(root);
     } catch (const std::exception &error) {
         QTextStream(stderr)<<error.what()<<'\n'; return 1;

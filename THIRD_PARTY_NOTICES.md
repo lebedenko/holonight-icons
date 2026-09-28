@@ -1,6 +1,6 @@
 # Third-party notices and provenance
 
-Artwork in `icons/actions/`, `icons/apps/`, `icons/devices/` and
+Artwork in `icons/apps/` and
 `icons/status/24/symbolic/` retains the previous scalable/symbolic families'
 Papirus provenance. It is licensed GPL-3.0-only and attributed to the Papirus
 Development Team and 2026 Andrii L <lebeden@gmail.com>. The remaining independently
@@ -71,3 +71,8 @@ artwork by Andrii L (2026), licensed GPL-3.0-or-later. Recent's clock and empty
 Trash's bin adapt the first-party `places.png` reference; the raised lid and paper
 shapes of full Trash are original additions. Regular versions reuse the approved
 Home-derived generic folder body. Alias files resolve to these same artworks.
+
+The chevrons at `icons/actions/{24,32}/chevron-{up,down,left,right}.svg`
+adapt the supplied first-party drafts. Their regular and symbolic go-up,
+go-down, go-next and go-previous aliases, generated exports and installed
+artwork share copyright 2026 Andrii L <lebeden@gmail.com> and GPL-3.0-or-later.

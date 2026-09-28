@@ -10,5 +10,5 @@
  .ColorScheme-NegativeText { color:#da4453; }
 </style>
  </defs>
- <path style="stroke:currentColor;stroke-width:1.25;fill:none;stroke-linecap:round;stroke-linejoin:round" class="ColorScheme-Text" d="M 10.5,4 L 16.5,8.8 L 10.5,12 L 16.5,15.2 L 10.5,20 V 4 M 10.5,12 L 6.4,8.3 M 10.5,12 L 6.4,15.7"/>
+ <path style="stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round" class="ColorScheme-Text" d="M 10.5,4 L 16.5,8.8 L 10.5,12 L 16.5,15.2 L 10.5,20 V 4 M 10.5,12 L 6.4,8.3 M 10.5,12 L 6.4,15.7"/>
 </svg>

@@ -41,7 +41,7 @@ def require_dependencies():
 def cases():
     names = []
     aliases = []
-    for context in ('places', 'devices'):
+    for context in ('places', 'devices', 'actions'):
         spec = json.loads((ROOT / 'metadata' / f'{context}.json').read_text())
         names += [name for name in spec['proof_names'] if name.endswith('-symbolic')]
         if context == 'devices':
@@ -52,6 +52,10 @@ def cases():
     result = {(name, size, 1) for name in set(names + aliases) for size in (24, 32)}
     for name in ('folder-home-symbolic', 'drive-harddisk-symbolic'):
         result.update((name, size, scale) for size in SIZES for scale in (1, 2))
+    actions = json.loads((ROOT / 'metadata/actions.json').read_text())
+    navigation = {Path(path).stem for path in actions['lookup_aliases'] if path.endswith('-symbolic.svg')}
+    result.update((name, size, scale) for name in navigation
+                  for size in (16, 20, 22, 24, 32, 48, 64) for scale in (1, 2))
     return sorted(result)
 
 
