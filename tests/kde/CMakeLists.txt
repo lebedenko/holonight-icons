@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.21)
+project(HoloNightKdeChecks LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+find_package(Qt6 6.6 REQUIRED COMPONENTS Core Gui Svg)
+find_package(KF6IconThemes REQUIRED)
+add_executable(kde-check kde_check.cpp)
+target_link_libraries(kde-check PRIVATE Qt6::Core Qt6::Gui Qt6::Svg KF6::IconThemes)
+target_compile_definitions(kde-check PRIVATE KDE_ICON_THEMES_VERSION="${KF6IconThemes_VERSION}")

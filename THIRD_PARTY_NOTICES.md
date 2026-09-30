@@ -76,3 +76,25 @@ The chevrons at `icons/actions/{24,32}/chevron-{up,down,left,right}.svg`
 adapt the supplied first-party drafts. Their regular and symbolic go-up,
 go-down, go-next and go-previous aliases, generated exports and installed
 artwork share copyright 2026 Andrii L <lebeden@gmail.com> and GPL-3.0-or-later.
+
+## MIME-type import
+
+The 32 MIME-type designs at `icons/mimetypes/{24,32}/` and their aliases
+are derived from Papirus icon theme, installed package version `20260801-1`,
+imported on 2026-09-29. Copyright Papirus Development Team; GPL-3.0-only.
+Upstream: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.
+Modifications by Andrii L (2026-09-29): add explicit viewBox metadata where
+absent and an unused semantic stylesheet guard for HoloNight rendering.
+Original geometry, layers, colors and opacity are preserved.
+`metadata/mimetypes.json` records source checksums and flattened internal aliases.
+These imports retain fixed paints pending a separate semantic recoloring pass.
+
+`tests/kde/application-xml.svg` is a Papirus-derived 32 px XML prototype,
+GPL-3.0-only, modified by Andrii L on 2026-09-30: paper and fold use Text,
+the glyph uses Accent, and translucent black shadows are explicit.
+Original path geometry, layer order and white edge lighting remain intact.
+
+Reviewed EPUB and JSON 32 px masters were adapted by Andrii L on 2026-09-30
+as semantic Text paper/fold and Accent glyph artwork, preserving Papirus paths,
+layer order, opacity, stroke attributes and decorative black/white paints.
+Their 24 px masters remain unchanged apart from the unused Accent declaration.

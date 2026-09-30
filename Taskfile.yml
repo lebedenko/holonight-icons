@@ -20,6 +20,9 @@ tasks:
     cmds:
       - task: build
       - sh scripts/check-rendering.sh
+  test:kde:
+    desc: Test native KDE SVG recoloring in an isolated theme (requires KF6IconThemes)
+    cmds: ["python3 scripts/check-kde.py {{.CLI_ARGS}}"]
   test:gtk:
     desc: Verify GTK 3 and GTK 4 symbolic lookup and foreground recoloring
     cmds:

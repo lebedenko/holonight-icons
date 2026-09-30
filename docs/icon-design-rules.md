@@ -4,7 +4,8 @@ The canonical tree is `icons/<context>/<native-size>/`. Keep the original canvas
 and proportions; the native size is the longer viewBox dimension. Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
-`metadata/places.json`, `metadata/devices.json` and `metadata/actions.json` are permitted. They explicitly advertise scaled reuse;
+`metadata/places.json`, `metadata/devices.json`, `metadata/actions.json` and
+`metadata/mimetypes.json` are permitted. They explicitly advertise scaled reuse;
 Places and Devices use monochrome semantic regular artwork at 16–24 px and colorful
 regular artwork at 32 px and above. The 24 px directory must supply the ordinary
 name with semantic paint as well as explicit symbolic names. Extra optical
@@ -46,18 +47,17 @@ external resources, animation or indirect `<use>` references in responsive artwo
 | Role | Purpose | holonight-qt rendering |
 | --- | --- | --- |
 | ColorScheme-Text | Foreground | Supported |
-| ColorScheme-Highlight | Accent / selection | Supported |
+| ColorScheme-Highlight | Selection background | Supported |
+| ColorScheme-Accent | Independent accent glyph | Supported |
 | ColorScheme-PositiveText | Success | Supported |
 | ColorScheme-NeutralText | Warning | Supported |
 | ColorScheme-NegativeText | Error | Supported |
-| ColorScheme-Background | Surface | Reserved, fallback only |
-| ColorScheme-HighlightedText | Selection text | Reserved, fallback only |
+| ColorScheme-Background | Surface | Supported |
+| ColorScheme-HighlightedText | Selection text | Supported |
 
-Background and HighlightedText are valid KDE roles, but the current HoloNight
-renderer exposes only five colors. Keep their defaults declared; do not assign
-these two classes to painted shapes until consumer support is added. Selection
-and disabled tests pass resolved foreground colors to the renderer; this is not
-a test of Shell's palette selection or event handling.
+The shared renderer supports all eight roles. Accent follows the chosen primary
+accent independently of Highlight, even though their theme defaults match.
+Normal, selected and disabled comparisons use the shared state resolver.
 
 Light and dark defaults come from holonight-light and holonight-dark, with
 provenance and role mapping in `metadata/palettes.json`. Runtime icon generation
@@ -138,3 +138,25 @@ Devices artwork retains its original widths. Consumer selection and disabled
 colors apply to the semantic artwork. Review the outline state sheets at
 16/20/22/24/32 px and 2× on both backgrounds for gaps, counters, clipping and
 consistent weight.
+
+## MIME-type import baseline
+
+MIME types have 32 Papirus designs with real 24 and 32 px masters.
+16/20/22 reuse 24; 48/64/96/128/256/512 reuse 32 through declared internal
+size-directory aliases. Existing upstream filename aliases are imported only
+when their final target is one of the selected masters, and are flattened to
+a same-directory relative link. No symbolic names are invented.
+The initial import preserves Papirus geometry, layers and literal colors,
+with exact fixed-artwork exemptions and an unused semantic stylesheet guard.
+Replace whole-asset exemptions with exact decorative-layer exemptions when
+implementing a reviewed semantic restyle. Source checksums and package version are in `metadata/mimetypes.json`.
+
+The reviewed 32 px EPUB and JSON masters are mixed semantic artwork: paper and
+fold use Text; EPUB uses an Accent fill and JSON an Accent stroke with fill:none.
+Only paper-shadow, fold-shadow, paper-highlight and glyph-shadow are exempt.
+Their path geometry, layer order, opacity and strokes remain authored Papirus
+geometry. The existing 24 px masters and other MIME-type imports retain fixed
+paints. Unused Accent declarations elsewhere preserve the complete-role contract
+without restyling artwork.
+
+See [EPUB/JSON verification and comparisons](mimetype-semantic-review.md).

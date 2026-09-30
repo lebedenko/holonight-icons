@@ -73,3 +73,24 @@ path = ["icons/actions/**/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Papirus MIME-type masters and their aliases.
+[[annotations]]
+path = ["icons/mimetypes/**/*.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
+SPDX-License-Identifier = "GPL-3.0-only"
+
+# Papirus-derived native KDE recoloring fixture.
+[[annotations]]
+path = ["tests/kde/application-xml.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
+SPDX-License-Identifier = "GPL-3.0-only"
+
+# Path geometry regression data derived from Papirus masters.
+[[annotations]]
+path = ["tests/fixtures/mimetype-geometry.json"]
+precedence = "override"
+SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
+SPDX-License-Identifier = "GPL-3.0-only"

@@ -90,6 +90,15 @@ backgrounds at 16, 22, 24 and 32 pixels, each at 1× and 2×. Read the
 [design contract](docs/icon-design-rules.md) and [verification guide](docs/sdd/icon-theme-compliance/VERIFICATION.md)
 for palette and visual-review limits.
 
+Optional native KDE recoloring checks run with `task test:kde` (requires
+KF6 IconThemes). See [the KDE test guide](docs/kde-native-recoloring.md) for
+dependencies, prototype inputs, comparison images and known results.
+
+MIME types include 32 Papirus designs with 24 and 32 px masters and 327
+filename aliases per size. Smaller sizes reuse 24 px; larger sizes reuse 32 px.
+This import preserves upstream colors and layers; semantic recoloring is pending.
+See `metadata/mimetypes.json` for the inventory and source provenance.
+
 First-party material is GPL-3.0-or-later. Papirus-derived artwork remains
 GPL-3.0-only; see [third-party notices](THIRD_PARTY_NOTICES.md), `REUSE.toml` and
 `LICENSES/`.

@@ -18,5 +18,273 @@
   "apps/256/holonight-shell.svg": {
     "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
     "scope": "asset"
+  },
+  "mimetypes/24/application-epub+zip.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-json.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-octet-stream.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-pdf.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-pkix-cert.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-toml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-x-bittorrent.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-x-compress.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-x-font-ttf.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-x-iso.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-x-javascript.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-xml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/application-yaml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/audio-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/image-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/image-x-gif.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/image-x-jpeg.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/image-x-svg+xml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/image-x-tiff.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-css.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-c++src.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-csrc.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-diff.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-markdown.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-python.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/text-x-script.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/unknown.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/video-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/x-office-document.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/x-office-presentation.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/24/x-office-spreadsheet.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-epub+zip.svg": {
+    "scope": "elements",
+    "ids": [
+      "paper-shadow",
+      "fold-shadow",
+      "paper-highlight",
+      "glyph-shadow"
+    ],
+    "rationale": "Preserve Papirus translucent black shadows and white paper lighting; paper/fold use Text and glyph uses independent Accent."
+  },
+  "mimetypes/32/application-json.svg": {
+    "scope": "elements",
+    "ids": [
+      "paper-shadow",
+      "fold-shadow",
+      "paper-highlight",
+      "glyph-shadow"
+    ],
+    "rationale": "Preserve Papirus translucent black shadows and white paper lighting; paper/fold use Text and glyph uses independent Accent."
+  },
+  "mimetypes/32/application-octet-stream.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-pdf.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-pkix-cert.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-toml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-x-bittorrent.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-x-compress.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-x-font-ttf.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-x-iso.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-x-javascript.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-xml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/application-yaml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/audio-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/image-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/image-x-gif.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/image-x-jpeg.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/image-x-svg+xml.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/image-x-tiff.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-css.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-c++src.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-csrc.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-diff.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-markdown.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-python.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/text-x-script.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/unknown.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/video-x-generic.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/x-office-document.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/x-office-presentation.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "mimetypes/32/x-office-spreadsheet.svg": {
+    "scope": "asset",
+    "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
   }
 }

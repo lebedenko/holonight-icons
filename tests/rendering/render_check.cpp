@@ -39,7 +39,7 @@ bool visible(const QImage &image) {
     return false;
 }
 IconSemanticColors colors(QColor text) {
-    return {text, QColor("#3daee9"), QColor("#27ae60"), QColor("#f67400"), QColor("#da4453")};
+    return {text, QColor("#3daee9"), QColor("#27ae60"), QColor("#f67400"), QColor("#da4453"), QColor("#8855dd"), QColor("#e7eef5"), QColor("#ffffff")};
 }
 QString previewName;
 int previewSize=0;
@@ -365,16 +365,103 @@ void outlineReview(const QString &root) {
     }
 }
 
+void mimetypesChecks(const QString &root) {
+    const auto spec=QJsonDocument::fromJson(read(root+"/../metadata/mimetypes.json")).object();
+    QMap<QString,QString> names;
+    for (const auto value : spec["proof_names"].toArray()) names[value.toString()]=value.toString();
+    const auto aliases=spec["lookup_aliases"].toObject();
+    for (auto it=aliases.begin();it!=aliases.end();++it)
+        names[QFileInfo(it.key()).completeBaseName()]=QFileInfo(it.value().toString()).completeBaseName();
+    QTemporaryDir temporary;
+    require(temporary.isValid(),"Cannot create Mimetypes inheritance fixture");
+    QIcon::setThemeSearchPaths({temporary.path(),root});
+    for (const QString theme : {"HoloNight","HoloNight-Dark"}) {
+        const auto wrapper="MimetypesProof-"+theme;
+        QDir().mkpath(temporary.path()+'/'+wrapper);
+        QFile index(temporary.path()+'/'+wrapper+"/index.theme");
+        require(index.open(QIODevice::WriteOnly),"Cannot write Mimetypes inheritance fixture");
+        index.write(("[Icon Theme]\nName="+wrapper+"\nInherits="+theme+"\nDirectories=\n").toUtf8());
+        index.close();
+        for (const auto selected : {theme,wrapper}) {
+            QIcon::setThemeName(selected);
+            for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
+                for (auto it=names.begin();it!=names.end();++it) {
+                    const auto path=root+'/'+theme+"/mimetypes/"+QString::number(size<32?24:32)+'/'+it.value()+".svg";
+                    const auto expected=plain(read(path),size*scale);
+                    const auto icon=QIcon::fromTheme(it.key());
+                    require(!icon.isNull(),"Missing Mimetypes lookup: "+it.key());
+                    const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                    require(actual==expected,QString("Mimetypes master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(selected));
+                }
+            }
+        }
+    }
+}
+
+void semanticMimeChecks(const QString &root) {
+    using Holonight::IconState;
+    const auto output=root+"/previews/semantic-mimetypes";
+    QDir().mkpath(output);
+    for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+      const bool dark=theme.endsWith("Dark");
+      auto base=colors(QColor(dark?"#e7edf5":"#1b2533"));
+      base.background=QColor(dark?"#0c1118":"#e7eef5");
+      base.highlightedText=QColor(dark?"#081018":"#ffffff");
+      auto disabled=base;
+      disabled.text=QColor("#808080");
+      disabled.highlight=Holonight::blendIconColor(base.highlight,base.background,0.5);
+      disabled.highlightedText=Holonight::blendIconColor(base.highlightedText,base.background,0.5);
+      disabled.accent=Holonight::blendIconColor(base.accent,base.background,0.5);
+      disabled.positive=Holonight::blendIconColor(base.positive,base.background,0.5);
+      disabled.neutral=Holonight::blendIconColor(base.neutral,base.background,0.5);
+      disabled.negative=Holonight::blendIconColor(base.negative,base.background,0.5);
+      for (const QString name : {"application-epub+zip", "application-json"}) {
+        QImage sheet(480,380,QImage::Format_ARGB32_Premultiplied); sheet.fill(base.background);
+        QPainter painter(&sheet); painter.setPen(base.text);
+        painter.drawText(90,20,"Normal"); painter.drawText(215,20,"Selected"); painter.drawText(340,20,"Disabled");
+        int row=0;
+        for (int master : {24,32}) for (int scale : {1,2}) {
+          const auto svg=read(root+'/'+theme+"/mimetypes/"+QString::number(master)+'/'+name+".svg");
+          const int size=master*scale;
+          painter.drawText(4,40+row*84+20,QString("%1 @%2").arg(master).arg(scale));
+          int col=0;
+          for (auto state : {IconState::Normal,IconState::Selected,IconState::Disabled}) {
+            auto resolved=Holonight::resolveIconColors(base,disabled,state);
+            require(resolved.text!=resolved.accent,"Paper and glyph state roles collapsed");
+            const auto before=IconRenderer::renderSvg(svg,{size,size},resolved);
+            auto accentOnly=resolved; accentOnly.accent=QColor("#ee3300");
+            const auto after=IconRenderer::renderSvg(svg,{size,size},accentOnly);
+            if (master==32) {
+              require(before!=after,"Accent-only change did not update glyph: "+name);
+              require(before.pixelColor(7*scale,6*scale)==after.pixelColor(7*scale,6*scale),"Accent changed paper");
+              const auto rewritten=IconRenderer::applySemanticColors(svg,accentOnly);
+              // The rewrite must retain every authored byte outside the stylesheet.
+              const auto end=svg.indexOf("</style>")+8;
+              const auto rewrittenEnd=rewritten.indexOf("</style>")+8;
+              require(svg.mid(end)==rewritten.mid(rewrittenEnd),"Recolor changed decorative paints or geometry");
+            } else require(before==after,"Accent restyled fixed 24 px master");
+            painter.fillRect(85+col*125,30+row*84,120,80,state==IconState::Selected?base.highlight:base.background);
+            painter.drawImage(90+col*125,35+row*84,before); ++col;
+          }
+          ++row;
+        }
+        painter.end(); require(sheet.save(output+'/'+theme+'-'+name+".png"),"Cannot save semantic MIME sheet");
+      }
+    }
+}
+
 void checks(const QString &root) {
+    semanticMimeChecks(root);
     actionsChecks(root);
+    mimetypesChecks(root);
     fallbackChecks(root);
     masterLookupChecks(root,"places");
     masterLookupChecks(root,"actions");
     const auto roleSvg=read(root+"/../tests/fixtures/roles.svg");
-    const IconSemanticColors probes{QColor("#ff0000"), QColor("#00ff00"), QColor("#0000ff"), QColor("#ffff00"), QColor("#ff00ff")};
+    const IconSemanticColors probes{QColor("#ff0000"), QColor("#00ff00"), QColor("#0000ff"), QColor("#ffff00"), QColor("#ff00ff"), QColor("#0088ff"), QColor("#eeeeee"), QColor("#ffffff")};
     const auto roleImage=IconRenderer::renderSvg(roleSvg,{24,24},probes);
-    const QColor expected[] = {probes.text, probes.highlight, probes.positive, probes.neutral, probes.negative};
-    for (int i=0; i<5; ++i)
+    const QColor expected[] = {probes.text, probes.highlight, probes.positive, probes.neutral, probes.negative, probes.accent};
+    for (int i=0; i<6; ++i)
         require(roleImage.pixelColor(i*4+2,12)==expected[i],"Semantic role fixture pixel mismatch");
     const auto exemptions=QJsonDocument::fromJson(read(root+"/../metadata/fixed-artwork.json")).object();
     QSet<QString> frozen;
@@ -506,7 +593,7 @@ int main(int argc,char **argv) {
             else if(option=="--size") previewSize=QString::fromLocal8Bit(argv[++i]).toInt();
             else require(false,"Unknown preview option");
         }
-        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); outlineReview(root); }
+        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); outlineReview(root); semanticMimeChecks(root); }
         else checks(root);
     } catch (const std::exception &error) {
         QTextStream(stderr)<<error.what()<<'\n'; return 1;

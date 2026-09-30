@@ -133,7 +133,7 @@ def default_output(base, item, variant):
 def validate_frozen(text):
     root = ET.fromstring(text)
     styles = [e for e in root.iter() if local(e) == 'style']
-    roles = {'Text','Background','Highlight','HighlightedText','PositiveText','NeutralText','NegativeText'}
+    roles = {'Text','Background','Highlight','Accent','HighlightedText','PositiveText','NeutralText','NegativeText'}
     if len(styles) != 1 or styles[0].get('id') != 'current-color-scheme' or styles[0].get('type') != 'text/css':
         raise ValueError('frozen artwork requires semantic guard')
     css = styles[0].text or ''

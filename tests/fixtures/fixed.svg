@@ -2,6 +2,7 @@
  .ColorScheme-Text { color:#232629; }
  .ColorScheme-Background { color:#eff0f1; }
  .ColorScheme-Highlight { color:#3daee9; }
+ .ColorScheme-Accent { color:#3daee9; }
  .ColorScheme-HighlightedText { color:#ffffff; }
  .ColorScheme-PositiveText { color:#27ae60; }
  .ColorScheme-NeutralText { color:#f67400; }

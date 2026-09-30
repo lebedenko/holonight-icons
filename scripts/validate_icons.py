@@ -80,8 +80,6 @@ def validate_svg(path, exemption=None, native=None):
                 errors.append('unsupported or ambiguous semantic class')
             else:
                 role = classes[0]
-                if role in {'ColorScheme-Background', 'ColorScheme-HighlightedText'}:
-                    errors.append('role not yet supported by holonight-qt renderer')
                 values.pop('color', None)  # local class overrides inherited color
         try:
             inline = declarations(element.get('style',''))

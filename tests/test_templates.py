@@ -35,8 +35,8 @@ class TemplateTests(unittest.TestCase):
                          accentCyan='#56d7ff', accentBlue='#5ea2ff', accentViolet='#9a8cff'),
         }
         semantic = {
-            'light': ['#1b2533','#e7eef5','#3e7bdb','#ffffff','#3e9449','#c38a1c','#d84a68'],
-            'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c'],
+            'light': ['#1b2533','#e7eef5','#3e7bdb','#ffffff','#3e9449','#c38a1c','#d84a68', '#3e7bdb'],
+            'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c', '#5ea2ff'],
         }
         from templates import RULE
         self.assertEqual(len(manifest(ROOT)), 23)

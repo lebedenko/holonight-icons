@@ -20,6 +20,41 @@ class SvgTests(unittest.TestCase):
     def fixture(self, name, exemption=None):
         return validate_svg(ROOT / 'tests/fixtures' / name, exemption, 24)
 
+    def test_accent_fill_and_stroke_contract(self):
+        import json
+        exemptions = json.loads((ROOT / 'metadata/fixed-artwork.json').read_text())
+        for name in ('application-epub+zip', 'application-json'):
+            rel = f'mimetypes/32/{name}.svg'
+            original = (ROOT / 'icons' / rel).read_text()
+            exemption = exemptions[rel]
+            with tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / 'icon.svg'
+                path.write_text(original)
+                self.assertEqual(validate_svg(path, exemption, 32), [])
+                mutations = [
+                    original.replace(' .ColorScheme-Accent { color:#5ea2ff; }', ''),
+                    original.replace('class="ColorScheme-Accent"', 'class="ColorScheme-Unknown"'),
+                    original.replace('currentColor', '#112233'),
+                    original.replace('id="glyph-shadow"', 'id="removed-shadow"'),
+                    original.replace('.ColorScheme-Accent {', '.ColorScheme-Highlight {'),
+                ]
+                for mutation in mutations:
+                    path.write_text(mutation)
+                    self.assertTrue(validate_svg(path, exemption, 32))
+
+    def test_reviewed_geometry_matches_import(self):
+        import xml.etree.ElementTree as ET
+        # Checked-in baseline report captures upstream path data and layer order.
+        import json
+        baseline = json.loads((ROOT / 'tests/fixtures/mimetype-geometry.json').read_text())
+        for name, paths in baseline.items():
+            root = ET.fromstring((ROOT / f'icons/mimetypes/32/{name}.svg').read_text())
+            actual = [{k: v for k, v in e.attrib.items() if k not in ('id', 'class', 'style')}
+                      | {'style': ';'.join(v for v in e.get('style', '').split(';')
+                                          if not v.startswith(('fill:', 'stroke:')))}
+                      for e in root if e.tag.endswith('path')]
+            self.assertEqual(actual, paths)
+
     def test_inherited_group(self):
         self.assertEqual(self.fixture('inherited.svg'), [])
 

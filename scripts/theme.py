@@ -15,7 +15,8 @@ ROLES = set(PALETTES['light'])
 PLACES = json.loads((ROOT / 'metadata/places.json').read_text())
 DEVICES = json.loads((ROOT / 'metadata/devices.json').read_text())
 ACTIONS = json.loads((ROOT / 'metadata/actions.json').read_text())
-MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS}
+MIMETYPES = json.loads((ROOT / 'metadata/mimetypes.json').read_text())
+MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS, 'mimetypes': MIMETYPES}
 STYLE = re.compile(r'''(<style\b[^>]*\bid\s*=\s*["']current-color-scheme["'][^>]*>)(.*?)(</style>)''', re.S)
 
 
