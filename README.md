@@ -162,3 +162,8 @@ Chevron Actions have monochrome 24/32 px masters and navigation aliases;
 see the [Actions artwork and lookup contract](docs/actions-design.md).
 All 24 px families use an effective 1.7 px primary outline, preserving fine
 lettering, filled edges and silhouettes.
+
+## Standalone developer tooling
+
+See [tooling/README.md](tooling/README.md) for presets, local dependency overrides, editor refresh,
+`task tooling:doctor`, and the independent Serena project.

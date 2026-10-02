@@ -1,53 +1,88 @@
-version: "3"
-
+version: '3'
 tasks:
   build:
     desc: Generate complete light and dark themes
-    cmds: [python3 scripts/build.py]
+    cmds:
+    - python3 scripts/build.py
   validate:
     desc: Build and validate both variants and the migration inventory
     cmds:
-      - task: build
-      - python3 scripts/validate_icons.py
+    - task: build
+    - python3 scripts/validate_icons.py
   validate:icons:
     desc: Validate SVG semantics, metadata and aliases in both variants
-    cmds: [{task: validate}]
+    cmds:
+    - task: validate
   test:
     desc: Run validator, build and installation regression tests
-    cmds: [python3 -m unittest discover -s tests -v]
+    cmds:
+    - python3 -m unittest discover -s tests -v
   test:render:
     desc: Test palettes using the actual holonight-qt IconRenderer (Qt only)
     cmds:
-      - task: build
-      - sh scripts/check-rendering.sh
+    - task: build
+    - sh scripts/check-rendering.sh
   test:kde:
     desc: Test native KDE SVG recoloring in an isolated theme (requires KF6IconThemes)
-    cmds: ["python3 scripts/check-kde.py {{.CLI_ARGS}}"]
+    cmds:
+    - python3 scripts/check-kde.py {{.CLI_ARGS}}
   test:gtk:
     desc: Verify GTK 3 and GTK 4 symbolic lookup and foreground recoloring
     cmds:
-      - task: build
-      - python3 scripts/check-gtk-symbolic.py
+    - task: build
+    - python3 scripts/check-gtk-symbolic.py
   preview:icons:
     desc: Render all families at 16/22/24/32 pixels and 2x on both backgrounds
-    cmds: [python3 scripts/generate_icon_previews.py]
+    cmds:
+    - python3 scripts/generate_icon_previews.py
   license-check:
     desc: Validate REUSE licensing metadata
     cmds:
-      - task: build
-      - reuse --no-multiprocessing lint
-      - reuse --no-multiprocessing --root build/HoloNight lint
-      - reuse --no-multiprocessing --root build/HoloNight-Dark lint
-      - reuse --no-multiprocessing --root build/holonight-icons lint
+    - task: build
+    - reuse --no-multiprocessing lint
+    - reuse --no-multiprocessing --root build/HoloNight lint
+    - reuse --no-multiprocessing --root build/HoloNight-Dark lint
+    - reuse --no-multiprocessing --root build/holonight-icons lint
   verify:
     desc: Validate, test rendering and installation, generate previews, check licensing
     cmds:
-      - task: validate
-      - task: test
-      - task: test:render
-      - task: test:gtk
-      - task: preview:icons
-      - task: license-check
+    - task: validate
+    - task: test
+    - task: test:render
+    - task: test:gtk
+    - task: preview:icons
+    - task: license-check
   install:local:
     desc: Stage, validate and install both variants with recoverable backups
-    cmds: [sh scripts/install-local.sh]
+    cmds:
+    - sh scripts/install-local.sh
+  tooling:doctor:
+    desc: doctor using standalone tooling
+    cmds:
+    - python3 tooling/workflow.py doctor
+  tooling:refresh:
+    desc: refresh using standalone tooling
+    cmds:
+    - python3 tooling/workflow.py refresh --preset {{default "test" .EDITOR_PRESET}}
+  serena:serve:
+    desc: Start independent Serena server in codex context
+    cmds:
+    - serena start-mcp-server --project "{{.TASKFILE_DIR}}" --context codex
+  serena:index:
+    desc: Explicitly index this module
+    cmds:
+    - serena project index "{{.TASKFILE_DIR}}"
+  lint:
+    desc: Run applicable static checks
+    cmds:
+    - task: validate
+  check:
+    desc: Run existing acceptance workflow
+    cmds:
+    - task: verify
+  deps:
+    desc: Check asset generator prerequisites
+    cmds:
+    - python3 --version
+vars:
+  PRESET: '{{default "debug" .PRESET}}'

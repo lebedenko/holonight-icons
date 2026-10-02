@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 project(HoloNightIconChecks LANGUAGES CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Svg)
 set(HOLONIGHT_QT_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/../../../holonight-qt" CACHE PATH "holonight-qt checkout containing the actual IconRenderer")
