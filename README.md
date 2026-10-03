@@ -167,3 +167,22 @@ lettering, filled edges and silhouettes.
 
 See [tooling/README.md](tooling/README.md) for presets, local dependency overrides, editor refresh,
 `task tooling:doctor`, and the independent Serena project.
+
+
+## Local CI rehearsal
+
+Run `task ci` with Git, Python 3, Task and an accessible Docker daemon (Podman
+fallback when Docker is absent). Pinned linux/amd64 containers require an amd64
+host or emulation and network access to registries, GitHub and fixed package
+archives. The command covers every push validation step: generator/validator,
+Python regressions, Qt and GTK symbolic rendering, previews and all four REUSE
+6.2.0 roots. GTK tests use private Xvfb displays.
+
+Current tracked edits and non-ignored new inputs enter read-only snapshots; add
+reported new inputs before pushing. Each lane uses fresh disposable source/build
+trees. Existing development builds stay untouched. Complete logs, revision/dirty
+state, tool versions, image identities and results are saved beneath ignored
+`build/ci/`; generated themes/previews are in the run's `artifacts/verification/`.
+Failures print complete logs and return nonzero. Local runs save artifacts; the
+existing remote job uploads them. No publication or release happens locally.
+Run launcher regressions with `python3 scripts/ci/test_launcher.py`.
