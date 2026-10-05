@@ -4,6 +4,63 @@
       "status": "retired",
       "path": "apps/100/kiro.svg",
       "rationale": "Removed the Kiro brand mark pending verified redistribution rights."
+    },
+    "scalable/apps/acvc-64.svg": {
+      "status": "retired",
+      "path": "apps/64/acvc-64.svg",
+      "rationale": "Redistribution permission remains unverified."
+    },
+    "scalable/apps/holonight-ai.svg": {
+      "status": "replacement",
+      "path": "apps/256/holonight-ai.svg",
+      "rationale": "Updated native-canvas application artwork; retain the lookup name.",
+      "target": "apps/170/holonight-ai.svg"
+    },
+    "scalable/apps/holonight-pkg-manager.svg": {
+      "status": "replacement",
+      "path": "apps/256/holonight-pkg-manager.svg",
+      "rationale": "Updated native-canvas application artwork; retain the lookup name.",
+      "target": "apps/170/holonight-store.svg"
+    },
+    "scalable/apps/holonight-settings.svg": {
+      "status": "replacement",
+      "path": "apps/256/holonight-settings.svg",
+      "rationale": "Updated native-canvas application artwork; retain the lookup name.",
+      "target": "apps/170/holonight-settings.svg"
+    },
+    "scalable/apps/holonight-shell.svg": {
+      "status": "replacement",
+      "path": "apps/256/holonight-shell.svg",
+      "rationale": "Updated native-canvas application artwork; retain the lookup name.",
+      "target": "apps/170/holonight-shell.svg"
     }
+  },
+  "artwork": {
+    "apps/170/holonight-ai.svg": {
+      "source_sha256": "32f01ed9122b05d8bec4cbaa1050295d9b4d51b9675cb9919ad1d3e22d8c2c8d"
+    },
+    "apps/170/holonight-files.svg": {
+      "source_sha256": "c86125eebf6a114ebbc4d248d142c9c8391aef2575d7e2b6193d0b229af29383"
+    },
+    "apps/170/holonight-settings.svg": {
+      "source_sha256": "705e36c470ea4f29f497ded3b31899977c75180b4405a313972a2e366a8fded3"
+    },
+    "apps/170/holonight-shell.svg": {
+      "source_sha256": "86934698e01f7073008a16d4a968e4d7d3b4d0353ae6cfba0dc5dfea4b46926d"
+    },
+    "apps/170/holonight-store.svg": {
+      "source_sha256": "29b9351df2fec9e6fab6cf0372766151cea4fac603d24bd868527a554b1b9891"
+    },
+    "apps/170/holonight-viewer.svg": {
+      "source_sha256": "088f294b8892020f887ba8e59b7e1872a4ea81a2d5c320bcc3a8c3f50322ad2f"
+    },
+    "apps/170/strata.svg": {
+      "source_sha256": "dc305d205fbbcbbfe21ab0e73e807e22a2e79e5444cef9eb1f39348e34f6cefe"
+    }
+  },
+  "lookup_aliases": {
+    "apps/170/org.holonight.Files.svg": "holonight-files.svg",
+    "apps/170/org.holonight.Viewer.svg": "holonight-viewer.svg",
+    "apps/170/holonight-pkg-manager.svg": "holonight-store.svg"
   }
 }

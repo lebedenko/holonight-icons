@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="170" height="170" viewBox="0 0 170 170">
+<style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
+</style>
+<title>Strata 4</title>
+<defs><linearGradient id="strata-face" x1="0" y1="0" x2="1" y2="1">
+ <stop stop-color="#23455e" /><stop offset=".42" stop-color="#17283f" />
+ <stop offset=".75" stop-color="#17213c" /><stop offset="1" stop-color="#292357" />
+</linearGradient>
+<linearGradient id="strata-edge" x1="0" y1=".2" x2="1" y2=".65">
+ <stop stop-color="#7af8ff" /><stop offset=".25" stop-color="#49d7ff" />
+ <stop offset=".55" stop-color="#7597ff" /><stop offset="1" stop-color="#cb78ff" />
+</linearGradient>
+<radialGradient id="strata-cyan" cx="0" cy=".53" r=".48">
+ <stop stop-color="#50efff" stop-opacity=".68" /><stop offset=".3" stop-color="#29bdf2" stop-opacity=".23" />
+ <stop offset="1" stop-color="#2bbdf5" stop-opacity="0" />
+</radialGradient>
+<radialGradient id="strata-violet" cx="1" cy=".55" r=".46">
+ <stop stop-color="#b770ff" stop-opacity=".64" /><stop offset=".34" stop-color="#8a47ff" stop-opacity=".22" />
+ <stop offset="1" stop-color="#7459ff" stop-opacity="0" />
+</radialGradient>
+<radialGradient id="strata-blue" cx=".5" cy="1" r=".38">
+ <stop stop-color="#426bff" stop-opacity=".7" /><stop offset=".32" stop-color="#315be9" stop-opacity=".22" />
+ <stop offset="1" stop-color="#355ced" stop-opacity="0" />
+</radialGradient>
+<linearGradient id="strata-rim-relief" x1="0" y1="0" x2="0" y2="1">
+ <stop stop-color="#ffffff" stop-opacity=".25" /><stop offset=".5" stop-color="#ffffff" stop-opacity="0" />
+ <stop offset=".82" stop-color="#ffffff" stop-opacity="0" /><stop offset="1" stop-color="#b8cfff" stop-opacity=".55" />
+</linearGradient>
+<linearGradient id="strata-ring" x1="0" y1=".15" x2="1" y2=".85">
+ <stop stop-color="#b6ffff" /><stop offset=".2" stop-color="#54defa" />
+ <stop offset=".52" stop-color="#4fa8f9" /><stop offset=".76" stop-color="#8274ff" /><stop offset="1" stop-color="#b165ef" />
+</linearGradient>
+</defs>
+<g opacity="0.48"><path d="M35 112 L54 101 L80 117 Q85 120 90 117 L116 101 L135 112 Q141 116 135 120 L90 144 Q85 147 80 144 L35 120 Q29 116 35 112 Z" fill="url(#strata-face)"/><path d="M35 112 L54 101 L80 117 Q85 120 90 117 L116 101 L135 112 Q141 116 135 120 L90 144 Q85 147 80 144 L35 120 Q29 116 35 112 Z" fill="url(#strata-cyan)"/><path d="M35 112 L54 101 L80 117 Q85 120 90 117 L116 101 L135 112 Q141 116 135 120 L90 144 Q85 147 80 144 L35 120 Q29 116 35 112 Z" fill="url(#strata-violet)"/><path d="M35 112 L54 101 L80 117 Q85 120 90 117 L116 101 L135 112 Q141 116 135 120 L90 144 Q85 147 80 144 L35 120 Q29 116 35 112 Z" fill="url(#strata-blue)"/><path d="M35 112 L54 101 L80 117 Q85 120 90 117 L116 101 L135 112 Q141 116 135 120 L90 144 Q85 147 80 144 L35 120 Q29 116 35 112 Z" fill="none" stroke="url(#strata-edge)" stroke-width=".6"/></g><g opacity="0.9"><path d="M35 87 L54 76 L80 92 Q85 95 90 92 L116 76 L135 87 Q141 91 135 95 L90 119 Q85 122 80 119 L35 95 Q29 91 35 87 Z" fill="url(#strata-face)"/><path d="M35 87 L54 76 L80 92 Q85 95 90 92 L116 76 L135 87 Q141 91 135 95 L90 119 Q85 122 80 119 L35 95 Q29 91 35 87 Z" fill="url(#strata-cyan)"/><path d="M35 87 L54 76 L80 92 Q85 95 90 92 L116 76 L135 87 Q141 91 135 95 L90 119 Q85 122 80 119 L35 95 Q29 91 35 87 Z" fill="url(#strata-violet)"/><path d="M35 87 L54 76 L80 92 Q85 95 90 92 L116 76 L135 87 Q141 91 135 95 L90 119 Q85 122 80 119 L35 95 Q29 91 35 87 Z" fill="url(#strata-blue)"/><path d="M35 87 L54 76 L80 92 Q85 95 90 92 L116 76 L135 87 Q141 91 135 95 L90 119 Q85 122 80 119 L35 95 Q29 91 35 87 Z" fill="none" stroke="url(#strata-edge)" stroke-width=".6"/></g><path d="M80 33 Q85 30 90 33 L135 59 Q141 63 135 67 L90 93 Q85 96 80 93 L35 67 Q29 63 35 59 Z M80 37 Q85 34 90 37 L128 56 Q134 60 128 64 L90 83 Q85 86 80 83 L42 64 Q36 60 42 56 Z" fill-rule="evenodd" fill="url(#strata-ring)" stroke="url(#strata-edge)" stroke-width=".7"/><path d="M80 33 Q85 30 90 33 L135 59 Q141 63 135 67 L90 93 Q85 96 80 93 L35 67 Q29 63 35 59 Z M80 37 Q85 34 90 37 L128 56 Q134 60 128 64 L90 83 Q85 86 80 83 L42 64 Q36 60 42 56 Z" fill-rule="evenodd" fill="url(#strata-rim-relief)"/>
+</svg>

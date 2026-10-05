@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from templates import manifest, default_output, validate_frozen
-from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, DEVICES, ACTIONS, MASTER_CONTEXTS, directories, directory_metadata, recolor
+from theme import ROOT, SOURCE, BUILD, VARIANTS, ROLES, PLACES, DEVICES, ACTIONS, MASTER_CONTEXTS, APPS, SCALED_CONTEXTS, directories, directory_metadata, recolor
 
 SHAPES = {'path','rect','circle','ellipse','polygon','polyline','line','use','text','image'}
 CSS_RULE = re.compile(r'\.ColorScheme-([A-Za-z]+)\s*\{\s*color\s*:\s*(#[0-9a-fA-F]{6})\s*;?\s*\}')
@@ -240,6 +240,42 @@ def validate_actions(tree):
     return errors
 
 
+def validate_apps(tree):
+    errors = []
+    artwork = APPS['artwork']
+    for rel in artwork:
+        path = tree / rel
+        if not path.is_file() or path.is_symlink():
+            errors.append(f'{rel}: missing real Applications master')
+    for rel, target in APPS['lookup_aliases'].items():
+        path = tree / rel
+        if not path.is_symlink() or str(path.readlink()) != target or str((path.parent / target).relative_to(tree)) not in artwork:
+            errors.append(f'{rel}: missing or changed Applications lookup alias')
+    inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
+    dispositions = APPS['migration_dispositions']
+    if set(dispositions) != {i['old'] for i in inventory if i['path'].startswith('apps/')}:
+        errors.append('Applications dispositions must cover exactly historical Applications entries')
+    for item in inventory:
+        if not item['path'].startswith('apps/'):
+            continue
+        disposition = dispositions.get(item['old'], {})
+        path = tree / item['path']
+        if disposition.get('path') != item['path'] or not disposition.get('rationale'):
+            errors.append(f'{path}: invalid Applications disposition')
+        elif disposition.get('status') == 'retired':
+            if any((tree / 'apps').rglob(path.name)):
+                errors.append(f'{path}: retired name unexpectedly present')
+        elif disposition.get('status') == 'replacement':
+            target = disposition.get('target', '')
+            candidates = list((tree / 'apps').rglob(path.name))
+            if (target not in artwork or not (tree / target).is_file() or
+                    not candidates or any(p.resolve() != (tree / target).resolve() for p in candidates)):
+                errors.append(f'{path}: Applications replacement target or retained lookup name changed')
+        else:
+            errors.append(f'{path}: invalid Applications disposition')
+    return errors
+
+
 def validate_source(tree=SOURCE):
     errors = alias_errors(tree)
     exemptions = json.loads((ROOT / 'metadata/fixed-artwork.json').read_text())
@@ -285,18 +321,11 @@ def validate_source(tree=SOURCE):
         errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
     errors.extend(validate_places(tree) + validate_devices(tree) + validate_actions(tree))
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
-    app_dispositions = json.loads((ROOT / 'metadata/apps.json').read_text())['migration_dispositions']
-    if set(app_dispositions) != {'scalable/apps/kiro.svg'}:
-        errors.append('unexpected Applications migration dispositions')
+    errors.extend(validate_apps(tree))
+    app_dispositions = APPS['migration_dispositions']
     for item in inventory:
         path = tree / item['path']
         if item['old'] in app_dispositions:
-            disposition = app_dispositions[item['old']]
-            if (disposition.get('status') != 'retired' or disposition.get('path') != item['path']
-                    or not disposition.get('rationale')):
-                errors.append(f'{path}: invalid Applications disposition')
-            elif path.exists():
-                errors.append(f'{path}: retired name unexpectedly present')
             continue
         if item['path'].startswith('places/'):
             disposition = PLACES['migration_dispositions'].get(item['old'], {})
@@ -332,7 +361,7 @@ def validate_source(tree=SOURCE):
 
 
 def validate_theme(tree, name):
-    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree) + validate_actions(tree)
+    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree) + validate_actions(tree) + validate_apps(tree)
     try:
         config = configparser.ConfigParser(interpolation=None, strict=True)
         config.read_string((tree / 'index.theme').read_text())
@@ -342,7 +371,7 @@ def validate_theme(tree, name):
         dirs = theme['Directories'].split(',')
         if dirs != directories():
             errors.append('directory list/duplicate-name precedence differs from source')
-        scaled = [d + '/.' for d in dirs if d.split('/')[0] in MASTER_CONTEXTS]
+        scaled = [d + '/.' for d in dirs if d.split('/')[0] in SCALED_CONTEXTS]
         if theme.get('ScaledDirectories', '').split(',') != scaled:
             errors.append('scaled directory metadata differs from source')
         if set(config.sections()) != {'Icon Theme', *dirs, *scaled}:

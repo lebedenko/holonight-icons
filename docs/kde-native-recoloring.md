@@ -1,6 +1,6 @@
 # Native KDE recoloring test
 
-Run `task test:kde`. This optional task requires CMake, a C++17 compiler,
+Run `task test:kde`. This optional task requires CMake, a C++23 compiler,
 Qt 6.6+ (Core, Gui and Svg), and KDE Frameworks 6 IconThemes development files.
 On Arch Linux the KDE dependency is `kiconthemes`. A version that understands
 `ColorScheme-Accent` is required for the role checks to pass; the test records

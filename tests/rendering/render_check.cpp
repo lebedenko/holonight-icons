@@ -523,6 +523,23 @@ void checks(const QString &root) {
                 require(actual==expected,QString("Places master lookup mismatch: %1 %2 @%3 in %4").arg(name).arg(size).arg(scale).arg(theme));
             }
         }
+        const auto apps=QJsonDocument::fromJson(read(root+"/../metadata/apps.json")).object();
+        QMap<QString,QString> appNames;
+        const auto appArtwork=apps["artwork"].toObject();
+        for (auto it=appArtwork.begin();it!=appArtwork.end();++it)
+            appNames[QFileInfo(it.key()).completeBaseName()]=it.key();
+        const auto appAliases=apps["lookup_aliases"].toObject();
+        for (auto it=appAliases.begin();it!=appAliases.end();++it)
+            appNames[QFileInfo(it.key()).completeBaseName()]=it.key();
+        for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
+            for (auto it=appNames.begin();it!=appNames.end();++it) {
+                const auto expected=plain(read(root+'/'+theme+'/'+it.value()),size*scale);
+                const auto icon=QIcon::fromTheme(it.key());
+                require(!icon.isNull(),"Missing Applications lookup: "+it.key());
+                const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                require(actual==expected,QString("Applications lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(theme));
+            }
+        }
         const auto devices=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object();
         QMap<QString,QString> deviceNames;
         for (const auto value : devices["proof_names"].toArray()) {

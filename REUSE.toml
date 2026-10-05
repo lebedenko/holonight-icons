@@ -6,7 +6,7 @@ SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
 
 [[annotations]]
-path = ["icons/apps/**/*.svg", "icons/status/24/symbolic/*.svg"]
+path = ["icons/status/24/symbolic/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
 SPDX-License-Identifier = "GPL-3.0-only"
@@ -94,3 +94,10 @@ path = ["tests/fixtures/mimetype-geometry.json"]
 precedence = "override"
 SPDX-FileCopyrightText = ["Papirus Development Team", "2026 Andrii L <lebeden@gmail.com>"]
 SPDX-License-Identifier = "GPL-3.0-only"
+
+# First-party application masters and filename aliases.
+[[annotations]]
+path = ["icons/apps/**/*.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"

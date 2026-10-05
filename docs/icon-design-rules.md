@@ -80,8 +80,10 @@ when semantic definitions are present. It does not assign roles to fixed shapes.
 The real renderer regression test proves that their pixels stay unchanged across
 light, dark, selected and disabled colors.
 
-Full-color app tiles normally use a 256-unit canvas with 20-unit outer padding.
-Preserve external brand canvases and exclusion zones. Small-size scalability does
+New first-party app artwork uses a 256×256 canvas with 20-unit outer padding.
+Imported application SVGs preserve their native canvases within 16–512 units,
+including proportions and exclusion zones. Normalize unsupported canvases with
+uniform scaling that preserves geometry, strokes, gradients and padding. Small-size scalability does
 not prove legibility: review previews at 16/22/24/32 and 2× on both backgrounds.
 Check status badge separation, unclipped strokes, stable family silhouettes and
 selected/disabled contrast in the actual consumer. A white brand may intentionally
@@ -160,3 +162,20 @@ paints. Unused Accent declarations elsewhere preserve the complete-role contract
 without restyling artwork.
 
 See [EPUB/JSON verification and comparisons](mimetype-semantic-review.md).
+
+## Application imports
+
+Applications use one scalable master per application under `icons/apps/<native-size>/`.
+The native size is the longer viewBox dimension; additional native-size directories
+are allowed without size-directory symlinks. Both themes advertise each directory
+for 16–512 logical pixels with explicit scale-2 entries referencing the same artwork.
+Add separate optical masters only after visual review demonstrates a need.
+
+Import the supplied SVG unchanged apart from the unused complete semantic stylesheet
+guard. Record the master and source checksum in `metadata/apps.json`, add licensing
+in `REUSE.toml` and provenance in `THIRD_PARTY_NOTICES.md`, and add its exact fixed-artwork
+exemption. Declare optional relative filename aliases in Applications metadata.
+Record replacements with canonical targets and retained lookup names, or retirements
+with a rationale; keep `metadata/migration.json` unchanged as historical evidence.
+Regenerate through the existing generator and run `task verify`, including lookup
+and visual review on both backgrounds.

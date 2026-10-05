@@ -76,7 +76,7 @@ task preview:icons
 task verify
 ```
 
-Rendering and previews require CMake, a C++17 compiler, Qt 6 Core/Gui/Svg development
+Rendering and previews require CMake, a C++23 compiler, Qt 6 Core/Gui/Svg development
 packages and a sibling `holonight-qt` checkout. Set `HOLONIGHT_QT_SOURCE` to use a
 checkout elsewhere. Tests compile its actual `src/icons/iconrenderer.cpp`; they
 add no dependency to the installed icon themes or Shell. CI pins a known renderer
@@ -118,8 +118,14 @@ monochrome semantic regular and symbolic names, a 32 px colorful master, and dec
 `metadata/devices.json` records retained historical aliases and retired imported
 names without changing the migration inventory.
 
-The Kiro app logo is retired in `metadata/apps.json` pending verified
-redistribution rights. Its historical migration entry remains unchanged.
+Applications use seven supplied 170 px HoloNight and Strata masters, scalable
+from 16–512 logical pixels at scales 1 and 2. Files and Viewer expose their
+`org.holonight.*` names; `holonight-pkg-manager` aliases Store. Additional native
+canvas sizes are supported without directory aliases. See the
+[application import workflow](docs/icon-design-rules.md#application-imports).
+`metadata/apps.json` records artwork, filename aliases, replacements and retirements.
+Kiro and AWS VPN Client are retired pending verified redistribution rights;
+the historical migration inventory remains unchanged.
 
 ### On-demand template recoloring
 

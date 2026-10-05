@@ -16,6 +16,8 @@ PLACES = json.loads((ROOT / 'metadata/places.json').read_text())
 DEVICES = json.loads((ROOT / 'metadata/devices.json').read_text())
 ACTIONS = json.loads((ROOT / 'metadata/actions.json').read_text())
 MIMETYPES = json.loads((ROOT / 'metadata/mimetypes.json').read_text())
+APPS = json.loads((ROOT / 'metadata/apps.json').read_text())
+SCALED_CONTEXTS = {'apps', 'places', 'devices', 'actions', 'mimetypes'}
 MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS, 'mimetypes': MIMETYPES}
 STYLE = re.compile(r'''(<style\b[^>]*\bid\s*=\s*["']current-color-scheme["'][^>]*>)(.*?)(</style>)''', re.S)
 
@@ -62,7 +64,7 @@ def index_text(name, source=SOURCE):
     result = f'[Icon Theme]\nName={name}\nComment=HoloNight {VARIANTS[name][0]} icon theme\nInherits={VARIANTS[name][1]}\nFollowsColorScheme=true\nDirectories={",".join(dirs)}\n'
     # Distinct index keys, same directory: QSettings normalizes trailing slashes.
     # Explicit DPR entries avoid Qt nearest-size fallback shadowing exact masters.
-    scaled = [d + '/.' for d in dirs if d.split('/')[0] in MASTER_CONTEXTS]
+    scaled = [d + '/.' for d in dirs if d.split('/')[0] in SCALED_CONTEXTS]
     result += 'ScaledDirectories=' + ','.join(scaled) + '\n'
     for directory in dirs + scaled:
         result += f'\n[{directory}]\n' + ''.join(f'{k}={v}\n' for k,v in directory_metadata(directory).items())

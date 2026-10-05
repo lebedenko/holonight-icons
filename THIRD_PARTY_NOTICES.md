@@ -1,7 +1,6 @@
 # Third-party notices and provenance
 
-Artwork in `icons/apps/` and
-`icons/status/24/symbolic/` retains the previous scalable/symbolic families'
+Artwork in `icons/status/24/symbolic/` retains the previous scalable/symbolic families'
 Papirus provenance. It is licensed GPL-3.0-only and attributed to the Papirus
 Development Team and 2026 Andrii L <lebeden@gmail.com>. The remaining independently
 authored status artwork, tooling, metadata and documentation are GPL-3.0-or-later.
@@ -98,3 +97,13 @@ Reviewed EPUB and JSON 32 px masters were adapted by Andrii L on 2026-09-30
 as semantic Text paper/fold and Accent glyph artwork, preserving Papirus paths,
 layer order, opacity, stroke attributes and decorative black/white paints.
 Their 24 px masters remain unchanged apart from the unused Accent declaration.
+
+## Applications refresh
+
+The seven HoloNight and Strata application masters in `icons/apps/170/` and
+their filename aliases are supplied first-party artwork, copyright 2026 Andrii L
+<lebeden@gmail.com>, GPL-3.0-or-later. Imported canvases, geometry, gradients,
+transparency and colors are preserved; only an unused semantic stylesheet guard
+is added. `metadata/apps.json` records source checksums, aliases and historical
+replacement targets. Kiro and AWS VPN Client (acvc-64) remain retired pending
+verified redistribution permission.

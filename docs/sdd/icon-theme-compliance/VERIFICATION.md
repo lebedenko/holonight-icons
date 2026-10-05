@@ -1,7 +1,7 @@
 # Verification
 
 Run `task verify` from the repository root. Python tests require only the standard
-library. Rendering requires Qt 6 Core/Gui/Svg development files, CMake, C++17 and a
+library. Rendering requires Qt 6 Core/Gui/Svg development files, CMake, C++23 and a
 holonight-qt checkout (`HOLONIGHT_QT_SOURCE`, default sibling). REUSE is required for
 licensing checks. No KDE Frameworks packages are required. The GTK symbolic
 check also requires Python GObject introspection, GTK 3 and GTK 4 typelibs,

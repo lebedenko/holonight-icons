@@ -1,24 +1,4 @@
 {
-  "apps/64/acvc-64.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
-  },
-  "apps/256/holonight-ai.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
-  },
-  "apps/256/holonight-pkg-manager.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
-  },
-  "apps/256/holonight-settings.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
-  },
-  "apps/256/holonight-shell.svg": {
-    "rationale": "Fixed application/brand artwork; all colors and shading belong to the mark.",
-    "scope": "asset"
-  },
   "mimetypes/24/application-epub+zip.svg": {
     "scope": "asset",
     "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
@@ -286,5 +266,33 @@
   "mimetypes/32/x-office-spreadsheet.svg": {
     "scope": "asset",
     "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
+  },
+  "apps/170/holonight-ai.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/holonight-files.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/holonight-settings.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/holonight-shell.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/holonight-store.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/holonight-viewer.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/170/strata.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   }
 }

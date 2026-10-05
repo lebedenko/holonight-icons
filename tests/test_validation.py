@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from build import build
 from install import install
-from theme import BUILD, SOURCE, VARIANTS, PLACES, DEVICES, ACTIONS, PALETTES, STYLE, directories, recolor
-from validate_icons import alias_errors, validate_source, validate_svg, validate_theme, validate_actions
+from theme import BUILD, SOURCE, VARIANTS, APPS, PLACES, DEVICES, ACTIONS, PALETTES, STYLE, directories, recolor
+from validate_icons import alias_errors, validate_source, validate_svg, validate_theme, validate_actions, validate_apps
 
 
 class SvgTests(unittest.TestCase):
@@ -112,6 +112,49 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(validate_source(), [])
         for name in VARIANTS:
             self.assertEqual(validate_theme(BUILD / name,name), [])
+
+    def test_application_imports_and_aliases(self):
+        import hashlib
+        for rel, entry in APPS['artwork'].items():
+            text = (SOURCE / rel).read_text()
+            imported = STYLE.sub('', text)
+            # Remove the guard's extra newline to recover the exact supplied SVG.
+            imported = imported.replace('>\n\n<title>', '>\n<title>', 1)
+            self.assertEqual(hashlib.sha256(imported.encode()).hexdigest(), entry['source_sha256'])
+        for rel, target in APPS['lookup_aliases'].items():
+            self.assertEqual((SOURCE / rel).readlink(), Path(target))
+        for name in VARIANTS:
+            import configparser
+            config = configparser.ConfigParser()
+            config.read(BUILD / name / 'index.theme')
+            for section in ('apps/170', 'apps/170/.'):
+                self.assertEqual(config[section]['MinSize'], '16')
+                self.assertEqual(config[section]['MaxSize'], '512')
+            self.assertEqual(config['apps/170/.']['Scale'], '2')
+
+    def test_application_mixed_native_sizes(self):
+        from theme import index_text
+        with tempfile.TemporaryDirectory() as tmp:
+            tree = Path(tmp) / 'icons'
+            shutil.copytree(SOURCE, tree, symlinks=True)
+            directory = tree / 'apps/256'
+            directory.mkdir()
+            shutil.copy2(ROOT / 'tests/fixtures/fixed.svg', directory / 'future.svg')
+            self.assertEqual(validate_apps(tree), [])
+            text = index_text('HoloNight', tree)
+            self.assertIn('[apps/256/.]', text)
+            self.assertIn('[apps/170/.]', text)
+
+    def test_application_replacement_and_retirement_mutations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tree = Path(tmp) / 'icons'
+            shutil.copytree(SOURCE, tree, symlinks=True)
+            alias = tree / 'apps/170/holonight-pkg-manager.svg'
+            alias.unlink()
+            alias.symlink_to('holonight-ai.svg')
+            self.assertTrue(any('replacement target' in e for e in validate_apps(tree)))
+            shutil.copy2(ROOT / 'tests/fixtures/fixed.svg', tree / 'apps/170/acvc-64.svg')
+            self.assertTrue(any('retired name unexpectedly present' in e for e in validate_apps(tree)))
 
     def test_retired_kiro_logo_is_absent(self):
         retired = 'apps/100/kiro.svg'
