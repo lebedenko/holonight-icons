@@ -1,618 +1,891 @@
 #include "iconrenderer.h"
-#include <QGuiApplication>
+
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QGuiApplication>
 #include <QIcon>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QPainter>
 #include <QSvgRenderer>
-#include <QTextStream>
 #include <QTemporaryDir>
+#include <QTextStream>
+
+#include <array>
 #include <stdexcept>
 
 using Holonight::IconRenderer;
 using Holonight::IconSemanticColors;
-void require(bool ok, const QString &message) {
-    if (!ok) throw std::runtime_error(message.toStdString());
+void require(bool condition, const QString& message) {
+  if (!condition) {
+    throw std::runtime_error(message.toStdString());
+  }
 }
-QByteArray read(const QString &path) {
-    QFile file(path);
-    require(file.open(QIODevice::ReadOnly), "Cannot open " + path);
-    return file.readAll();
+QByteArray read(const QString& path) {
+  QFile file(path);
+  require(file.open(QIODevice::ReadOnly), "Cannot open " + path);
+  return file.readAll();
 }
-QImage plain(const QByteArray &svg, int size) {
-    QSvgRenderer renderer(svg);
-    require(renderer.isValid(), "Invalid SVG");
-    QImage image(size, size, QImage::Format_ARGB32_Premultiplied);
-    image.fill(Qt::transparent);
-    QPainter painter(&image);
-    renderer.render(&painter);
-    return image;
+QImage plain(const QByteArray& svg, int size) {
+  QSvgRenderer renderer(svg);
+  require(renderer.isValid(), "Invalid SVG");
+  QImage image(size, size, QImage::Format_ARGB32_Premultiplied);
+  image.fill(Qt::transparent);
+  QPainter painter(&image);
+  renderer.render(&painter);
+  return image;
 }
-bool visible(const QImage &image) {
-    for (int y=0; y<image.height(); ++y)
-        for (int x=0; x<image.width(); ++x)
-            if (image.pixelColor(x,y).alpha() > 20) return true;
-    return false;
+bool visible(const QImage& image) {
+  for (int pixelY = 0; pixelY < image.height(); ++pixelY) {
+    for (int pixelX = 0; pixelX < image.width(); ++pixelX) {
+      if (image.pixelColor(pixelX, pixelY).alpha() > 20) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 IconSemanticColors colors(QColor text) {
-    return {text, QColor("#3daee9"), QColor("#27ae60"), QColor("#f67400"), QColor("#da4453"), QColor("#8855dd"), QColor("#e7eef5"), QColor("#ffffff")};
+  return {
+      .text = text,
+      .highlight = QColor("#3daee9"),
+      .positive = QColor("#27ae60"),
+      .neutral = QColor("#f67400"),
+      .negative = QColor("#da4453"),
+      .accent = QColor("#8855dd"),
+      .background = QColor("#e7eef5"),
+      .highlightedText = QColor("#ffffff"),
+  };
 }
-QString previewName;
-int previewSize=0;
-void previews(const QString &root) {
-    const QList<int> sizes=previewSize?QList<int>{previewSize}:QList<int>{16,22,24,32};
-    const int sample=qMax(64,previewSize*2), cell=sample+26, rowHeight=sample+36;
-    for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
-      for (bool darkBackground : {false, true}) {
-        const QColor bg(darkBackground ? "#10131f" : "#e9eef5");
-        const QColor fg(darkBackground ? "#c0caf5" : "#1f2335");
-        QDirIterator places(root+'/'+theme+"/places", {"*.svg"}, QDir::Files, QDirIterator::Subdirectories);
-        if (!places.hasNext())
-            QTextStream(stdout)<<theme<<": Places inventory is empty; visual review resumes when SVGs are added.\n";
-        QMap<QString, QStringList> families;
-        QDirIterator it(root + '/' + theme, {"*.svg"}, QDir::Files, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            const auto path = it.next();
-            if (QFileInfo(path).isSymLink()) continue;
-            const auto rel = QDir(root + '/' + theme).relativeFilePath(path);
-            if (!previewName.isEmpty() && QFileInfo(path).baseName()!=previewName) continue;
-            const auto family = rel.contains("/symbolic/") ? QString("symbolic") : rel.section('/',0,0);
-            families[family].append(path);
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void previews(const QString& root, const QString& previewName, int previewSize) {
+  const QList<int> sizes = (previewSize != 0) ? QList<int>{previewSize} : QList<int>{16, 22, 24, 32};
+  const int sample = qMax(64, previewSize * 2);
+  const int cell = sample + 26;
+  const int rowHeight = sample + 36;
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    for (bool darkBackground : {false, true}) {
+      const QColor background(darkBackground ? "#10131f" : "#e9eef5");
+      const QColor foreground(darkBackground ? "#c0caf5" : "#1f2335");
+      QDirIterator places(root + '/' + theme + "/places", {"*.svg"}, QDir::Files, QDirIterator::Subdirectories);
+      if (!places.hasNext()) {
+        QTextStream(stdout) << theme << ": Places inventory is empty; visual review resumes when SVGs are added.\n";
+      }
+      QMap<QString, QStringList> families;
+      QDirIterator iterator(root + '/' + theme, {"*.svg"}, QDir::Files, QDirIterator::Subdirectories);
+      while (iterator.hasNext()) {
+        const auto path = iterator.next();
+        if (QFileInfo(path).isSymLink()) {
+          continue;
         }
-        for (auto f=families.begin(); f!=families.end(); ++f) {
-            f.value().sort();
-            for (int start=0; start<f.value().size(); start+=20) {
-                const int rows=qMin(20, int(f.value().size())-start);
-                QImage sheet(400+sizes.size()*2*cell, 50+rows*rowHeight, QImage::Format_ARGB32_Premultiplied);
-                sheet.fill(bg);
-                QPainter painter(&sheet);
-                painter.setPen(fg);
-                painter.drawText(10,25,theme + " / " + f.key() + (previewSize?QString(" — %1 px; then 2×").arg(previewSize):" — 16, 22, 24, 32 px; then 2×"));
-                for (int row=0; row<rows; ++row) {
-                    const auto path=f.value()[start+row];
-                    painter.drawText(QRect(10,50+row*rowHeight,340,rowHeight-10),Qt::AlignVCenter|Qt::TextWordWrap,QFileInfo(path).baseName());
-                    int col=0;
-                    for (int scale : {1,2}) for (int size : sizes) {
-                        const auto image=plain(read(path),size*scale);
-                        require(visible(image),"Empty preview: "+path);
-                        painter.drawImage(370+col*cell+(sample-image.width())/2,65+row*rowHeight+(sample-image.height())/2,image);
-                        ++col;
-                    }
-                }
-                painter.end();
-                const auto out=root+"/previews/"+theme+(previewName.isEmpty()?QString():"/"+previewName)+(previewSize?QString("/%1").arg(previewSize):QString());
-                QDir().mkpath(out);
-                require(sheet.save(out+'/'+(darkBackground?"dark-":"light-")+f.key()+QString("-%1.png").arg(start/20+1)),"Cannot save preview");
+        const auto rel = QDir(root + '/' + theme).relativeFilePath(path);
+        if (!previewName.isEmpty() && QFileInfo(path).baseName() != previewName) {
+          continue;
+        }
+        const auto family = rel.contains("/symbolic/") ? QString("symbolic") : rel.section('/', 0, 0);
+        families[family].append(path);
+      }
+      for (auto familyIterator = families.begin(); familyIterator != families.end(); ++familyIterator) {
+        familyIterator.value().sort();
+        for (int start = 0; start < familyIterator.value().size(); start += 20) {
+          const int rows = qMin(20, static_cast<int>(familyIterator.value().size()) - start);
+          QImage sheet(400 + (static_cast<int>(sizes.size()) * 2 * cell), 50 + (rows * rowHeight),
+                       QImage::Format_ARGB32_Premultiplied);
+          sheet.fill(background);
+          QPainter painter(&sheet);
+          painter.setPen(foreground);
+          painter.drawText(10, 25,
+                           theme + " / " + familyIterator.key() +
+                               ((previewSize != 0) ? QString(" — %1 px; then 2×").arg(previewSize)
+                                                   : " — 16, 22, 24, 32 px; then 2×"));
+          for (int row = 0; row < rows; ++row) {
+            const auto path = familyIterator.value()[start + row];
+            painter.drawText(QRect(10, 50 + (row * rowHeight), 340, rowHeight - 10),
+                             Qt::AlignVCenter | Qt::TextWordWrap, QFileInfo(path).baseName());
+            int col = 0;
+            for (int scale : {1, 2}) {
+              for (int size : sizes) {
+                const auto image = plain(read(path), size * scale);
+                require(visible(image), "Empty preview: " + path);
+                painter.drawImage(370 + (col * cell) + ((sample - image.width()) / 2),
+                                  65 + (row * rowHeight) + ((sample - image.height()) / 2), image);
+                ++col;
+              }
             }
+          }
+          painter.end();
+          const auto out = root + "/previews/" + theme + (previewName.isEmpty() ? QString() : "/" + previewName) +
+                           ((previewSize != 0) ? QString("/%1").arg(previewSize) : QString());
+          QDir().mkpath(out);
+          require(sheet.save(out + '/' + (darkBackground ? "dark-" : "light-") + familyIterator.key() +
+                             QString("-%1.png").arg((start / 20) + 1)),
+                  "Cannot save preview");
         }
+      }
     }
-}
+  }
 }
 // Consumer-state simulation: selected surface and disabled opacity are applied
 // outside the frozen SVG; renderer palette invariance is asserted separately.
-QStringList folderNames(const QString &root) {
-    QStringList names;
-    for (const auto value : QJsonDocument::fromJson(read(root+"/../metadata/places.json")).object()["proof_names"].toArray()) {
-        const auto name=value.toString();
-        if (!name.endsWith("-symbolic")) names.append(name);
+QStringList folderNames(const QString& root) {
+  QStringList names;
+  for (const auto value :
+       QJsonDocument::fromJson(read(root + "/../metadata/places.json")).object()["proof_names"].toArray()) {
+    const auto name = value.toString();
+    if (!name.endsWith("-symbolic")) {
+      names.append(name);
     }
-    return names;
+  }
+  return names;
 }
-void deviceReview(const QString &root) {
-    const auto names=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object()["proof_names"].toArray();
-    for (const auto value : names) for (bool symbolic : {false,true}) {
-        const auto base=value.toString();
-        const QList<int> sizes{16,22,24,32};
-        const int cell=82, label=160, height=4*3*82+45;
-        QImage sheet(label+8*cell,height,QImage::Format_ARGB32_Premultiplied);
-        sheet.fill(Qt::white);
-        QPainter painter(&sheet);
-        painter.setPen(Qt::black);
-        painter.drawText(8,24,base+(symbolic?" symbolic":" regular")+" — 16 / 22 / 24 / 32 px; 1× then 2×");
-        int row=0;
-        for (const QString theme : {"HoloNight", "HoloNight-Dark"}) for (bool dark : {false,true}) {
-            const QColor bg(dark?"#0c1118":"#e7eef5");
-            const QColor fg(dark?"#e7edf5":"#1b2533");
-            for (int state=0;state<3;++state,++row) {
-                const int y=40+row*82;
-                const QColor surface=state==1?QColor("#385b83"):bg;
-                painter.fillRect(label,y,8*cell,82,surface);
-                painter.setPen(Qt::black);
-                painter.drawText(QRect(4,y,label-8,82),Qt::AlignVCenter,theme+(dark?" dark ":" light ")+(state==0?"default":state==1?"selected":"disabled"));
-                int col=0;
-                for (int scale : {1,2}) for (int size : sizes) {
-                    const auto rel=symbolic?"24/"+base+"-symbolic.svg":QString::number(size<32?24:32)+'/'+base+".svg";
-                    const auto svg=read(root+'/'+theme+"/devices/"+rel);
-                    const auto icon=symbolic?IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(state==1?Qt::white:fg))
-                                            :plain(svg,size*scale);
-                    painter.setOpacity(state==2?.45:1);
-                    painter.drawImage(label+col*cell+(cell-icon.width())/2,y+(82-icon.height())/2,icon);
-                    painter.setOpacity(1);
-                    ++col;
-                }
+QString stateName(int state) {
+  if (state == 0) {
+    return "default";
+  }
+  if (state == 1) {
+    return "selected";
+  }
+  return "disabled";
+}
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void deviceReview(const QString& root) {
+  const auto names =
+      QJsonDocument::fromJson(read(root + "/../metadata/devices.json")).object()["proof_names"].toArray();
+  for (const auto value : names) {
+    for (bool symbolic : {false, true}) {
+      const auto base = value.toString();
+      const QList<int> sizes{16, 22, 24, 32};
+      const int cell = 82;
+      const int label = 160;
+      const int height = (4 * 3 * 82) + 45;
+      QImage sheet(label + (8 * cell), height, QImage::Format_ARGB32_Premultiplied);
+      sheet.fill(Qt::white);
+      QPainter painter(&sheet);
+      painter.setPen(Qt::black);
+      painter.drawText(8, 24, base + (symbolic ? " symbolic" : " regular") + " — 16 / 22 / 24 / 32 px; 1× then 2×");
+      int row = 0;
+      for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+        for (bool dark : {false, true}) {
+          const QColor background(dark ? "#0c1118" : "#e7eef5");
+          const QColor foreground(dark ? "#e7edf5" : "#1b2533");
+          for (int state = 0; state < 3; ++state, ++row) {
+            const int pixelY = 40 + (row * 82);
+            const QColor surface = state == 1 ? QColor("#385b83") : background;
+            painter.fillRect(label, pixelY, 8 * cell, 82, surface);
+            painter.setPen(Qt::black);
+            painter.drawText(QRect(4, pixelY, label - 8, 82), Qt::AlignVCenter,
+                             theme + (dark ? " dark " : " light ") + stateName(state));
+            int col = 0;
+            for (int scale : {1, 2}) {
+              for (int size : sizes) {
+                const auto rel = symbolic ? "24/" + base + "-symbolic.svg"
+                                          : QString::number(size < 32 ? 24 : 32) + '/' + base + ".svg";
+                const auto svg = read(root + '/' + theme + "/devices/" + rel);
+                const auto icon = symbolic ? IconRenderer::renderSvg(svg, {size * scale, size * scale},
+                                                                     colors(state == 1 ? Qt::white : foreground))
+                                           : plain(svg, size * scale);
+                painter.setOpacity(state == 2 ? .45 : 1);
+                painter.drawImage(label + (col * cell) + ((cell - icon.width()) / 2),
+                                  pixelY + ((82 - icon.height()) / 2), icon);
+                painter.setOpacity(1);
+                ++col;
+              }
             }
+          }
         }
-        painter.end();
-        require(sheet.save(root+"/previews/"+base+(symbolic?"-symbolic-states.png":"-states.png")),"Cannot save Devices state review");
+      }
+      painter.end();
+      require(sheet.save(root + "/previews/" + base + (symbolic ? "-symbolic-states.png" : "-states.png")),
+              "Cannot save Devices state review");
     }
+  }
 }
-void folderReview(const QString &root) {
-    for (const QString base : folderNames(root)) for (bool symbolic : {false,true}) {
-        QImage sheet(1100, 12*100+45, QImage::Format_ARGB32_Premultiplied);
-        sheet.fill(Qt::white);
-        QPainter painter(&sheet);
-        painter.setPen(Qt::black);
-        painter.drawText(12,25,base+(symbolic?" symbolic":" regular")+": 16 / 22 / 24 / 32 px, then 2x; disabled = 45% opacity");
-        QImage large(1024, 600, QImage::Format_ARGB32_Premultiplied);
-        large.fill(Qt::transparent);
-        QPainter lp(&large);
-        int row=0, panel=0;
-        for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
-            for (bool dark : {false,true}) {
-                QColor bg(dark?"#0c1118":"#e7eef5");
-                QColor fg(dark?"#e7edf5":"#1b2533");
-                for (int master : {24,32}) {
-                    const auto svg=read(root+'/'+theme+"/places/"+QString::number(master)+'/'+base+".svg");
-                    const int y=master==24?0:300;
-                    lp.fillRect(panel*256,y,256,300,bg);
-                    lp.setPen(fg);
-                    lp.drawText(panel*256+8,y+22,theme+QString(" / %1 px master").arg(master));
-                    lp.drawImage(panel*256,y+40,plain(svg,256));
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void folderReview(const QString& root) {
+  for (const QString& base : folderNames(root)) {
+    for (bool symbolic : {false, true}) {
+      QImage sheet(1100, (12 * 100) + 45, QImage::Format_ARGB32_Premultiplied);
+      sheet.fill(Qt::white);
+      QPainter painter(&sheet);
+      painter.setPen(Qt::black);
+      painter.drawText(
+          12, 25,
+          base + (symbolic ? " symbolic" : " regular") + ": 16 / 22 / 24 / 32 px, then 2x; disabled = 45% opacity");
+      QImage large(1024, 600, QImage::Format_ARGB32_Premultiplied);
+      large.fill(Qt::transparent);
+      QPainter largePainter(&large);
+      int row = 0;
+      int panel = 0;
+      for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+        for (bool dark : {false, true}) {
+          QColor background(dark ? "#0c1118" : "#e7eef5");
+          QColor foreground(dark ? "#e7edf5" : "#1b2533");
+          for (int master : {24, 32}) {
+            const auto svg = read(root + '/' + theme + "/places/" + QString::number(master) + '/' + base + ".svg");
+            const int pixelY = master == 24 ? 0 : 300;
+            largePainter.fillRect(panel * 256, pixelY, 256, 300, background);
+            largePainter.setPen(foreground);
+            largePainter.drawText((panel * 256) + 8, pixelY + 22, theme + QString(" / %1 px master").arg(master));
+            largePainter.drawImage(panel * 256, pixelY + 40, plain(svg, 256));
+          }
+          ++panel;
+          for (const QString state : {"normal", "selected", "disabled"}) {
+            const int pixelY = 45 + (row * 100);
+            painter.fillRect(0, pixelY, 1100, 100, background);
+            painter.setPen(foreground);
+            painter.drawText(10, pixelY + 45, theme + " / " + (dark ? "dark" : "light") + " / " + state);
+            int col = 0;
+            for (int scale : {1, 2}) {
+              for (int size : {16, 22, 24, 32}) {
+                const int pixelX = 340 + (col * 90);
+                const auto path = symbolic ? QString("24/") + base + "-symbolic.svg"
+                                           : QString::number(size < 32 ? 24 : 32) + '/' + base + ".svg";
+                const auto svg = read(root + '/' + theme + "/places/" + path);
+                if (state == "selected") {
+                  painter.fillRect(pixelX, pixelY + 10, 80, 80, QColor(dark ? "#5ea2ff" : "#3e7bdb"));
                 }
-                ++panel;
-                for (const QString state : {"normal","selected","disabled"}) {
-                    const int y=45+row*100;
-                    painter.fillRect(0,y,1100,100,bg);
-                    painter.setPen(fg);
-                    painter.drawText(10,y+45,theme+" / "+(dark?"dark":"light")+" / "+state);
-                    int col=0;
-                    for (int scale : {1,2}) for (int size : {16,22,24,32}) {
-                        const int x=340+col*90;
-                        const auto path=symbolic?QString("24/")+base+"-symbolic.svg":
-                            QString::number(size<32?24:32)+'/'+base+".svg";
-                        const auto svg=read(root+'/'+theme+"/places/"+path);
-                        if (state=="selected") painter.fillRect(x,y+10,80,80,QColor(dark?"#5ea2ff":"#3e7bdb"));
-                        painter.setOpacity(state=="disabled"?.45:1.0);
-                        const QColor text=state=="selected"?QColor(dark?"#081018":"#ffffff"):fg;
-                        painter.drawImage(x+(80-size*scale)/2,y+10+(80-size*scale)/2,
-                            IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(text)));
-                        painter.setOpacity(1.0);
-                        ++col;
-                    }
-                    ++row;
-                }
+                painter.setOpacity(state == "disabled" ? .45 : 1.0);
+                const QColor text = state == "selected" ? QColor(dark ? "#081018" : "#ffffff") : foreground;
+                painter.drawImage(pixelX + ((80 - (size * scale)) / 2), pixelY + 10 + ((80 - (size * scale)) / 2),
+                                  IconRenderer::renderSvg(svg, {size * scale, size * scale}, colors(text)));
+                painter.setOpacity(1.0);
+                ++col;
+              }
             }
+            ++row;
+          }
         }
-        painter.end(); lp.end();
-        require(sheet.save(root+"/previews/"+base+(symbolic?"-symbolic-states.png":"-states.png")),"Cannot save state review");
-        if (!symbolic) require(large.save(root+"/previews/"+base+"-gradients.png"),"Cannot save gradient review");
+      }
+      painter.end();
+      largePainter.end();
+      require(sheet.save(root + "/previews/" + base + (symbolic ? "-symbolic-states.png" : "-states.png")),
+              "Cannot save state review");
+      if (!symbolic) {
+        require(large.save(root + "/previews/" + base + "-gradients.png"), "Cannot save gradient review");
+      }
     }
-    // Compare the complete family in one readable sheet per theme/background.
-    for (bool symbolic : {false,true}) for (int panel=0;panel<4;++panel) {
-        const auto names=folderNames(root);
-        const auto suffix=symbolic?QString("-symbolic-states.png"):QString("-states.png");
-        const bool dark=panel%2;
-        const QColor bg(dark?"#0c1118":"#e7eef5"), fg(dark?"#e7edf5":"#1b2533");
-        QImage comparison(1100,45+100*names.size(),QImage::Format_ARGB32_Premultiplied);
-        comparison.fill(bg);
-        QPainter painter(&comparison);
-        painter.setPen(fg);
-        painter.drawText(12,25,QString(panel<2?"HoloNight":"HoloNight-Dark")+
-            (dark?" / dark":" / light")+(symbolic?" / symbolic":" / regular")+
-            ": 16 / 22 / 24 / 32 px, then 2x");
-        for (int row=0;row<names.size();++row) {
-            const QImage source(root+"/previews/"+names[row]+suffix);
-            painter.drawImage(0,45+row*100,source.copy(0,45+panel*300,1100,100));
-            painter.fillRect(0,45+row*100,335,100,bg);
-            painter.drawText(12,100+row*100,names[row]);
-        }
-        painter.end();
-        require(comparison.save(root+"/previews/folder-family-overview-"+QString::number(panel+1)+suffix),
-                "Cannot save complete family overview");
+  }
+  // Compare the complete family in one readable sheet per theme/background.
+  for (bool symbolic : {false, true}) {
+    for (int panel = 0; panel < 4; ++panel) {
+      const auto names = folderNames(root);
+      const auto suffix = symbolic ? QString("-symbolic-states.png") : QString("-states.png");
+      const bool dark = (panel % 2) != 0;
+      const QColor background(dark ? "#0c1118" : "#e7eef5");
+      const QColor foreground(dark ? "#e7edf5" : "#1b2533");
+      QImage comparison(1100, 45 + (100 * static_cast<int>(names.size())), QImage::Format_ARGB32_Premultiplied);
+      comparison.fill(background);
+      QPainter painter(&comparison);
+      painter.setPen(foreground);
+      painter.drawText(12, 25,
+                       QString(panel < 2 ? "HoloNight" : "HoloNight-Dark") + (dark ? " / dark" : " / light") +
+                           (symbolic ? " / symbolic" : " / regular") + ": 16 / 22 / 24 / 32 px, then 2x");
+      for (int row = 0; row < names.size(); ++row) {
+        const QImage source(root + "/previews/" + names[row] + suffix);
+        painter.drawImage(0, 45 + (row * 100), source.copy(0, 45 + (panel * 300), 1100, 100));
+        painter.fillRect(0, 45 + (row * 100), 335, 100, background);
+        painter.drawText(12, 100 + (row * 100), names[row]);
+      }
+      painter.end();
+      require(comparison.save(root + "/previews/folder-family-overview-" + QString::number(panel + 1) + suffix),
+              "Cannot save complete family overview");
     }
-    for (const QString suffix : {"-states.png", "-symbolic-states.png", "-gradients.png"}) {
-        // Paginate at two folders per sheet, preserving legible state labels.
-        const auto names=folderNames(root);
-        for (int first=0; first<names.size(); first+=2) {
-            const QImage sample(root+"/previews/"+names[first]+suffix);
-            QImage comparison(sample.width()*qMin(2,int(names.size())-first),sample.height(),QImage::Format_ARGB32_Premultiplied);
-            comparison.fill(Qt::white);
-            QPainter painter(&comparison);
-            for (int i=first;i<qMin(first+2,int(names.size()));++i)
-                painter.drawImage((i-first)*sample.width(),0,QImage(root+"/previews/"+names[i]+suffix));
-            painter.end();
-            require(comparison.save(root+"/previews/folder-family-"+QString::number(first/2+1)+suffix),"Cannot save folder family review");
-        }
+  }
+  for (const QString suffix : {"-states.png", "-symbolic-states.png", "-gradients.png"}) {
+    // Paginate at two folders per sheet, preserving legible state labels.
+    const auto names = folderNames(root);
+    for (int first = 0; first < names.size(); first += 2) {
+      const QImage sample(root + "/previews/" + names[first] + suffix);
+      QImage comparison(sample.width() * qMin(2, static_cast<int>(names.size()) - first), sample.height(),
+                        QImage::Format_ARGB32_Premultiplied);
+      comparison.fill(Qt::white);
+      QPainter painter(&comparison);
+      for (int i = first; i < qMin(first + 2, static_cast<int>(names.size())); ++i) {
+        painter.drawImage((i - first) * sample.width(), 0, QImage(root + "/previews/" + names[i] + suffix));
+      }
+      painter.end();
+      require(comparison.save(root + "/previews/folder-family-" + QString::number((first / 2) + 1) + suffix),
+              "Cannot save folder family review");
     }
+  }
 }
-void fallbackChecks(const QString &root) {
-    QTemporaryDir temporary;
-    require(temporary.isValid(), "Cannot create temporary fallback fixture");
-    const auto base=temporary.path();
-    for (const QString theme : {"Proof", "ControlledFallback"}) {
-        QDir().mkpath(base+'/'+theme+"/places/24");
-        QFile index(base+'/'+theme+"/index.theme");
-        require(index.open(QIODevice::WriteOnly),"Cannot write fixture index");
-        index.write(("[Icon Theme]\nName="+theme+"\nInherits="+(theme=="Proof"?"ControlledFallback":"hicolor")+"\nDirectories=places/24\n[places/24]\nSize=24\nType=Fixed\nContext=Places\n").toUtf8());
-    }
-    require(QFile::copy(root+"/../tests/fixtures/fixed.svg",base+"/ControlledFallback/places/24/folder-music.svg"),"Cannot create fallback icon");
-    QIcon::setThemeSearchPaths({base}); QIcon::setThemeName("Proof");
-    const auto inherited=QIcon::fromTheme("folder-music");
-    require(!inherited.isNull() && inherited.pixmap(24,24).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied)==plain(read(root+"/../tests/fixtures/fixed.svg"),24),"Controlled inherited lookup failed");
-    require(QIcon::fromTheme("holonight-absent-custom-proof-name").isNull(),"Unexpected custom fallback");
+void fallbackChecks(const QString& root) {
+  QTemporaryDir temporary;
+  require(temporary.isValid(), "Cannot create temporary fallback fixture");
+  const auto base = temporary.path();
+  for (const QString theme : {"Proof", "ControlledFallback"}) {
+    QDir().mkpath(base + '/' + theme + "/places/24");
+    QFile index(base + '/' + theme + "/index.theme");
+    require(index.open(QIODevice::WriteOnly), "Cannot write fixture index");
+    index.write(("[Icon Theme]\nName=" + theme + "\nInherits=" + (theme == "Proof" ? "ControlledFallback" : "hicolor") +
+                 "\nDirectories=places/24\n[places/24]\nSize=24\nType=Fixed\nContext=Places\n")
+                    .toUtf8());
+  }
+  require(QFile::copy(root + "/../tests/fixtures/fixed.svg", base + "/ControlledFallback/places/24/folder-music.svg"),
+          "Cannot create fallback icon");
+  QIcon::setThemeSearchPaths({base});
+  QIcon::setThemeName("Proof");
+  const auto inherited = QIcon::fromTheme("folder-music");
+  require(
+      !inherited.isNull() && inherited.pixmap(24, 24).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied) ==
+                                 plain(read(root + "/../tests/fixtures/fixed.svg"), 24),
+      "Controlled inherited lookup failed");
+  require(QIcon::fromTheme("holonight-absent-custom-proof-name").isNull(), "Unexpected custom fallback");
 }
 // Exercise generated size metadata with temporary artwork, independent of inventory.
-void masterLookupChecks(const QString &root, const QString &context) {
-    QTemporaryDir temporary;
-    require(temporary.isValid(), "Cannot create Places lookup fixture");
-    const auto base=temporary.path(), theme=context+"Fixture";
-    const QList<int> sizes{16,20,22,24,32,48,64,96,128,256,512};
-    for (int master : {24,32}) {
-        const auto dir=base+'/'+theme+'/'+context+'/'+QString::number(master);
-        QDir().mkpath(dir);
-        QFile svg(dir+"/fixture.svg");
-        require(svg.open(QIODevice::WriteOnly),"Cannot write Places master fixture");
-        svg.write(master==24 ? read(root+"/../tests/fixtures/inherited.svg") :
-                  QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 %1 %1\"><rect x=\"3\" y=\"3\" width=\"%2\" height=\"%2\" fill=\"#1144bb\"/></svg>")
-                  .arg(master).arg(master-6).toUtf8());
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void masterLookupChecks(const QString& root, const QString& context) {
+  QTemporaryDir temporary;
+  require(temporary.isValid(), "Cannot create Places lookup fixture");
+  const auto base = temporary.path();
+  const auto theme = context + "Fixture";
+  const QList<int> sizes{16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512};
+  for (int master : {24, 32}) {
+    const auto dir = base + '/' + theme + '/' + context + '/' + QString::number(master);
+    QDir().mkpath(dir);
+    QFile svg(dir + "/fixture.svg");
+    require(svg.open(QIODevice::WriteOnly), "Cannot write Places master fixture");
+    svg.write(master == 24 ? read(root + "/../tests/fixtures/inherited.svg")
+                           : QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 %1 %1\"><rect x=\"3\" "
+                                     "y=\"3\" width=\"%2\" height=\"%2\" fill=\"#1144bb\"/></svg>")
+                                 .arg(master)
+                                 .arg(master - 6)
+                                 .toUtf8());
+  }
+  for (int size : sizes) {
+    if (size != 24 && size != 32 && (context == "places" || size < 24)) {
+      require(QFile::link(QString::number(size < 24 ? 24 : 32),
+                          base + '/' + theme + '/' + context + '/' + QString::number(size)),
+              "Cannot create size fixture link");
     }
-    for (int size : sizes) if (size!=24 && size!=32 && (context=="places" || size<24))
-        require(QFile::link(QString::number(size<24?24:32),base+'/'+theme+'/'+context+'/'+QString::number(size)),"Cannot create size fixture link");
-    auto index=read(root+"/HoloNight/index.theme");
-    index.replace("Name=HoloNight", ("Name="+theme).toUtf8());
-    const auto symbolic=base+'/'+theme+'/'+context+"/24/fixture-symbolic.svg";
-    require(QFile::link("fixture.svg",symbolic),"Cannot create symbolic fixture link");
-    if (context=="actions")
-        require(QFile::link("fixture.svg",base+'/'+theme+'/'+context+"/32/fixture-symbolic.svg"),"Cannot create 32 px symbolic fixture link");
-    QFile file(base+'/'+theme+"/index.theme");
-    require(file.open(QIODevice::WriteOnly),"Cannot write Places fixture index");
-    file.write(index); file.close();
-    QIcon::setThemeSearchPaths({base}); QIcon::setThemeName(theme);
-    for (int size : sizes) for (int scale : {1,2}) for (bool sym : {false,true}) {
-        const auto icon=QIcon::fromTheme(sym?"fixture-symbolic":"fixture");
-        const auto expected=plain(read(sym && context=="places"?symbolic:base+'/'+theme+'/'+context+'/'+QString::number(size<32?24:32)+"/fixture.svg"),size*scale);
-        const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-        require(actual==expected,QString("Places fixture lookup mismatch: %1 @%2 symbolic=%3").arg(size).arg(scale).arg(sym));
+  }
+  auto index = read(root + "/HoloNight/index.theme");
+  index.replace("Name=HoloNight", ("Name=" + theme).toUtf8());
+  const auto symbolic = base + '/' + theme + '/' + context + "/24/fixture-symbolic.svg";
+  require(QFile::link("fixture.svg", symbolic), "Cannot create symbolic fixture link");
+  if (context == "actions") {
+    require(QFile::link("fixture.svg", base + '/' + theme + '/' + context + "/32/fixture-symbolic.svg"),
+            "Cannot create 32 px symbolic fixture link");
+  }
+  QFile file(base + '/' + theme + "/index.theme");
+  require(file.open(QIODevice::WriteOnly), "Cannot write Places fixture index");
+  file.write(index);
+  file.close();
+  QIcon::setThemeSearchPaths({base});
+  QIcon::setThemeName(theme);
+  for (int size : sizes) {
+    for (int scale : {1, 2}) {
+      for (bool sym : {false, true}) {
+        const auto icon = QIcon::fromTheme(sym ? "fixture-symbolic" : "fixture");
+        const auto expected =
+            plain(read(sym && context == "places" ? symbolic
+                                                  : base + '/' + theme + '/' + context + '/' +
+                                                        QString::number(size < 32 ? 24 : 32) + "/fixture.svg"),
+                  size * scale);
+        const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                .toImage()
+                                .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+        require(actual == expected,
+                QString("Places fixture lookup mismatch: %1 @%2 symbolic=%3").arg(size).arg(scale).arg(sym));
+      }
     }
-    QTextStream(stdout)<<"Temporary "<<context<<" fixtures: all 11 display sizes at 1x/2x passed.\n";
+  }
+  QTextStream(stdout) << "Temporary " << context << " fixtures: all 11 display sizes at 1x/2x passed.\n";
 }
 // Exercise every Actions spelling directly and through generated-theme inheritance.
-void actionsChecks(const QString &root) {
-    const auto spec=QJsonDocument::fromJson(read(root+"/../metadata/actions.json")).object();
-    QMap<QString,QString> names;
-    for (const auto value : spec["proof_names"].toArray()) names[value.toString()]=value.toString();
-    const auto aliases=spec["lookup_aliases"].toObject();
-    for (auto it=aliases.begin();it!=aliases.end();++it)
-        names[QFileInfo(it.key()).baseName()]=QFileInfo(it.value().toString()).baseName();
-    QTemporaryDir temporary;
-    require(temporary.isValid(),"Cannot create Actions inheritance fixture");
-    QIcon::setThemeSearchPaths({temporary.path(),root});
-    for (const QString theme : {"HoloNight","HoloNight-Dark"}) {
-        const auto wrapper="ActionsProof-"+theme;
-        QDir().mkpath(temporary.path()+'/'+wrapper);
-        QFile index(temporary.path()+'/'+wrapper+"/index.theme");
-        require(index.open(QIODevice::WriteOnly),"Cannot write Actions inheritance fixture");
-        index.write(("[Icon Theme]\nName="+wrapper+"\nInherits="+theme+"\nDirectories=\n").toUtf8());
-        index.close();
-        for (const auto selected : {theme,wrapper}) {
-            QIcon::setThemeName(selected);
-            for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
-                for (auto it=names.begin();it!=names.end();++it) {
-                    const auto path=root+'/'+theme+"/actions/"+QString::number(size<32?24:32)+'/'+it.value()+".svg";
-                    const auto expected=plain(read(path),size*scale);
-                    const auto icon=QIcon::fromTheme(it.key());
-                    require(!icon.isNull(),"Missing Actions lookup: "+it.key());
-                    const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-                    require(actual==expected,QString("Actions master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(selected));
-                }
-            }
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void actionsChecks(const QString& root) {
+  const auto spec = QJsonDocument::fromJson(read(root + "/../metadata/actions.json")).object();
+  QMap<QString, QString> names;
+  for (const auto value : spec["proof_names"].toArray()) {
+    names[value.toString()] = value.toString();
+  }
+  const auto aliases = spec["lookup_aliases"].toObject();
+  for (auto iterator = aliases.begin(); iterator != aliases.end(); ++iterator) {
+    names[QFileInfo(iterator.key()).baseName()] = QFileInfo(iterator.value().toString()).baseName();
+  }
+  QTemporaryDir temporary;
+  require(temporary.isValid(), "Cannot create Actions inheritance fixture");
+  QIcon::setThemeSearchPaths({temporary.path(), root});
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    const auto wrapper = "ActionsProof-" + theme;
+    QDir().mkpath(temporary.path() + '/' + wrapper);
+    QFile index(temporary.path() + '/' + wrapper + "/index.theme");
+    require(index.open(QIODevice::WriteOnly), "Cannot write Actions inheritance fixture");
+    index.write(("[Icon Theme]\nName=" + wrapper + "\nInherits=" + theme + "\nDirectories=\n").toUtf8());
+    index.close();
+    for (const auto& selected : {theme, wrapper}) {
+      QIcon::setThemeName(selected);
+      for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+        for (int scale : {1, 2}) {
+          for (auto iterator = names.begin(); iterator != names.end(); ++iterator) {
+            const auto path = root + '/' + theme + "/actions/" + QString::number(size < 32 ? 24 : 32) + '/' +
+                              iterator.value() + ".svg";
+            const auto expected = plain(read(path), size * scale);
+            const auto icon = QIcon::fromTheme(iterator.key());
+            require(!icon.isNull(), "Missing Actions lookup: " + iterator.key());
+            const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                    .toImage()
+                                    .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            require(actual == expected, QString("Actions master lookup mismatch: %1 %2 @%3 in %4")
+                                            .arg(iterator.key())
+                                            .arg(size)
+                                            .arg(scale)
+                                            .arg(selected));
+          }
         }
-        for (int master : {24,32}) for (const auto value : spec["proof_names"].toArray()) {
-            const auto image=plain(read(root+'/'+theme+"/actions/"+QString::number(master)+'/'+value.toString()+".svg"),master*10);
-            for (int i=0;i<image.width();++i)
-                require(image.pixelColor(i,0).alpha()==0 && image.pixelColor(i,image.height()-1).alpha()==0 &&
-                        image.pixelColor(0,i).alpha()==0 && image.pixelColor(image.width()-1,i).alpha()==0,
-                        "Clipped chevron: "+value.toString());
-        }
+      }
     }
-    QIcon::setThemeSearchPaths({root});
+    for (int master : {24, 32}) {
+      for (const auto value : spec["proof_names"].toArray()) {
+        const auto image =
+            plain(read(root + '/' + theme + "/actions/" + QString::number(master) + '/' + value.toString() + ".svg"),
+                  master * 10);
+        for (int i = 0; i < image.width(); ++i) {
+          require(image.pixelColor(i, 0).alpha() == 0 && image.pixelColor(i, image.height() - 1).alpha() == 0 &&
+                      image.pixelColor(0, i).alpha() == 0 && image.pixelColor(image.width() - 1, i).alpha() == 0,
+                  "Clipped chevron: " + value.toString());
+        }
+      }
+    }
+  }
+  QIcon::setThemeSearchPaths({root});
 }
 // Review all changed outlines with consumer foreground, selection and disabled states.
-void outlineReview(const QString &root) {
-    QStringList paths;
-    const auto actions=QJsonDocument::fromJson(read(root+"/../metadata/actions.json")).object();
-    for (const auto value : actions["proof_names"].toArray()) paths << "actions/24/"+value.toString()+".svg";
-    const auto devices=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object();
-    for (const auto value : devices["proof_names"].toArray()) paths << "devices/24/"+value.toString()+".svg";
-    paths << "places/24/folder-build.svg";
-    for (const QString name : {"blueman-tray","blueman-tray-disabled","blueman-tray-active","blueman-disabled","blueman-active","slack-indicator"})
-        paths << "status/24/"+name+".svg";
-    const QList<int> sizes{16,20,22,24,32};
-    for (const auto path : paths) {
-        const auto name=QFileInfo(path).baseName();
-        QImage sheet(1060,45+12*82,QImage::Format_ARGB32_Premultiplied);
-        sheet.fill(Qt::white);
-        QPainter painter(&sheet);
-        painter.setPen(Qt::black);
-        painter.drawText(8,25,name+" — 16 / 20 / 22 / 24 / 32 px; 1x then 2x");
-        int row=0;
-        for (const QString theme : {"HoloNight","HoloNight-Dark"}) for (bool dark : {false,true}) {
-            const QColor bg(dark?"#0c1118":"#e7eef5"), fg(dark?"#e7edf5":"#1b2533");
-            for (int state=0;state<3;++state,++row) {
-                const int y=45+row*82;
-                painter.fillRect(240,y,820,82,state==1?QColor("#385b83"):bg);
-                painter.setPen(Qt::black);
-                painter.drawText(QRect(4,y,232,82),Qt::AlignVCenter,theme+(dark?" dark ":" light ")+(state==0?"default":state==1?"selected":"disabled"));
-                int col=0;
-                for (int scale : {1,2}) for (int size : sizes) {
-                    auto rel=path;
-                    if (path.startsWith("actions/") && size>=32) rel.replace("/24/","/32/");
-                    const auto svg=read(root+'/'+theme+'/'+rel);
-                    const auto image=IconRenderer::renderSvg(svg,{size*scale,size*scale},colors(state==1?Qt::white:fg));
-                    painter.setOpacity(state==2?.45:1);
-                    painter.drawImage(240+col*82+(82-image.width())/2,y+(82-image.height())/2,image);
-                    painter.setOpacity(1);
-                    ++col;
-                }
-            }
-        }
-        painter.end();
-        require(sheet.save(root+"/previews/outline-"+name+"-states.png"),"Cannot save outline review");
-    }
-}
-
-void mimetypesChecks(const QString &root) {
-    const auto spec=QJsonDocument::fromJson(read(root+"/../metadata/mimetypes.json")).object();
-    QMap<QString,QString> names;
-    for (const auto value : spec["proof_names"].toArray()) names[value.toString()]=value.toString();
-    const auto aliases=spec["lookup_aliases"].toObject();
-    for (auto it=aliases.begin();it!=aliases.end();++it)
-        names[QFileInfo(it.key()).completeBaseName()]=QFileInfo(it.value().toString()).completeBaseName();
-    QTemporaryDir temporary;
-    require(temporary.isValid(),"Cannot create Mimetypes inheritance fixture");
-    QIcon::setThemeSearchPaths({temporary.path(),root});
-    for (const QString theme : {"HoloNight","HoloNight-Dark"}) {
-        const auto wrapper="MimetypesProof-"+theme;
-        QDir().mkpath(temporary.path()+'/'+wrapper);
-        QFile index(temporary.path()+'/'+wrapper+"/index.theme");
-        require(index.open(QIODevice::WriteOnly),"Cannot write Mimetypes inheritance fixture");
-        index.write(("[Icon Theme]\nName="+wrapper+"\nInherits="+theme+"\nDirectories=\n").toUtf8());
-        index.close();
-        for (const auto selected : {theme,wrapper}) {
-            QIcon::setThemeName(selected);
-            for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
-                for (auto it=names.begin();it!=names.end();++it) {
-                    const auto path=root+'/'+theme+"/mimetypes/"+QString::number(size<32?24:32)+'/'+it.value()+".svg";
-                    const auto expected=plain(read(path),size*scale);
-                    const auto icon=QIcon::fromTheme(it.key());
-                    require(!icon.isNull(),"Missing Mimetypes lookup: "+it.key());
-                    const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-                    require(actual==expected,QString("Mimetypes master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(selected));
-                }
-            }
-        }
-    }
-}
-
-void semanticMimeChecks(const QString &root) {
-    using Holonight::IconState;
-    const auto output=root+"/previews/semantic-mimetypes";
-    QDir().mkpath(output);
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void outlineReview(const QString& root) {
+  QStringList paths;
+  const auto actions = QJsonDocument::fromJson(read(root + "/../metadata/actions.json")).object();
+  for (const auto value : actions["proof_names"].toArray()) {
+    paths << "actions/24/" + value.toString() + ".svg";
+  }
+  const auto devices = QJsonDocument::fromJson(read(root + "/../metadata/devices.json")).object();
+  for (const auto value : devices["proof_names"].toArray()) {
+    paths << "devices/24/" + value.toString() + ".svg";
+  }
+  paths << "places/24/folder-build.svg";
+  for (const QString name : {
+           "blueman-tray",
+           "blueman-tray-disabled",
+           "blueman-tray-active",
+           "blueman-disabled",
+           "blueman-active",
+           "slack-indicator",
+       }) {
+    paths << "status/24/" + name + ".svg";
+  }
+  const QList<int> sizes{16, 20, 22, 24, 32};
+  for (const auto& path : paths) {
+    const auto name = QFileInfo(path).baseName();
+    QImage sheet(1060, 45 + (12 * 82), QImage::Format_ARGB32_Premultiplied);
+    sheet.fill(Qt::white);
+    QPainter painter(&sheet);
+    painter.setPen(Qt::black);
+    painter.drawText(8, 25, name + " — 16 / 20 / 22 / 24 / 32 px; 1x then 2x");
+    int row = 0;
     for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
-      const bool dark=theme.endsWith("Dark");
-      auto base=colors(QColor(dark?"#e7edf5":"#1b2533"));
-      base.background=QColor(dark?"#0c1118":"#e7eef5");
-      base.highlightedText=QColor(dark?"#081018":"#ffffff");
-      auto disabled=base;
-      disabled.text=QColor("#808080");
-      disabled.highlight=Holonight::blendIconColor(base.highlight,base.background,0.5);
-      disabled.highlightedText=Holonight::blendIconColor(base.highlightedText,base.background,0.5);
-      disabled.accent=Holonight::blendIconColor(base.accent,base.background,0.5);
-      disabled.positive=Holonight::blendIconColor(base.positive,base.background,0.5);
-      disabled.neutral=Holonight::blendIconColor(base.neutral,base.background,0.5);
-      disabled.negative=Holonight::blendIconColor(base.negative,base.background,0.5);
-      for (const QString name : {"application-epub+zip", "application-json"}) {
-        QImage sheet(480,380,QImage::Format_ARGB32_Premultiplied); sheet.fill(base.background);
-        QPainter painter(&sheet); painter.setPen(base.text);
-        painter.drawText(90,20,"Normal"); painter.drawText(215,20,"Selected"); painter.drawText(340,20,"Disabled");
-        int row=0;
-        for (int master : {24,32}) for (int scale : {1,2}) {
-          const auto svg=read(root+'/'+theme+"/mimetypes/"+QString::number(master)+'/'+name+".svg");
-          const int size=master*scale;
-          painter.drawText(4,40+row*84+20,QString("%1 @%2").arg(master).arg(scale));
-          int col=0;
-          for (auto state : {IconState::Normal,IconState::Selected,IconState::Disabled}) {
-            auto resolved=Holonight::resolveIconColors(base,disabled,state);
-            require(resolved.text!=resolved.accent,"Paper and glyph state roles collapsed");
-            const auto before=IconRenderer::renderSvg(svg,{size,size},resolved);
-            auto accentOnly=resolved; accentOnly.accent=QColor("#ee3300");
-            const auto after=IconRenderer::renderSvg(svg,{size,size},accentOnly);
-            if (master==32) {
-              require(before!=after,"Accent-only change did not update glyph: "+name);
-              require(before.pixelColor(7*scale,6*scale)==after.pixelColor(7*scale,6*scale),"Accent changed paper");
-              const auto rewritten=IconRenderer::applySemanticColors(svg,accentOnly);
+      for (bool dark : {false, true}) {
+        const QColor background(dark ? "#0c1118" : "#e7eef5");
+        const QColor foreground(dark ? "#e7edf5" : "#1b2533");
+        for (int state = 0; state < 3; ++state, ++row) {
+          const int pixelY = 45 + (row * 82);
+          painter.fillRect(240, pixelY, 820, 82, state == 1 ? QColor("#385b83") : background);
+          painter.setPen(Qt::black);
+          painter.drawText(QRect(4, pixelY, 232, 82), Qt::AlignVCenter,
+                           theme + (dark ? " dark " : " light ") + stateName(state));
+          int col = 0;
+          for (int scale : {1, 2}) {
+            for (int size : sizes) {
+              auto rel = path;
+              if (path.startsWith("actions/") && size >= 32) {
+                rel.replace("/24/", "/32/");
+              }
+              const auto svg = read(root + '/' + theme + '/' + rel);
+              const auto image = IconRenderer::renderSvg(svg, {size * scale, size * scale},
+                                                         colors(state == 1 ? Qt::white : foreground));
+              painter.setOpacity(state == 2 ? .45 : 1);
+              painter.drawImage(240 + (col * 82) + ((82 - image.width()) / 2), pixelY + ((82 - image.height()) / 2),
+                                image);
+              painter.setOpacity(1);
+              ++col;
+            }
+          }
+        }
+      }
+    }
+    painter.end();
+    require(sheet.save(root + "/previews/outline-" + name + "-states.png"), "Cannot save outline review");
+  }
+}
+
+void mimetypesChecks(const QString& root) {
+  const auto spec = QJsonDocument::fromJson(read(root + "/../metadata/mimetypes.json")).object();
+  QMap<QString, QString> names;
+  for (const auto value : spec["proof_names"].toArray()) {
+    names[value.toString()] = value.toString();
+  }
+  const auto aliases = spec["lookup_aliases"].toObject();
+  for (auto iterator = aliases.begin(); iterator != aliases.end(); ++iterator) {
+    names[QFileInfo(iterator.key()).completeBaseName()] = QFileInfo(iterator.value().toString()).completeBaseName();
+  }
+  QTemporaryDir temporary;
+  require(temporary.isValid(), "Cannot create Mimetypes inheritance fixture");
+  QIcon::setThemeSearchPaths({temporary.path(), root});
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    const auto wrapper = "MimetypesProof-" + theme;
+    QDir().mkpath(temporary.path() + '/' + wrapper);
+    QFile index(temporary.path() + '/' + wrapper + "/index.theme");
+    require(index.open(QIODevice::WriteOnly), "Cannot write Mimetypes inheritance fixture");
+    index.write(("[Icon Theme]\nName=" + wrapper + "\nInherits=" + theme + "\nDirectories=\n").toUtf8());
+    index.close();
+    for (const auto& selected : {theme, wrapper}) {
+      QIcon::setThemeName(selected);
+      for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+        for (int scale : {1, 2}) {
+          for (auto iterator = names.begin(); iterator != names.end(); ++iterator) {
+            const auto path = root + '/' + theme + "/mimetypes/" + QString::number(size < 32 ? 24 : 32) + '/' +
+                              iterator.value() + ".svg";
+            const auto expected = plain(read(path), size * scale);
+            const auto icon = QIcon::fromTheme(iterator.key());
+            require(!icon.isNull(), "Missing Mimetypes lookup: " + iterator.key());
+            const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                    .toImage()
+                                    .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            require(actual == expected, QString("Mimetypes master lookup mismatch: %1 %2 @%3 in %4")
+                                            .arg(iterator.key())
+                                            .arg(size)
+                                            .arg(scale)
+                                            .arg(selected));
+          }
+        }
+      }
+    }
+  }
+}
+
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void semanticMimeChecks(const QString& root) {
+  using Holonight::IconState;
+  const auto output = root + "/previews/semantic-mimetypes";
+  QDir().mkpath(output);
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    const bool dark = theme.endsWith("Dark");
+    auto base = colors(QColor(dark ? "#e7edf5" : "#1b2533"));
+    base.background = QColor(dark ? "#0c1118" : "#e7eef5");
+    base.highlightedText = QColor(dark ? "#081018" : "#ffffff");
+    auto disabled = base;
+    disabled.text = QColor("#808080");
+    disabled.highlight = Holonight::blendIconColor(base.highlight, base.background, 0.5);
+    disabled.highlightedText = Holonight::blendIconColor(base.highlightedText, base.background, 0.5);
+    disabled.accent = Holonight::blendIconColor(base.accent, base.background, 0.5);
+    disabled.positive = Holonight::blendIconColor(base.positive, base.background, 0.5);
+    disabled.neutral = Holonight::blendIconColor(base.neutral, base.background, 0.5);
+    disabled.negative = Holonight::blendIconColor(base.negative, base.background, 0.5);
+    for (const QString name : {"application-epub+zip", "application-json"}) {
+      QImage sheet(480, 380, QImage::Format_ARGB32_Premultiplied);
+      sheet.fill(base.background);
+      QPainter painter(&sheet);
+      painter.setPen(base.text);
+      painter.drawText(90, 20, "Normal");
+      painter.drawText(215, 20, "Selected");
+      painter.drawText(340, 20, "Disabled");
+      int row = 0;
+      for (int master : {24, 32}) {
+        for (int scale : {1, 2}) {
+          const auto svg = read(root + '/' + theme + "/mimetypes/" + QString::number(master) + '/' + name + ".svg");
+          const int size = master * scale;
+          painter.drawText(4, 40 + (row * 84) + 20, QString("%1 @%2").arg(master).arg(scale));
+          int col = 0;
+          for (auto state : {IconState::Normal, IconState::Selected, IconState::Disabled}) {
+            auto resolved = Holonight::resolveIconColors(base, disabled, state);
+            require(resolved.text != resolved.accent, "Paper and glyph state roles collapsed");
+            const auto before = IconRenderer::renderSvg(svg, {size, size}, resolved);
+            auto accentOnly = resolved;
+            accentOnly.accent = QColor("#ee3300");
+            const auto after = IconRenderer::renderSvg(svg, {size, size}, accentOnly);
+            if (master == 32) {
+              require(before != after, "Accent-only change did not update glyph: " + name);
+              require(before.pixelColor(7 * scale, 6 * scale) == after.pixelColor(7 * scale, 6 * scale),
+                      "Accent changed paper");
+              const auto rewritten = IconRenderer::applySemanticColors(svg, accentOnly);
               // The rewrite must retain every authored byte outside the stylesheet.
-              const auto end=svg.indexOf("</style>")+8;
-              const auto rewrittenEnd=rewritten.indexOf("</style>")+8;
-              require(svg.mid(end)==rewritten.mid(rewrittenEnd),"Recolor changed decorative paints or geometry");
-            } else require(before==after,"Accent restyled fixed 24 px master");
-            painter.fillRect(85+col*125,30+row*84,120,80,state==IconState::Selected?base.highlight:base.background);
-            painter.drawImage(90+col*125,35+row*84,before); ++col;
+              const auto end = svg.indexOf("</style>") + 8;
+              const auto rewrittenEnd = rewritten.indexOf("</style>") + 8;
+              require(svg.mid(end) == rewritten.mid(rewrittenEnd), "Recolor changed decorative paints or geometry");
+            } else {
+              require(before == after, "Accent restyled fixed 24 px master");
+            }
+            painter.fillRect(85 + (col * 125), 30 + (row * 84), 120, 80,
+                             state == IconState::Selected ? base.highlight : base.background);
+            painter.drawImage(90 + (col * 125), 35 + (row * 84), before);
+            ++col;
           }
           ++row;
         }
-        painter.end(); require(sheet.save(output+'/'+theme+'-'+name+".png"),"Cannot save semantic MIME sheet");
       }
+      painter.end();
+      require(sheet.save(output + '/' + theme + '-' + name + ".png"), "Cannot save semantic MIME sheet");
     }
+  }
 }
 
-void checks(const QString &root) {
-    semanticMimeChecks(root);
-    actionsChecks(root);
-    mimetypesChecks(root);
-    fallbackChecks(root);
-    masterLookupChecks(root,"places");
-    masterLookupChecks(root,"actions");
-    const auto roleSvg=read(root+"/../tests/fixtures/roles.svg");
-    const IconSemanticColors probes{QColor("#ff0000"), QColor("#00ff00"), QColor("#0000ff"), QColor("#ffff00"), QColor("#ff00ff"), QColor("#0088ff"), QColor("#eeeeee"), QColor("#ffffff")};
-    const auto roleImage=IconRenderer::renderSvg(roleSvg,{24,24},probes);
-    const QColor expected[] = {probes.text, probes.highlight, probes.positive, probes.neutral, probes.negative, probes.accent};
-    for (int i=0; i<6; ++i)
-        require(roleImage.pixelColor(i*4+2,12)==expected[i],"Semantic role fixture pixel mismatch");
-    const auto exemptions=QJsonDocument::fromJson(read(root+"/../metadata/fixed-artwork.json")).object();
-    QSet<QString> frozen;
-    for (const auto entry : QJsonDocument::fromJson(read(root+"/../metadata/templates.json")).object()["templates"].toArray())
-        frozen.insert(entry.toObject()["output"].toString());
-    QIcon::setThemeSearchPaths({root});
-    int checked=0;
-    for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
-        QIcon::setThemeName(theme);
-        QDirIterator it(root+'/'+theme,{"*.svg"},QDir::Files,QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            const auto path=it.next();
-            if (QFileInfo(path).isSymLink()) continue;
-            const auto rel=QDir(root+'/'+theme).relativeFilePath(path);
-            const bool fixed=frozen.contains(rel) || exemptions[rel].toObject()["scope"].toString()=="asset";
-            const auto svg=read(path);
-            for (int scale : {1,2}) for (int logical : {16,22,24,32,48,64}) {
-                const int size=logical*scale;
-                const auto light=IconRenderer::renderSvg(svg,{size,size},colors(QColor("#232629")));
-                const auto dark=IconRenderer::renderSvg(svg,{size,size},colors(QColor("#fcfcfc")));
-                // The renderer accepts resolved colors, not a QPalette or interaction state.
-                const auto selected=IconRenderer::renderSvg(svg,{size,size},colors(QColor("#ffe080")));
-                const auto disabled=IconRenderer::renderSvg(svg,{size,size},colors(QColor("#808080")));
-                require(visible(light)&&visible(dark)&&visible(selected)&&visible(disabled),"Empty render: "+rel);
-                if (fixed) {
-                    require(light==dark && light==selected && light==disabled && light==plain(svg,size),"Fixed colors changed: "+rel);
-                } else {
-                    require(light!=dark && light!=selected && light!=disabled,"Semantic foreground did not change: "+rel);
-                }
-            }
-            ++checked;
+// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
+// NOLINTNEXTLINE(readability-function-cognitive-complexity)
+void checks(const QString& root) {
+  semanticMimeChecks(root);
+  actionsChecks(root);
+  mimetypesChecks(root);
+  fallbackChecks(root);
+  masterLookupChecks(root, "places");
+  masterLookupChecks(root, "actions");
+  const auto roleSvg = read(root + "/../tests/fixtures/roles.svg");
+  const IconSemanticColors probes{
+      .text = QColor("#ff0000"),
+      .highlight = QColor("#00ff00"),
+      .positive = QColor("#0000ff"),
+      .neutral = QColor("#ffff00"),
+      .negative = QColor("#ff00ff"),
+      .accent = QColor("#0088ff"),
+      .background = QColor("#eeeeee"),
+      .highlightedText = QColor("#ffffff"),
+  };
+  const auto roleImage = IconRenderer::renderSvg(roleSvg, {24, 24}, probes);
+  const std::array expected = {
+      probes.text, probes.highlight, probes.positive, probes.neutral, probes.negative, probes.accent,
+  };
+  for (int i = 0; i < 6; ++i) {
+    require(roleImage.pixelColor((i * 4) + 2, 12) == expected.at(static_cast<size_t>(i)),
+            "Semantic role fixture pixel mismatch");
+  }
+  const auto exemptions = QJsonDocument::fromJson(read(root + "/../metadata/fixed-artwork.json")).object();
+  QSet<QString> frozen;
+  for (const auto entry :
+       QJsonDocument::fromJson(read(root + "/../metadata/templates.json")).object()["templates"].toArray()) {
+    frozen.insert(entry.toObject()["output"].toString());
+  }
+  QIcon::setThemeSearchPaths({root});
+  int checked = 0;
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    QIcon::setThemeName(theme);
+    QDirIterator iterator(root + '/' + theme, {"*.svg"}, QDir::Files, QDirIterator::Subdirectories);
+    while (iterator.hasNext()) {
+      const auto path = iterator.next();
+      if (QFileInfo(path).isSymLink()) {
+        continue;
+      }
+      const auto rel = QDir(root + '/' + theme).relativeFilePath(path);
+      const bool fixed = frozen.contains(rel) || exemptions[rel].toObject()["scope"].toString() == "asset";
+      const auto svg = read(path);
+      for (int scale : {1, 2}) {
+        for (int logical : {16, 22, 24, 32, 48, 64}) {
+          const int size = logical * scale;
+          const auto light = IconRenderer::renderSvg(svg, {size, size}, colors(QColor("#232629")));
+          const auto dark = IconRenderer::renderSvg(svg, {size, size}, colors(QColor("#fcfcfc")));
+          // The renderer accepts resolved colors, not a QPalette or interaction state.
+          const auto selected = IconRenderer::renderSvg(svg, {size, size}, colors(QColor("#ffe080")));
+          const auto disabled = IconRenderer::renderSvg(svg, {size, size}, colors(QColor("#808080")));
+          require(visible(light) && visible(dark) && visible(selected) && visible(disabled), "Empty render: " + rel);
+          if (fixed) {
+            require(light == dark && light == selected && light == disabled && light == plain(svg, size),
+                    "Fixed colors changed: " + rel);
+          } else {
+            require(light != dark && light != selected && light != disabled,
+                    "Semantic foreground did not change: " + rel);
+          }
         }
-        for (const QString name : {"go-down", "insync-alert", "drive-harddisk-symbolic"}) {
-            const auto icon=QIcon::fromTheme(name);
-            require(!icon.isNull(),"Qt lookup failed: "+name);
-            require(visible(icon.pixmap(24,24).toImage()),"Empty Qt lookup: "+name);
-        }
-        for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
-            QMap<QString,QString> lookups;
-            for (const auto &base : folderNames(root)) {
-                lookups[base]=QString::number(size<32?24:32)+'/'+base+".svg";
-                lookups[base+"-symbolic"]="24/"+base+"-symbolic.svg";
-            }
-            const auto aliases=QJsonDocument::fromJson(read(root+"/../metadata/places.json")).object()["lookup_aliases"].toObject();
-            for (auto it=aliases.begin();it!=aliases.end();++it) {
-                const auto name=QFileInfo(it.key()).baseName();
-                if (name.endsWith("-symbolic")) {
-                    lookups[name]="24/"+it.value().toString();
-                } else {
-                    lookups[name]=QString::number(size<32?24:32)+'/'+it.value().toString();
-                }
-            }
-            for (auto lookup=lookups.begin();lookup!=lookups.end();++lookup) {
-                const auto name=lookup.key(), path=lookup.value();
-                const auto expected=plain(read(root+'/'+theme+"/places/"+path),size*scale);
-                const auto icon=QIcon::fromTheme(name);
-                require(!icon.isNull(),"Missing Places lookup: "+name);
-                const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-                require(actual==expected,QString("Places master lookup mismatch: %1 %2 @%3 in %4").arg(name).arg(size).arg(scale).arg(theme));
-            }
-        }
-        const auto apps=QJsonDocument::fromJson(read(root+"/../metadata/apps.json")).object();
-        QMap<QString,QString> appNames;
-        const auto appArtwork=apps["artwork"].toObject();
-        for (auto it=appArtwork.begin();it!=appArtwork.end();++it)
-            appNames[QFileInfo(it.key()).completeBaseName()]=it.key();
-        const auto appAliases=apps["lookup_aliases"].toObject();
-        for (auto it=appAliases.begin();it!=appAliases.end();++it)
-            appNames[QFileInfo(it.key()).completeBaseName()]=it.key();
-        for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
-            for (auto it=appNames.begin();it!=appNames.end();++it) {
-                const auto expected=plain(read(root+'/'+theme+'/'+it.value()),size*scale);
-                const auto icon=QIcon::fromTheme(it.key());
-                require(!icon.isNull(),"Missing Applications lookup: "+it.key());
-                const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-                require(actual==expected,QString("Applications lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(theme));
-            }
-        }
-        const auto devices=QJsonDocument::fromJson(read(root+"/../metadata/devices.json")).object();
-        QMap<QString,QString> deviceNames;
-        for (const auto value : devices["proof_names"].toArray()) {
-            const auto base=value.toString();
-            deviceNames[base]=base;
-            deviceNames[base+"-symbolic"]=base+"-symbolic";
-        }
-        const auto deviceAliases=devices["lookup_aliases"].toObject();
-        for (auto it=deviceAliases.begin();it!=deviceAliases.end();++it) {
-            if (it.key().contains("/symbolic/") && !it.key().endsWith("-symbolic.svg")) continue;
-            deviceNames[QFileInfo(it.key()).baseName()]=QFileInfo(it.value().toString()).baseName();
-        }
-        for (int size : {16,20,22,24,32,48,64,96,128,256,512}) for (int scale : {1,2}) {
-            for (auto it=deviceNames.begin();it!=deviceNames.end();++it) {
-                const bool symbolic=it.key().endsWith("-symbolic");
-                const auto rel=symbolic ? "24/"+it.value()+".svg"
-                                        : QString::number(size<32?24:32)+'/'+it.value()+".svg";
-                const auto expected=plain(read(root+'/'+theme+"/devices/"+rel),size*scale);
-                const auto icon=QIcon::fromTheme(it.key());
-                require(!icon.isNull(),"Missing Devices lookup: "+it.key());
-                const auto actual=icon.pixmap(QSize(size,size),qreal(scale)).toImage().convertToFormat(QImage::Format_ARGB32_Premultiplied);
-                require(actual==expected,QString("Devices master lookup mismatch: %1 %2 @%3 in %4").arg(it.key()).arg(size).arg(scale).arg(theme));
-            }
-        }
-        // High-resolution alpha bounds include strokes and fractional coverage.
-        QStringList masterPaths;
-        for (const auto &name : folderNames(root))
-            masterPaths << "24/"+name+".svg" << "32/"+name+".svg" << "24/"+name+"-symbolic.svg";
-        for (const auto &rel : masterPaths) {
-            const int native=rel.startsWith("32/")?32:24, factor=100;
-            const auto rendered=plain(read(root+'/'+theme+"/places/"+rel),native*factor);
-            if (rel == "24/folder-symbolic.svg")
-                require(rendered.pixelColor(native*factor/2,native*factor/2).alpha()==0,
-                        "Symbolic folder interior must remain transparent");
-            int left=rendered.width(), right=-1, top=rendered.height(), bottom=-1;
-            for (int y=0;y<rendered.height();++y) for (int x=0;x<rendered.width();++x) {
-                if (rendered.pixelColor(x,y).alpha()>0) {
-                    left=qMin(left,x); right=qMax(right,x); top=qMin(top,y); bottom=qMax(bottom,y);
-                }
-            }
-            require(left>=2*factor && top>=2*factor && right<(native-2)*factor && bottom<(native-2)*factor,
-                    QString("Places painted bounds exceed safe area: %1, left=%2 right=%3 top=%4 bottom=%5")
-                        .arg(rel).arg(left).arg(right).arg(top).arg(bottom));
-            if (native==32)
-                require(qAbs((right-left+1)-((native-4)*factor))<=2,
-                        QString("Places painted width mismatch: %1, left=%2 right=%3").arg(rel).arg(left).arg(right));
-        }
-        // Confirm status badge colors, not only foreground changes.
-        for (const QString name : {"insync-alert", "insync-synced"}) {
-            const auto svg=read(root+'/'+theme+"/status/24/"+name+".svg");
-            auto changed=colors(Qt::black);
-            const auto before=IconRenderer::renderSvg(svg,{48,48},changed);
-            changed.neutral=QColor("#aa00ff"); changed.positive=QColor("#00ffff");
-            require(before!=IconRenderer::renderSvg(svg,{48,48},changed),"Status role not recolored: "+name);
-        }
+      }
+      ++checked;
     }
-    QTextStream(stdout)<<"Rendered "<<checked<<" masters through holonight-qt at 12 sizes/scales and 4 palettes; fixed colors and Qt lookup passed.\n";
+    for (const QString name : {"go-down", "insync-alert", "drive-harddisk-symbolic"}) {
+      const auto icon = QIcon::fromTheme(name);
+      require(!icon.isNull(), "Qt lookup failed: " + name);
+      require(visible(icon.pixmap(24, 24).toImage()), "Empty Qt lookup: " + name);
+    }
+    for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+      for (int scale : {1, 2}) {
+        QMap<QString, QString> lookups;
+        for (const auto& base : folderNames(root)) {
+          lookups[base] = QString::number(size < 32 ? 24 : 32) + '/' + base + ".svg";
+          lookups[base + "-symbolic"] = "24/" + base + "-symbolic.svg";
+        }
+        const auto aliases =
+            QJsonDocument::fromJson(read(root + "/../metadata/places.json")).object()["lookup_aliases"].toObject();
+        for (auto iterator = aliases.begin(); iterator != aliases.end(); ++iterator) {
+          const auto name = QFileInfo(iterator.key()).baseName();
+          if (name.endsWith("-symbolic")) {
+            lookups[name] = "24/" + iterator.value().toString();
+          } else {
+            lookups[name] = QString::number(size < 32 ? 24 : 32) + '/' + iterator.value().toString();
+          }
+        }
+        for (auto lookup = lookups.begin(); lookup != lookups.end(); ++lookup) {
+          const auto& name = lookup.key();
+          const auto& path = lookup.value();
+          const auto expected = plain(read(root + '/' + theme + "/places/" + path), size * scale);
+          const auto icon = QIcon::fromTheme(name);
+          require(!icon.isNull(), "Missing Places lookup: " + name);
+          const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                  .toImage()
+                                  .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+          require(actual == expected,
+                  QString("Places master lookup mismatch: %1 %2 @%3 in %4").arg(name).arg(size).arg(scale).arg(theme));
+        }
+      }
+    }
+    const auto apps = QJsonDocument::fromJson(read(root + "/../metadata/apps.json")).object();
+    QMap<QString, QString> appNames;
+    const auto appArtwork = apps["artwork"].toObject();
+    for (auto iterator = appArtwork.begin(); iterator != appArtwork.end(); ++iterator) {
+      appNames[QFileInfo(iterator.key()).completeBaseName()] = iterator.key();
+    }
+    const auto appAliases = apps["lookup_aliases"].toObject();
+    for (auto iterator = appAliases.begin(); iterator != appAliases.end(); ++iterator) {
+      appNames[QFileInfo(iterator.key()).completeBaseName()] = iterator.key();
+    }
+    for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+      for (int scale : {1, 2}) {
+        for (auto iterator = appNames.begin(); iterator != appNames.end(); ++iterator) {
+          const auto expected = plain(read(root + '/' + theme + '/' + iterator.value()), size * scale);
+          const auto icon = QIcon::fromTheme(iterator.key());
+          require(!icon.isNull(), "Missing Applications lookup: " + iterator.key());
+          const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                  .toImage()
+                                  .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+          require(actual == expected, QString("Applications lookup mismatch: %1 %2 @%3 in %4")
+                                          .arg(iterator.key())
+                                          .arg(size)
+                                          .arg(scale)
+                                          .arg(theme));
+        }
+      }
+    }
+    const auto devices = QJsonDocument::fromJson(read(root + "/../metadata/devices.json")).object();
+    QMap<QString, QString> deviceNames;
+    for (const auto value : devices["proof_names"].toArray()) {
+      const auto base = value.toString();
+      deviceNames[base] = base;
+      deviceNames[base + "-symbolic"] = base + "-symbolic";
+    }
+    const auto deviceAliases = devices["lookup_aliases"].toObject();
+    for (auto iterator = deviceAliases.begin(); iterator != deviceAliases.end(); ++iterator) {
+      if (iterator.key().contains("/symbolic/") && !iterator.key().endsWith("-symbolic.svg")) {
+        continue;
+      }
+      deviceNames[QFileInfo(iterator.key()).baseName()] = QFileInfo(iterator.value().toString()).baseName();
+    }
+    for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+      for (int scale : {1, 2}) {
+        for (auto iterator = deviceNames.begin(); iterator != deviceNames.end(); ++iterator) {
+          const bool symbolic = iterator.key().endsWith("-symbolic");
+          const auto rel = symbolic ? "24/" + iterator.value() + ".svg"
+                                    : QString::number(size < 32 ? 24 : 32) + '/' + iterator.value() + ".svg";
+          const auto expected = plain(read(root + '/' + theme + "/devices/" + rel), size * scale);
+          const auto icon = QIcon::fromTheme(iterator.key());
+          require(!icon.isNull(), "Missing Devices lookup: " + iterator.key());
+          const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                  .toImage()
+                                  .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+          require(actual == expected, QString("Devices master lookup mismatch: %1 %2 @%3 in %4")
+                                          .arg(iterator.key())
+                                          .arg(size)
+                                          .arg(scale)
+                                          .arg(theme));
+        }
+      }
+    }
+    // High-resolution alpha bounds include strokes and fractional coverage.
+    QStringList masterPaths;
+    for (const auto& name : folderNames(root)) {
+      masterPaths << "24/" + name + ".svg" << "32/" + name + ".svg" << "24/" + name + "-symbolic.svg";
+    }
+    for (const auto& rel : masterPaths) {
+      const int native = rel.startsWith("32/") ? 32 : 24;
+      const int factor = 100;
+      const auto rendered = plain(read(root + '/' + theme + "/places/" + rel), native * factor);
+      if (rel == "24/folder-symbolic.svg") {
+        require(rendered.pixelColor(native * factor / 2, native * factor / 2).alpha() == 0,
+                "Symbolic folder interior must remain transparent");
+      }
+      int left = rendered.width();
+      int right = -1;
+      int top = rendered.height();
+      int bottom = -1;
+      for (int pixelY = 0; pixelY < rendered.height(); ++pixelY) {
+        for (int pixelX = 0; pixelX < rendered.width(); ++pixelX) {
+          if (rendered.pixelColor(pixelX, pixelY).alpha() > 0) {
+            left = qMin(left, pixelX);
+            right = qMax(right, pixelX);
+            top = qMin(top, pixelY);
+            bottom = qMax(bottom, pixelY);
+          }
+        }
+      }
+      require(
+          left >= 2 * factor && top >= 2 * factor && right < (native - 2) * factor && bottom < (native - 2) * factor,
+          QString("Places painted bounds exceed safe area: %1, left=%2 right=%3 top=%4 bottom=%5")
+              .arg(rel)
+              .arg(left)
+              .arg(right)
+              .arg(top)
+              .arg(bottom));
+      if (native == 32) {
+        require(qAbs((right - left + 1) - ((native - 4) * factor)) <= 2,
+                QString("Places painted width mismatch: %1, left=%2 right=%3").arg(rel).arg(left).arg(right));
+      }
+    }
+    // Confirm status badge colors, not only foreground changes.
+    for (const QString name : {"insync-alert", "insync-synced"}) {
+      const auto svg = read(root + '/' + theme + "/status/24/" + name + ".svg");
+      auto changed = colors(Qt::black);
+      const auto before = IconRenderer::renderSvg(svg, {48, 48}, changed);
+      changed.neutral = QColor("#aa00ff");
+      changed.positive = QColor("#00ffff");
+      require(before != IconRenderer::renderSvg(svg, {48, 48}, changed), "Status role not recolored: " + name);
+    }
+  }
+  QTextStream(stdout)
+      << "Rendered " << checked
+      << " masters through holonight-qt at 12 sizes/scales and 4 palettes; fixed colors and Qt lookup passed.\n";
 }
-int main(int argc,char **argv) {
-    QGuiApplication app(argc,argv);
-    try {
-        require(argc>=2,"Usage: render-check BUILD [--previews]");
-        const auto root=QDir(QString::fromLocal8Bit(argv[1])).absolutePath();
-        for (int i=3;i<argc;++i) {
-            const QString option=QString::fromLocal8Bit(argv[i]);
-            require(i+1<argc,"Missing preview option value");
-            if(option=="--name") previewName=QString::fromLocal8Bit(argv[++i]);
-            else if(option=="--size") previewSize=QString::fromLocal8Bit(argv[++i]).toInt();
-            else require(false,"Unknown preview option");
-        }
-        if (argc>2 && QString::fromLocal8Bit(argv[2])=="--previews") { previews(root); folderReview(root); deviceReview(root); outlineReview(root); semanticMimeChecks(root); }
-        else checks(root);
-    } catch (const std::exception &error) {
-        QTextStream(stderr)<<error.what()<<'\n'; return 1;
+int main(int argc, char** argv) {
+  QGuiApplication app(argc, argv);
+  try {
+    const auto arguments = QGuiApplication::arguments();
+    QString previewName;
+    int previewSize = 0;
+    require(arguments.size() >= 2, "Usage: render-check BUILD [--previews]");
+    const auto root = QDir(arguments.at(1)).absolutePath();
+    for (int i = 3; i < arguments.size(); ++i) {
+      const QString& option = arguments.at(i);
+      require(i + 1 < arguments.size(), "Missing preview option value");
+      if (option == "--name") {
+        previewName = arguments.at(++i);
+      } else if (option == "--size") {
+        previewSize = arguments.at(++i).toInt();
+      } else {
+        require(false, "Unknown preview option");
+      }
     }
+    if (arguments.size() > 2 && arguments.at(2) == "--previews") {
+      previews(root, previewName, previewSize);
+      folderReview(root);
+      deviceReview(root);
+      outlineReview(root);
+      semanticMimeChecks(root);
+    } else {
+      checks(root);
+    }
+  } catch (const std::exception& error) {
+    QTextStream(stderr) << error.what() << '\n';
+    return 1;
+  }
 }
