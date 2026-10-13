@@ -177,18 +177,60 @@ See [tooling/README.md](tooling/README.md) for presets, local dependency overrid
 
 ## Local CI rehearsal
 
-Run `task ci` with Git, Python 3, Task and an accessible Docker daemon (Podman
-fallback when Docker is absent). Pinned linux/amd64 containers require an amd64
-host or emulation and network access to registries, GitHub and fixed package
-archives. The command covers every push validation step: generator/validator,
-Python regressions, Qt and GTK symbolic rendering, previews and all four REUSE
-6.2.0 roots. GTK tests use private Xvfb displays.
+Prepare explicitly before acceptance:
 
-Current tracked edits and non-ignored new inputs enter read-only snapshots; add
-reported new inputs before pushing. Each lane uses fresh disposable source/build
-trees. Existing development builds stay untouched. Complete logs, revision/dirty
-state, tool versions, image identities and results are saved beneath ignored
-`build/ci/`; generated themes/previews are in the run's `artifacts/verification/`.
-Failures print complete logs and return nonzero. Local runs save artifacts; the
-existing remote job uploads them. No publication or release happens locally.
-Run launcher regressions with `python3 scripts/ci/test_launcher.py`.
+```sh
+python3 scripts/ci/run.py --prepare --qt-source /path/to/holonight-qt
+task ci
+```
+
+Preparation pulls immutable images and exports renderer revision
+`7c3ce074a8c2e02e4ee8cad8cd19eb8627aa4f68`. Omit `--qt-source` to acquire that
+revision from canonical GitHub during preparation. Supplied paths may contain spaces;
+the checkout must contain that Git revision. Preparation invokes `task deps`, validates
+installed Qt >=6.11 Core/Gui/Svg, GTK3/GTK4 and introspection, Cairo, SVG/PNG loaders,
+DejaVu font and Xvfb, and records source hashes, package/toolchain versions, feature
+selection and image identity. No supplementary packages are downloaded or installed.
+
+Acceptance requires compatible prepared inputs, uses `--pull=never --network=none`,
+and mounts its inputs read-only. Each lane has a fresh disposable source/build tree,
+isolated XDG directories and the calling user's account. Git, Python 3 and an accessible
+Docker daemon (Podman fallback) are required; images target linux/amd64.
+Preparation needs registry/GitHub network access; acceptance works offline.
+
+The `verification` lane retains Python regressions, generation/validation, actual Qt
+renderer assertions, GTK3/GTK4 symbolic recoloring, inheritance/scale coverage and
+previews. `minimal` runs generation, validation and Python installation/package tests
+with renderers disabled. `release` stages the validated Python-only production payload
+and rejects compiled test artifacts. `static` checks canonical formatting for both C++
+tools and strict tidy for the enabled Qt renderer tool. `licensing` checks all four
+existing REUSE roots in its separate pinned image.
+
+Current tracked edits and non-ignored new files enter the snapshot. Complete logs,
+revision/dirty state and results are saved below `build/ci/`; themes and previews remain
+in `artifacts/verification/`, and the release payload in `artifacts/release/`.
+Incompatible prepared artifacts are archived as `build/ci-prepared.previous-N`.
+Existing developer builds and unrelated files are preserved.
+
+For local rendering outside CI, supply the approved renderer checkout explicitly:
+
+```sh
+HOLONIGHT_QT_SOURCE=/path/to/holonight-qt task deps
+task test:render
+```
+
+There is no sibling fallback. Ordinary rendering commands consume the validated fixture
+in `build/deps/renderer`, never the live checkout, and never prepare or acquire dependencies.
+`VERIFY_RENDERERS=OFF VERIFY_KDE=OFF task deps` selects Python-only preparation without
+probing renderer prerequisites. Generation/staging/install/recolor remain Python-only.
+`HOLONIGHT_EXTERNAL_PREFIX` selects installed external packages.
+
+`VERIFY_KDE` defaults to `OFF`. Explicit `task test:kde` requires Qt >=6.11 and
+`KF6::IconThemes` and fails if discovery is unavailable. `VERIFY_KDE=ON` also enables
+KDE discovery during preparation and conditional native compilation/tidy/execution in
+CI static acceptance. Native KDE execution is deferred in the qualified image, which
+has no qualified KF6IconThemes prerequisite. Debian qualification, manual ecosystem
+acceptance and final integration remain deferred.
+
+Run focused regressions with `python3 scripts/ci/test_launcher.py` and
+`python3 scripts/ci/test_dependencies.py`.

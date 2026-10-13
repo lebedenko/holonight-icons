@@ -5,50 +5,76 @@ mkdir /work/source
 cp -a /input/. /work/source/
 cd /work/source
 export HOME=/work/build/home LC_ALL=C.UTF-8 TZ=UTC
-mkdir -p "$HOME"
+export XDG_DATA_HOME=/work/data XDG_CONFIG_HOME=/work/config XDG_CACHE_HOME=/work/cache
+export XDG_RUNTIME_DIR=/work/runtime GDK_BACKEND=x11 GSK_RENDERER=cairo GTK_A11Y=none
+mkdir -p "$HOME" "$XDG_DATA_HOME" "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME"
+mkdir -m 700 "$XDG_RUNTIME_DIR"
+python3 --version
 if [ "$lane" = licensing ]; then
-  python3 --version
   python3 scripts/build.py
   reuse --version
-  reuse lint
-  reuse --root build/HoloNight lint
-  reuse --root build/HoloNight-Dark lint
-  reuse --root build/holonight-icons lint
+  reuse --no-multiprocessing lint
+  reuse --no-multiprocessing --root build/HoloNight lint
+  reuse --no-multiprocessing --root build/HoloNight-Dark lint
+  reuse --no-multiprocessing --root build/holonight-icons lint
   exit
 fi
-[ "$lane" = verification ] || exit 2
-python3 --version
-git --version
-cmake --version
-c++ --version
-pkg-config --modversion Qt6Core Qt6Gui Qt6Svg
-python3 scripts/ci/test_launcher.py
-export PATH="/work/source/scripts/ci:/work/tools/usr/bin:$PATH"
-export LD_LIBRARY_PATH=/work/tools/usr/lib
-export PYTHONPATH=/work/tools/usr/lib/python3.14/site-packages
-export GI_TYPELIB_PATH=/work/tools/usr/lib/girepository-1.0
-export XDG_DATA_DIRS=/work/tools/usr/share:/usr/share
-export XDG_RUNTIME_DIR=/work/runtime GDK_BACKEND=x11 GSK_RENDERER=cairo GTK_A11Y=none
-mkdir -m 700 "$XDG_RUNTIME_DIR"
-export GDK_PIXBUF_MODULE_FILE="$XDG_RUNTIME_DIR/loaders.cache"
-/work/tools/usr/bin/gdk-pixbuf-query-loaders /work/tools/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/*.so > "$GDK_PIXBUF_MODULE_FILE"
-python3 -c 'import gi; print("PyGObject", gi.__version__)'
-python3 -c 'import gi; gi.require_version("Gtk", "3.0"); from gi.repository import Gtk; print("GTK", Gtk.get_major_version(), Gtk.get_minor_version(), Gtk.get_micro_version())'
-python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk; print("GTK", Gtk.get_major_version(), Gtk.get_minor_version(), Gtk.get_micro_version())'
-python3 -c 'from pathlib import Path; text=Path("/work/runtime/loaders.cache").read_text(); assert "image/svg+xml" in text, "Missing SVG pixbuf loader"'
-python3 -c 'import gi; gi.require_version("GdkPixbuf", "2.0"); from gi.repository import GdkPixbuf; assert any(format.get_name() == "png" for format in GdkPixbuf.Pixbuf.get_formats()), "Missing PNG pixbuf support"'
-xvfb-run -a /bin/true
-mkdir -p /work/providers
-export HOLONIGHT_QT_SOURCE=/work/providers/holonight-qt
-revision=7c4fe3c9df0b9a15ed68ddad70b8d05a7312be1a
-git init -q "$HOLONIGHT_QT_SOURCE"
-git -C "$HOLONIGHT_QT_SOURCE" fetch --depth 1 https://github.com/lebedenko/holonight-qt.git "$revision"
-git -C "$HOLONIGHT_QT_SOURCE" checkout --detach FETCH_HEAD
-[ "$(git -C "$HOLONIGHT_QT_SOURCE" rev-parse HEAD)" = "$revision" ]
-python3 scripts/build.py
-python3 scripts/validate_icons.py
-python3 -m unittest discover -s tests -v
-sh scripts/check-rendering.sh
-python3 scripts/check-gtk-symbolic.py
-python3 scripts/generate_icon_previews.py
-cp -a build/HoloNight build/HoloNight-Dark build/holonight-icons build/previews /output/
+export VERIFY_RENDERERS=ON
+export VERIFY_KDE=${VERIFY_KDE:-OFF}
+if [ "$lane" = prepare ]; then
+  export HOLONIGHT_QT_SOURCE=/prepared/qt
+  task deps
+  if [ -d /prepared/deps ]; then
+    number=1
+    while [ -e "/prepared/deps.previous-$number" ]; do number=$((number + 1)); done
+    mv /prepared/deps "/prepared/deps.previous-$number"
+  fi
+  cp -a build/deps /prepared/deps
+  pacman -Q > /prepared/packages.txt
+  c++ --version > /prepared/compiler.txt
+  cmake --version > /prepared/cmake.txt
+  pkg-config --modversion Qt6Core Qt6Gui Qt6Svg gtk+-3.0 gtk4 > /prepared/versions.txt
+  exit
+fi
+mkdir -p build
+cp -a /prepared/deps build/deps
+cat /prepared/compiler.txt /prepared/cmake.txt /prepared/versions.txt
+cp /prepared/packages.txt /prepared/compiler.txt /prepared/cmake.txt /prepared/versions.txt /output/
+case "$lane" in
+  verification)
+    python3 scripts/ci/test_launcher.py
+    python3 scripts/ci/test_dependencies.py
+    python3 -m unittest discover -s tests -v
+    task validate
+    task test:render
+    task test:gtk
+    task preview:icons
+    cp -a build/HoloNight build/HoloNight-Dark build/holonight-icons build/previews /output/
+    ;;
+  minimal)
+    export VERIFY_RENDERERS=OFF VERIFY_KDE=OFF
+    python3 scripts/dependencies.py check
+    task validate
+    python3 -m unittest discover -s tests -v
+    ;;
+  release)
+    export VERIFY_RENDERERS=OFF VERIFY_KDE=OFF
+    python3 scripts/dependencies.py check
+    python3 scripts/stage.py --destdir /work/package
+    python3 -c 'from pathlib import Path; paths=list(Path("/work/package").rglob("*")); assert not any(p.suffix in {".o", ".a", ".so", ".cpp", ".h"} or p.name in {"render-check", "kde-check", "CMakeCache.txt"} for p in paths)'
+    cp -a /work/package /output/
+    ;;
+  static)
+    task format-check
+    cmake -S tests/rendering -B build/rendering -DHOLONIGHT_RENDERER_FIXTURE=/work/source/build/deps/renderer
+    cmake --build build/rendering --parallel "${JOBS:-2}"
+    python3 scripts/check-static.py
+    if [ "$VERIFY_KDE" = ON ]; then
+      cmake -S tests/kde -B build/kde
+      cmake --build build/kde --parallel "${JOBS:-2}"
+      python3 scripts/check-static.py --kde --build build/kde
+      task test:kde
+    fi
+    ;;
+  *) exit 2 ;;
+esac

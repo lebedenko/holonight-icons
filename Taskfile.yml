@@ -4,6 +4,16 @@ tasks:
     desc: Rehearse all push validation in isolated containers
     cmds:
     - python3 scripts/ci/run.py
+  ci:prepare:
+    desc: Explicitly acquire images and the approved renderer fixture
+    cmds:
+    - python3 scripts/ci/run.py --prepare {{.CLI_ARGS}}
+  format-check:
+    cmds:
+    - clang-format --dry-run --Werror tests/rendering/render_check.cpp tests/kde/kde_check.cpp
+  tidy:
+    cmds:
+    - python3 scripts/check-static.py
   build:
     desc: Generate complete light and dark themes
     cmds:
@@ -85,8 +95,8 @@ tasks:
     cmds:
     - task: verify
   deps:
-    desc: Check asset generator prerequisites
+    desc: Validate installed prerequisites and prepare an explicitly supplied renderer fixture
     cmds:
-    - python3 --version
+    - python3 scripts/dependencies.py prepare
 vars:
   PRESET: '{{default "debug" .PRESET}}'

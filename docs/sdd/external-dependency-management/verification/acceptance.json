@@ -1,0 +1,115 @@
+{
+  "revision": "7684b021a5b74c7d4e34b7dd05bb3bdd02456473",
+  "platform": "linux/amd64",
+  "lanes": {
+    "verification": {
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "exit_code": 0
+    },
+    "licensing": {
+      "image": "docker.io/fsfe/reuse@sha256:85462a75c0f8efda09ddd190b92816b70e7662577c8427429e11e1b9f25a992e",
+      "exit_code": 0
+    },
+    "minimal": {
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "exit_code": 0
+    },
+    "release": {
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "exit_code": 0
+    },
+    "static": {
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "exit_code": 0
+    }
+  },
+  "dirty": true,
+  "runtime": "Docker version 29.9.0, build f415da838b",
+  "preparation_identity": {
+    "providers": {
+      "qt": "7c3ce074a8c2e02e4ee8cad8cd19eb8627aa4f68"
+    },
+    "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+    "platform": "linux/amd64",
+    "features": {
+      "VERIFY_RENDERERS": true,
+      "VERIFY_KDE": false
+    },
+    "inputs": {
+      "tooling/VERSION": "c28fcca53637bc88e124af1725df13cb98c69dedefd62fb3cdbe1cdb6b760624",
+      "tooling/module.json": "88e0b75cf522903f12da8cc2425caf7ab376144753296180e0bd228ce3345f18",
+      "tooling/external.py": "2e87dc012d7cdda7235d5ea2e311a2a49272ff82eac5cf3ccec7841ec610df27",
+      "tooling/external-packages.json": "fbe02f85a17db3583b02fb48659ccfb54e77b0480f76eb23c4a425353cc350a3",
+      "scripts/dependencies.py": "2e58ea59e6853307a8a4bc208f1ea9001ccd3c5845ff4e1bc5f422d839b1ed3d",
+      "scripts/renderer-fixture.json": "7263f8c29a87058183c2936bcb4e4840c866211ab14008b3b7c2d75352926921",
+      "scripts/ci/lane.sh": "da29c072965c82181809c90c73b4292df4e4e626d2ccbd828db802acf2e5d967",
+      "scripts/ci/run.py": "0d2d26727a368d5188173b3b15b745cb978a3ebcc9cb8cd6afd856ec83ec764f",
+      "scripts/check-static.py": "0fecad4148e1d2aedae0d857195b68d0b296ecb71dd0f0beab5dc756b76a134c"
+    }
+  },
+  "date": "2026-10-13",
+  "run": "build/ci/20261013T081036Z-qqve3cdb",
+  "note": "Clean isolated acceptance of the implementation working tree before separate cleanup/adoption commits. Documentation, artifact uploads and the focused GTK regression follow-up were added afterward; follow-up checks are recorded separately.",
+  "fixture": {
+    "revision": "7c3ce074a8c2e02e4ee8cad8cd19eb8627aa4f68",
+    "files": {
+      "src/icons/iconrenderer.cpp": "62d113fb7b65208057979657501989ccbdd983969913112d040f261d049b03bc",
+      "src/icons/iconrenderer.h": "57753d22362e8c1e5eb9736985efbf5911ff0d4013d0a4eaa041b4684a40696a"
+    }
+  },
+  "prepared": {
+    "identity": {
+      "providers": {
+        "qt": "7c3ce074a8c2e02e4ee8cad8cd19eb8627aa4f68"
+      },
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "platform": "linux/amd64",
+      "features": {
+        "VERIFY_RENDERERS": true,
+        "VERIFY_KDE": false
+      },
+      "inputs": {
+        "tooling/VERSION": "c28fcca53637bc88e124af1725df13cb98c69dedefd62fb3cdbe1cdb6b760624",
+        "tooling/module.json": "88e0b75cf522903f12da8cc2425caf7ab376144753296180e0bd228ce3345f18",
+        "tooling/external.py": "2e87dc012d7cdda7235d5ea2e311a2a49272ff82eac5cf3ccec7841ec610df27",
+        "tooling/external-packages.json": "fbe02f85a17db3583b02fb48659ccfb54e77b0480f76eb23c4a425353cc350a3",
+        "scripts/dependencies.py": "2e58ea59e6853307a8a4bc208f1ea9001ccd3c5845ff4e1bc5f422d839b1ed3d",
+        "scripts/renderer-fixture.json": "7263f8c29a87058183c2936bcb4e4840c866211ab14008b3b7c2d75352926921",
+        "scripts/ci/lane.sh": "da29c072965c82181809c90c73b4292df4e4e626d2ccbd828db802acf2e5d967",
+        "scripts/ci/run.py": "0d2d26727a368d5188173b3b15b745cb978a3ebcc9cb8cd6afd856ec83ec764f",
+        "scripts/check-static.py": "0fecad4148e1d2aedae0d857195b68d0b296ecb71dd0f0beab5dc756b76a134c"
+      }
+    },
+    "artifacts": {
+      "renderer/src/icons/iconrenderer.cpp": "62d113fb7b65208057979657501989ccbdd983969913112d040f261d049b03bc",
+      "renderer/src/icons/iconrenderer.h": "57753d22362e8c1e5eb9736985efbf5911ff0d4013d0a4eaa041b4684a40696a",
+      "renderer-state.json": "241dc65486ee054359a99915f756640daec934cfdad586f4b00037d3a5640908"
+    },
+    "environment": {
+      "packages.txt": "34ec39510e95051a6fde615c2105b2eb5d3d816fe5d09dfa51e25bc1d50a1ffd",
+      "compiler.txt": "0b52fa36f98d1a1ff3f77256f64c13ac7e2264cf7f072ea7943756a0ef378028",
+      "cmake.txt": "f46066af33a13476fb604a1a1a24bb8d4dbddb6eb5855e0c24f9f7132784c9f0",
+      "versions.txt": "d8446675d1a884f5a2c4079ca1ea6a30d73ce9c9ecedd67ad3c247d8d9f674bf"
+    }
+  },
+  "owned_renderer_hashes": {
+    "tests/rendering/render_check.cpp": "e3e38ae2292a7a9260adf72540a6c1d8ffb03ab1d90355af1a104d7d1c0b6d4c",
+    "tests/kde/kde_check.cpp": "deb8961d88af17f553c3c9e94749e996eba06de8b391cf7f564f4d3a3a9745dc"
+  },
+  "follow_up_checks": {
+    "dependencies": {
+      "count": 11,
+      "result": "success",
+      "image": "ghcr.io/lebedenko/holonight-deps@sha256:37ca051c39d1688d6413c47d94b8c0f221152dac6981ec67d155f2c43ea17b40",
+      "offline": true,
+      "reason": "Added explicit missing GTK pkg-config package coverage after full acceptance; implementation unchanged."
+    },
+    "documentation_licensing": {
+      "run": "build/ci/20261013T081504Z-5_8m0v4t",
+      "result": "success",
+      "roots": 4
+    },
+    "workflow_yaml": "success",
+    "assertion_texts_preserved_in_order": 56
+  }
+}

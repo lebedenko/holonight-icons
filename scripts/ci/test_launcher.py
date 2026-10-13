@@ -21,7 +21,7 @@ class LauncherTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name) / 'repo'
+        self.root = Path(self.temporary.name) / 'repo with spaces'
         self.root.mkdir()
         subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
         for name in ('edited', 'deleted', 'space name', 'executable'):
@@ -32,9 +32,75 @@ class LauncherTests(unittest.TestCase):
         subprocess.run(['git', '-C', str(self.root), 'add', '.'], check=True)
         subprocess.run(['git', '-C', str(self.root), '-c', 'user.name=Test', '-c', 'user.email=test@example.org',
                         'commit', '-qm', 'fixture'], check=True)
+        self.real_root = launcher.ROOT
         self.patcher = patch.object(launcher, 'ROOT', self.root)
         self.patcher.start()
         self.addCleanup(self.patcher.stop)
+
+    def prepare_fixture(self):
+        for name in ('tooling/VERSION', 'tooling/module.json', 'tooling/external.py',
+                     'tooling/external-packages.json', 'scripts/dependencies.py',
+                     'scripts/renderer-fixture.json', 'scripts/ci/lane.sh', 'scripts/ci/run.py', 'scripts/check-static.py', 'scripts/ci/images.json'):
+            target = self.root / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((self.real_root / name).read_bytes())
+        prepared = self.root / 'build/ci-prepared'
+        (prepared / 'deps').mkdir(parents=True)
+        (prepared / 'deps/renderer-state.json').write_text('{}')
+        for name in ('packages.txt', 'compiler.txt', 'cmake.txt', 'versions.txt'):
+            (prepared / name).write_text('fixture environment')
+        images = json.loads((self.root / 'scripts/ci/images.json').read_text())
+        identity = launcher.preparation_identity(images)
+        (prepared / 'manifest.json').write_text(json.dumps({'identity': identity, 'artifacts': launcher.source_identity(prepared / 'deps'), 'environment': launcher.environment_identity(prepared)}))
+        return prepared
+
+    def test_missing_preparation_launches_no_container(self):
+        prepared = self.prepare_fixture()
+        (prepared / 'manifest.json').unlink()
+        with patch.object(launcher.shutil, 'which', return_value='docker'), \
+             patch.object(launcher.subprocess, 'check_output', side_effect=lambda *args, **kw: 'fixture' if kw.get('text') else b'fixture'), \
+             patch.object(launcher.subprocess, 'run') as run, patch('sys.argv', ['ci']):
+            self.assertEqual(launcher.main(), 1)
+            run.assert_not_called()
+
+    def test_incompatible_preparation_launches_no_container(self):
+        self.prepare_fixture()
+        (self.root / 'tooling/VERSION').write_text('incompatible')
+        with patch.object(launcher.shutil, 'which', return_value='docker'), \
+             patch.object(launcher.subprocess, 'check_output', side_effect=lambda *args, **kw: 'fixture' if kw.get('text') else b'fixture'), \
+             patch.object(launcher.subprocess, 'run') as run, patch('sys.argv', ['ci']):
+            self.assertEqual(launcher.main(), 1)
+            run.assert_not_called()
+
+    def test_tampered_fixture_is_rejected(self):
+        prepared = self.prepare_fixture()
+        (prepared / 'deps/renderer-state.json').write_text('tampered')
+        images = json.loads((self.root / 'scripts/ci/images.json').read_text())
+        with self.assertRaisesRegex(RuntimeError, 'artifacts changed'):
+            launcher.validate_prepared(prepared, launcher.preparation_identity(images))
+
+    def test_explicit_preparation_archives_incompatible_artifacts(self):
+        prepared = self.prepare_fixture()
+        (prepared / 'inputs.json').write_text('{"incompatible":true}')
+        (prepared / 'keep-me').write_text('old evidence')
+        runtime = Path(self.temporary.name) / 'docker'
+        runtime.write_text('#!/usr/bin/env python3\nimport sys\nfrom pathlib import Path\n'
+                           'if sys.argv[1] == "--version": print("fake-runtime")\n'
+                           'if sys.argv[1] == "run":\n'
+                           ' for argument in sys.argv[1:]:\n'
+                           '  if "dst=/prepared" in argument:\n'
+                           '   fields = dict(part.split("=", 1) for part in argument.split(",") if "=" in part)\n'
+                           '   target = Path(fields["src"]) / "deps"\n'
+                           '   target.mkdir()\n'
+                           '   (target / "renderer-state.json").write_text("{}")\n'
+                           '   for name in ("packages.txt", "compiler.txt", "cmake.txt", "versions.txt"):\n'
+                           '    (target.parent / name).write_text("fixture environment")\n')
+        runtime.chmod(0o755)
+        with patch.object(launcher.shutil, 'which', return_value=str(runtime)), \
+             patch.object(launcher, 'PROVIDERS', {}), patch('sys.argv', ['ci', '--prepare']):
+            self.assertEqual(launcher.main(), 0)
+        self.assertEqual((prepared.with_name('ci-prepared.previous-1') / 'keep-me').read_text(), 'old evidence')
+        self.assertTrue((prepared / 'manifest.json').is_file())
 
     def test_snapshot_preserves_current_inputs_and_omits_deleted_and_ignored(self):
         (self.root / 'edited').write_text('edited content')
@@ -55,9 +121,7 @@ class LauncherTests(unittest.TestCase):
         self.assertEqual(os.readlink(target / 'link'), 'edited')
 
     def test_rootless_podman_preserves_user_mapping_and_read_only_input(self):
-        scripts = self.root / 'scripts/ci'
-        scripts.mkdir(parents=True)
-        (scripts / 'images.json').write_text('{"build":"build@sha256:fixture","licensing":"reuse@sha256:fixture"}')
+        self.prepare_fixture()
         runtime = Path(self.temporary.name) / 'podman'
         arguments = Path(self.temporary.name) / 'podman-arguments.json'
         runtime.write_text('#!/usr/bin/env python3\nimport json, sys\nfrom pathlib import Path\n'
@@ -82,10 +146,11 @@ class LauncherTests(unittest.TestCase):
             self.assertEqual(launcher.main(), 0)
         command, accounts = json.loads(arguments.read_text())
         self.assertIn('--userns=keep-id', command)
-        self.assertEqual(command[command.index('--user') + 1], '0:0')
-        self.assertIn('CI_UID=1000', command)
-        self.assertIn('CI_GID=1000', command)
-        self.assertIn('/input/scripts/ci/bootstrap.sh', command)
+        self.assertEqual(command[command.index('--user') + 1], '1000:1000')
+        self.assertIn('--pull=never', command)
+        self.assertIn('--network=none', command)
+        self.assertIn('/input/scripts/ci/lane.sh', command)
+        self.assertTrue(any(a.endswith('dst=/prepared,readonly') for a in command))
         self.assertTrue(command[command.index('--mount') + 1].endswith(',dst=/input,readonly'))
         self.assertIn('ci:x:1000:1000:CI:/work/build/home:/bin/sh\n', accounts['/etc/passwd'])
         self.assertIn('ci:x:1000:\n', accounts['/etc/group'])
@@ -100,9 +165,7 @@ class LauncherTests(unittest.TestCase):
         self.assertIn('Neither Docker nor Podman', result['error'])
 
     def test_every_failed_lane_fails_task_and_remaining_lanes_run(self):
-        scripts = self.root / 'scripts/ci'
-        scripts.mkdir(parents=True)
-        (scripts / 'images.json').write_text('{"build":"build@sha256:fixture","licensing":"reuse@sha256:fixture"}')
+        self.prepare_fixture()
         runtime = Path(self.temporary.name) / 'docker'
         runtime.write_text('#!/bin/sh\nif [ "$1" = --version ]; then echo fake-runtime; exit 0; fi\nexit 17\n')
         runtime.chmod(0o755)
