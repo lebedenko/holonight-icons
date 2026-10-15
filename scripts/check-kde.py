@@ -6,7 +6,6 @@ from pathlib import Path
 import subprocess
 import tempfile
 
-from dependencies import external_prefix
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -20,8 +19,7 @@ def main():
     source = args.svg.resolve(strict=True)
     build = ROOT / 'build/kde'
     output = args.output.resolve() if args.output else build / 'results'
-    options = ['-DCMAKE_PREFIX_PATH=' + str(external_prefix())] if external_prefix() else []
-    subprocess.run(['cmake', '-S', str(ROOT / 'tests/kde'), '-B', str(build), *options], check=True)
+    subprocess.run(['cmake', '-S', str(ROOT / 'tests/kde'), '-B', str(build)], check=True)
     subprocess.run(['cmake', '--build', str(build), '--parallel', '2'], check=True)
     output.mkdir(parents=True, exist_ok=True)
     # A failed run must not leave an earlier successful report in place.

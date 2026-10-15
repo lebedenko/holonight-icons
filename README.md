@@ -1,5 +1,7 @@
 # HoloNight icons
 
+For current build, test, container acceptance and provider workflows, see [DEVELOPMENT.md](DEVELOPMENT.md).
+
 **Naming migration: `HoloNight` is now the light variant. Existing users wanting
 the dark variant must select `HoloNight-Dark` in their desktop or shell settings.**
 
@@ -73,14 +75,14 @@ task test
 task test:render
 task test:gtk
 task preview:icons
-task verify
+task check
 ```
 
 Rendering and previews require CMake, a C++23 compiler, Qt 6 Core/Gui/Svg development
 packages and a sibling `holonight-qt` checkout. Set `HOLONIGHT_QT_SOURCE` to use a
 checkout elsewhere. Tests compile its actual `src/icons/iconrenderer.cpp`; they
 add no dependency to the installed icon themes or Shell. CI pins a known renderer
-revision. `task verify` also requires REUSE (`reuse lint`).
+revision. `task check` also requires REUSE (`reuse lint`).
 The GTK check requires Python GObject introspection, GTK 3 and GTK 4
 introspection typelibs, Xvfb and `xvfb-run`. On Ubuntu, install `python3-gi`,
 `gir1.2-gtk-3.0`, `gir1.2-gtk-4.0`, `librsvg2-common` and `xvfb`.
@@ -168,69 +170,3 @@ Chevron Actions have monochrome 24/32 px masters and navigation aliases;
 see the [Actions artwork and lookup contract](docs/actions-design.md).
 All 24 px families use an effective 1.7 px primary outline, preserving fine
 lettering, filled edges and silhouettes.
-
-## Standalone developer tooling
-
-See [tooling/README.md](tooling/README.md) for presets, local dependency overrides, editor refresh,
-`task tooling:doctor`, and the independent Serena project.
-
-
-## Local CI rehearsal
-
-Prepare explicitly before acceptance:
-
-```sh
-python3 scripts/ci/run.py --prepare --qt-source /path/to/holonight-qt
-task ci
-```
-
-Preparation pulls immutable images and exports renderer revision
-`7c3ce074a8c2e02e4ee8cad8cd19eb8627aa4f68`. Omit `--qt-source` to acquire that
-revision from canonical GitHub during preparation. Supplied paths may contain spaces;
-the checkout must contain that Git revision. Preparation invokes `task deps`, validates
-installed Qt >=6.11 Core/Gui/Svg, GTK3/GTK4 and introspection, Cairo, SVG/PNG loaders,
-DejaVu font and Xvfb, and records source hashes, package/toolchain versions, feature
-selection and image identity. No supplementary packages are downloaded or installed.
-
-Acceptance requires compatible prepared inputs, uses `--pull=never --network=none`,
-and mounts its inputs read-only. Each lane has a fresh disposable source/build tree,
-isolated XDG directories and the calling user's account. Git, Python 3 and an accessible
-Docker daemon (Podman fallback) are required; images target linux/amd64.
-Preparation needs registry/GitHub network access; acceptance works offline.
-
-The `verification` lane retains Python regressions, generation/validation, actual Qt
-renderer assertions, GTK3/GTK4 symbolic recoloring, inheritance/scale coverage and
-previews. `minimal` runs generation, validation and Python installation/package tests
-with renderers disabled. `release` stages the validated Python-only production payload
-and rejects compiled test artifacts. `static` checks canonical formatting for both C++
-tools and strict tidy for the enabled Qt renderer tool. `licensing` checks all four
-existing REUSE roots in its separate pinned image.
-
-Current tracked edits and non-ignored new files enter the snapshot. Complete logs,
-revision/dirty state and results are saved below `build/ci/`; themes and previews remain
-in `artifacts/verification/`, and the release payload in `artifacts/release/`.
-Incompatible prepared artifacts are archived as `build/ci-prepared.previous-N`.
-Existing developer builds and unrelated files are preserved.
-
-For local rendering outside CI, supply the approved renderer checkout explicitly:
-
-```sh
-HOLONIGHT_QT_SOURCE=/path/to/holonight-qt task deps
-task test:render
-```
-
-There is no sibling fallback. Ordinary rendering commands consume the validated fixture
-in `build/deps/renderer`, never the live checkout, and never prepare or acquire dependencies.
-`VERIFY_RENDERERS=OFF VERIFY_KDE=OFF task deps` selects Python-only preparation without
-probing renderer prerequisites. Generation/staging/install/recolor remain Python-only.
-`HOLONIGHT_EXTERNAL_PREFIX` selects installed external packages.
-
-`VERIFY_KDE` defaults to `OFF`. Explicit `task test:kde` requires Qt >=6.11 and
-`KF6::IconThemes` and fails if discovery is unavailable. `VERIFY_KDE=ON` also enables
-KDE discovery during preparation and conditional native compilation/tidy/execution in
-CI static acceptance. Native KDE execution is deferred in the qualified image, which
-has no qualified KF6IconThemes prerequisite. Debian qualification, manual ecosystem
-acceptance and final integration remain deferred.
-
-Run focused regressions with `python3 scripts/ci/test_launcher.py` and
-`python3 scripts/ci/test_dependencies.py`.

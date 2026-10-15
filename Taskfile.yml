@@ -1,19 +1,14 @@
 version: '3'
+vars:
+  PRESET: '{{default "dev" .PRESET}}'
 tasks:
-  ci:
-    desc: Rehearse all push validation in isolated containers
-    cmds:
-    - python3 scripts/ci/run.py
-  ci:prepare:
-    desc: Explicitly acquire images and the approved renderer fixture
-    cmds:
-    - python3 scripts/ci/run.py --prepare {{.CLI_ARGS}}
   format-check:
+    desc: format-check
     cmds:
-    - clang-format --dry-run --Werror tests/rendering/render_check.cpp tests/kde/kde_check.cpp
+    - python3 scripts/quality.py format-check
   tidy:
     cmds:
-    - python3 scripts/check-static.py
+    - python3 scripts/quality.py tidy --build build/rendering
   build:
     desc: Generate complete light and dark themes
     cmds:
@@ -57,46 +52,19 @@ tasks:
     - reuse --no-multiprocessing --root build/HoloNight lint
     - reuse --no-multiprocessing --root build/HoloNight-Dark lint
     - reuse --no-multiprocessing --root build/holonight-icons lint
-  verify:
-    desc: Validate, test rendering and installation, generate previews, check licensing
-    cmds:
-    - task: validate
-    - task: test
-    - task: test:render
-    - task: test:gtk
-    - task: preview:icons
-    - task: license-check
   install:local:
     desc: Stage, validate and install both variants with recoverable backups
     cmds:
     - sh scripts/install-local.sh
-  tooling:doctor:
-    desc: doctor using standalone tooling
-    cmds:
-    - python3 tooling/workflow.py doctor
-  tooling:refresh:
-    desc: refresh using standalone tooling
-    cmds:
-    - python3 tooling/workflow.py refresh --preset {{default "test" .EDITOR_PRESET}}
-  serena:serve:
-    desc: Start independent Serena server in codex context
-    cmds:
-    - serena start-mcp-server --project "{{.TASKFILE_DIR}}" --context codex
-  serena:index:
-    desc: Explicitly index this module
-    cmds:
-    - serena project index "{{.TASKFILE_DIR}}"
-  lint:
-    desc: Run applicable static checks
-    cmds:
-    - task: validate
   check:
-    desc: Run existing acceptance workflow
+    desc: Authoritative container acceptance
     cmds:
-    - task: verify
-  deps:
-    desc: Validate installed prerequisites and prepare an explicitly supplied renderer fixture
+    - python3 scripts/ci/container.py check {{.CLI_ARGS}}
+  format:
+    desc: Format with the pinned container tools
     cmds:
-    - python3 scripts/dependencies.py prepare
-vars:
-  PRESET: '{{default "debug" .PRESET}}'
+    - python3 scripts/ci/container.py format
+  check:integration:
+    desc: Container acceptance plus Release staging and runtime checks
+    cmds:
+    - python3 scripts/ci/container.py integration {{.CLI_ARGS}}
