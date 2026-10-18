@@ -240,6 +240,37 @@ def validate_actions(tree):
     return errors
 
 
+def validate_notifications(tree):
+    """Validate only the declared Status subset and first-party executable masters."""
+    spec = json.loads((ROOT / 'metadata/status.json').read_text())
+    errors = []
+    masters = [(f'status/24/{name}.svg', 24) for name in spec['proof_names']]
+    masters += [(f'mimetypes/{size}/application-x-executable.svg', size) for size in (24, 32)]
+    aliases = dict(spec['lookup_aliases'])
+    aliases.update({f'mimetypes/{size}/application-x-executable-symbolic.svg': 'application-x-executable.svg'
+                    for size in (24, 32)})
+    for rel, size in masters:
+        path = tree / rel
+        if not path.is_file() or path.is_symlink():
+            errors.append(f'{path}: missing real notification master')
+            continue
+        problems = validate_svg(path, native=size)
+        errors.extend(f'{path}: {error}' for error in problems)
+        if not problems:
+            svg = ET.fromstring(path.read_text())
+            if svg.get('viewBox') != f'0 0 {size} {size}':
+                errors.append(f'{path}: notification canvas must be square at origin')
+            if any(local(e.tag) in {'linearGradient', 'radialGradient', 'stop'} or
+                   (e.get('class') is not None and e.get('class') != 'ColorScheme-Text')
+                   for e in svg.iter()):
+                errors.append(f'{path}: notification artwork must be monochrome Text')
+    for rel, target in aliases.items():
+        path = tree / rel
+        if not path.is_symlink() or str(path.readlink()) != target or not path.is_file():
+            errors.append(f'{path}: missing or changed notification alias')
+    return errors
+
+
 def validate_apps(tree):
     errors = []
     artwork = APPS['artwork']
@@ -319,7 +350,7 @@ def validate_source(tree=SOURCE):
                 errors.append(f'{rel}: {exc}')
             continue
         errors.extend(f'{rel}: {e}' for e in validate_svg(path,exemptions.get(str(rel)),native))
-    errors.extend(validate_places(tree) + validate_devices(tree) + validate_actions(tree))
+    errors.extend(validate_places(tree) + validate_devices(tree) + validate_actions(tree) + validate_notifications(tree))
     inventory = json.loads((ROOT / 'metadata/migration.json').read_text())['icons']
     errors.extend(validate_apps(tree))
     app_dispositions = APPS['migration_dispositions']
@@ -361,7 +392,7 @@ def validate_source(tree=SOURCE):
 
 
 def validate_theme(tree, name):
-    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree) + validate_actions(tree) + validate_apps(tree)
+    errors = alias_errors(tree) + validate_places(tree) + validate_devices(tree) + validate_actions(tree) + validate_notifications(tree) + validate_apps(tree)
     try:
         config = configparser.ConfigParser(interpolation=None, strict=True)
         config.read_string((tree / 'index.theme').read_text())

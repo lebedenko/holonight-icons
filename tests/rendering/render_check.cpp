@@ -148,7 +148,7 @@ QString stateName(int state) {
   if (state == 1) {
     return "selected";
   }
-  return "disabled";
+  return state == 3 ? "notification accent" : "disabled";
 }
 // Exhaustive test/preview matrix; keep the original case ordering and assertions together.
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
@@ -458,6 +458,51 @@ void actionsChecks(const QString& root) {
   }
   QIcon::setThemeSearchPaths({root});
 }
+void notificationChecks(const QString& root) {
+  const auto spec = QJsonDocument::fromJson(read(root + "/../metadata/status.json")).object();
+  QMap<QString, QString> names;
+  for (const auto value : spec["proof_names"].toArray()) {
+    names[value.toString()] = value.toString();
+  }
+  const auto aliases = spec["lookup_aliases"].toObject();
+  for (auto iterator = aliases.begin(); iterator != aliases.end(); ++iterator) {
+    names[QFileInfo(iterator.key()).baseName()] = QFileInfo(iterator.value().toString()).baseName();
+  }
+  QTemporaryDir temporary;
+  require(temporary.isValid(), "Cannot create Notification inheritance fixture");
+  QIcon::setThemeSearchPaths({temporary.path(), root});
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    const auto wrapper = "NotificationProof-" + theme;
+    QDir().mkpath(temporary.path() + '/' + wrapper);
+    QFile index(temporary.path() + '/' + wrapper + "/index.theme");
+    require(index.open(QIODevice::WriteOnly), "Cannot write Notification inheritance fixture");
+    index.write(("[Icon Theme]\nName=" + wrapper + "\nInherits=" + theme + "\nDirectories=\n").toUtf8());
+    index.close();
+    for (const auto& selected : {theme, wrapper}) {
+      QIcon::setThemeName(selected);
+      for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
+        for (int scale : {1, 2}) {
+          for (auto iterator = names.begin(); iterator != names.end(); ++iterator) {
+            const auto path = root + '/' + theme + "/status/" + QString::number(24) + '/' + iterator.value() + ".svg";
+            const auto expected = plain(read(path), size * scale);
+            const auto icon = QIcon::fromTheme(iterator.key());
+            require(!icon.isNull(), "Missing Notification lookup: " + iterator.key());
+            const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
+                                    .toImage()
+                                    .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            require(actual == expected, QString("Notification master lookup mismatch: %1 %2 @%3 in %4")
+                                            .arg(iterator.key())
+                                            .arg(size)
+                                            .arg(scale)
+                                            .arg(selected));
+          }
+        }
+      }
+    }
+  }
+  QIcon::setThemeSearchPaths({root});
+}
+
 // Review all changed outlines with consumer foreground, selection and disabled states.
 // Exhaustive test/preview matrix; keep the original case ordering and assertions together.
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
@@ -471,6 +516,11 @@ void outlineReview(const QString& root) {
   for (const auto value : devices["proof_names"].toArray()) {
     paths << "devices/24/" + value.toString() + ".svg";
   }
+  const auto notifications = QJsonDocument::fromJson(read(root + "/../metadata/status.json")).object();
+  for (const auto value : notifications["proof_names"].toArray()) {
+    paths << "status/24/" + value.toString() + ".svg";
+  }
+  paths << "mimetypes/24/application-x-executable.svg";
   paths << "places/24/folder-build.svg";
   for (const QString name : {
            "blueman-tray",
@@ -485,7 +535,7 @@ void outlineReview(const QString& root) {
   const QList<int> sizes{16, 20, 22, 24, 32};
   for (const auto& path : paths) {
     const auto name = QFileInfo(path).baseName();
-    QImage sheet(1060, 45 + (12 * 82), QImage::Format_ARGB32_Premultiplied);
+    QImage sheet(1060, 45 + (16 * 82), QImage::Format_ARGB32_Premultiplied);
     sheet.fill(Qt::white);
     QPainter painter(&sheet);
     painter.setPen(Qt::black);
@@ -495,7 +545,7 @@ void outlineReview(const QString& root) {
       for (bool dark : {false, true}) {
         const QColor background(dark ? "#0c1118" : "#e7eef5");
         const QColor foreground(dark ? "#e7edf5" : "#1b2533");
-        for (int state = 0; state < 3; ++state, ++row) {
+        for (int state = 0; state < 4; ++state, ++row) {
           const int pixelY = 45 + (row * 82);
           painter.fillRect(240, pixelY, 820, 82, state == 1 ? QColor("#385b83") : background);
           painter.setPen(Qt::black);
@@ -509,8 +559,13 @@ void outlineReview(const QString& root) {
                 rel.replace("/24/", "/32/");
               }
               const auto svg = read(root + '/' + theme + '/' + rel);
-              const auto image = IconRenderer::renderSvg(svg, {size * scale, size * scale},
-                                                         colors(state == 1 ? Qt::white : foreground));
+              QColor reviewForeground = foreground;
+              if (state == 1) {
+                reviewForeground = Qt::white;
+              } else if (state == 3) {
+                reviewForeground = QColor("#5ea2ff");
+              }
+              const auto image = IconRenderer::renderSvg(svg, {size * scale, size * scale}, colors(reviewForeground));
               painter.setOpacity(state == 2 ? .45 : 1);
               painter.drawImage(240 + (col * 82) + ((82 - image.width()) / 2), pixelY + ((82 - image.height()) / 2),
                                 image);
@@ -643,6 +698,7 @@ void semanticMimeChecks(const QString& root) {
 void checks(const QString& root) {
   semanticMimeChecks(root);
   actionsChecks(root);
+  notificationChecks(root);
   mimetypesChecks(root);
   fallbackChecks(root);
   masterLookupChecks(root, "places");

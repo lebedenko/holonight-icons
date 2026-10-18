@@ -46,7 +46,8 @@
     "video-x-generic",
     "x-office-document",
     "x-office-presentation",
-    "x-office-spreadsheet"
+    "x-office-spreadsheet",
+    "application-x-executable"
   ],
   "lookup_aliases": {
     "mimetypes/24/application-atom+xml.svg": "application-xml.svg",
@@ -702,7 +703,9 @@
     "mimetypes/32/x-gambasserverpage.svg": "application-xml.svg",
     "mimetypes/32/x-office-document-template.svg": "x-office-document.svg",
     "mimetypes/32/x-office-presentation-template.svg": "x-office-presentation.svg",
-    "mimetypes/32/x-office-spreadsheet-template.svg": "x-office-spreadsheet.svg"
+    "mimetypes/32/x-office-spreadsheet-template.svg": "x-office-spreadsheet.svg",
+    "mimetypes/24/application-x-executable-symbolic.svg": "application-x-executable.svg",
+    "mimetypes/32/application-x-executable-symbolic.svg": "application-x-executable.svg"
   },
   "upstream": {
     "project": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme",

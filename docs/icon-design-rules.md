@@ -179,3 +179,12 @@ Record replacements with canonical targets and retained lookup names, or retirem
 with a rationale; keep `metadata/migration.json` unchanged as historical evidence.
 Regenerate through the existing generator and run `task verify`, including lookup
 and visual review on both backgrounds.
+
+## Generic notification outlines
+
+The [notification specification](notification-design.md) defines six original
+monochrome Text glyphs and explicit symbolic aliases. Status metadata validates
+only its declared dialog subset. Executable MIME artwork has proportional 24/32
+masters; both families stay monochrome at every requested size. Consumers supply
+notification accents. Keep all aliases local and verify direct/inherited Qt lookup
+and GTK 3/4 symbolic recoloring at every advertised size and both scales.

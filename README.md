@@ -170,3 +170,9 @@ Chevron Actions have monochrome 24/32 px masters and navigation aliases;
 see the [Actions artwork and lookup contract](docs/actions-design.md).
 All 24 px families use an effective 1.7 px primary outline, preserving fine
 lettering, filled edges and silhouettes.
+
+Generic notification fallbacks include `dialog-information`, `dialog-error`,
+`dialog-warning`, `dialog-question`, `dialog-positive` and
+`application-x-executable`, each with a `-symbolic` name. All remain monochrome
+and accept consumer foreground/accent colors. See the
+[notification artwork specification](docs/notification-design.md) for size behavior.

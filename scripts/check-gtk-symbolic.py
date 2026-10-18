@@ -56,6 +56,10 @@ def cases():
     navigation = {Path(path).stem for path in actions['lookup_aliases'] if path.endswith('-symbolic.svg')}
     result.update((name, size, scale) for name in navigation
                   for size in (16, 20, 22, 24, 32, 48, 64) for scale in (1, 2))
+    for context in ('status', 'mimetypes'):
+        spec = json.loads((ROOT / 'metadata' / f'{context}.json').read_text())
+        names = {Path(path).stem for path in spec['lookup_aliases'] if path.endswith('-symbolic.svg')}
+        result.update((name, size, scale) for name in names for size in SIZES for scale in (1, 2))
     return sorted(result)
 
 

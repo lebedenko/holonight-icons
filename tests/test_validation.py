@@ -13,12 +13,32 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from build import build
 from install import install
 from theme import BUILD, SOURCE, VARIANTS, APPS, PLACES, DEVICES, ACTIONS, PALETTES, STYLE, directories, recolor
-from validate_icons import alias_errors, validate_source, validate_svg, validate_theme, validate_actions, validate_apps
+from validate_icons import alias_errors, validate_source, validate_svg, validate_theme, validate_actions, validate_apps, validate_notifications
 
 
 class SvgTests(unittest.TestCase):
     def fixture(self, name, exemption=None):
         return validate_svg(ROOT / 'tests/fixtures' / name, exemption, 24)
+
+    def test_notification_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tree = Path(tmp) / 'icons'
+            shutil.copytree(SOURCE, tree, symlinks=True)
+            self.assertEqual(validate_notifications(tree), [])
+            master = tree / 'status/24/dialog-information.svg'
+            original = master.read_text()
+            master.unlink()
+            self.assertTrue(validate_notifications(tree))
+            master.write_text(original.replace('currentColor', '#112233'))
+            self.assertTrue(validate_notifications(tree))
+            master.write_text(original.replace('ColorScheme-Text"', 'ColorScheme-Accent"'))
+            self.assertTrue(validate_notifications(tree))
+            master.write_text(original)
+            alias = tree / 'status/24/dialog-information-symbolic.svg'
+            for target in ('missing.svg', 'dialog-error.svg'):
+                alias.unlink()
+                alias.symlink_to(target)
+                self.assertTrue(validate_notifications(tree))
 
     def test_accent_fill_and_stroke_contract(self):
         import json

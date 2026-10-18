@@ -1,0 +1,19 @@
+{
+  "authored_sizes": [
+    24
+  ],
+  "proof_names": [
+    "dialog-information",
+    "dialog-error",
+    "dialog-warning",
+    "dialog-question",
+    "dialog-positive"
+  ],
+  "lookup_aliases": {
+    "status/24/dialog-information-symbolic.svg": "dialog-information.svg",
+    "status/24/dialog-error-symbolic.svg": "dialog-error.svg",
+    "status/24/dialog-warning-symbolic.svg": "dialog-warning.svg",
+    "status/24/dialog-question-symbolic.svg": "dialog-question.svg",
+    "status/24/dialog-positive-symbolic.svg": "dialog-positive.svg"
+  }
+}

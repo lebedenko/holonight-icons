@@ -17,7 +17,7 @@ DEVICES = json.loads((ROOT / 'metadata/devices.json').read_text())
 ACTIONS = json.loads((ROOT / 'metadata/actions.json').read_text())
 MIMETYPES = json.loads((ROOT / 'metadata/mimetypes.json').read_text())
 APPS = json.loads((ROOT / 'metadata/apps.json').read_text())
-SCALED_CONTEXTS = {'apps', 'places', 'devices', 'actions', 'mimetypes'}
+SCALED_CONTEXTS = {'apps', 'places', 'devices', 'actions', 'mimetypes', 'status'}
 MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS, 'mimetypes': MIMETYPES}
 STYLE = re.compile(r'''(<style\b[^>]*\bid\s*=\s*["']current-color-scheme["'][^>]*>)(.*?)(</style>)''', re.S)
 
