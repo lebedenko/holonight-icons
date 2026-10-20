@@ -1,4 +1,4 @@
-# Actions: four chevrons
+# Actions: navigation and window close
 
 The supplied drafts in `drafts/actions/` remain reference artwork. The 24 px
 masters preserve their geometry and rounded caps/joins with a 1.7-unit stroke
@@ -22,3 +22,9 @@ metadata, Qt lookup in both variants and through inheritance, larger fallback,
 GTK 3/4 foreground recoloring and REUSE attribution. Inspect
 `build/previews/outline-*-states.png` for light/dark backgrounds, selected and
 disabled treatments at 16/20/22/24/32 px and 2×.
+
+window-close preserves Viewer’s diagonals from (6,6) to (18,18) and (18,6) to (6,18) on the 24-unit canvas, with the family 1.7-unit stroke. The 32 master scales both geometry and stroke by 4/3. window-close-symbolic aliases the semantic master at both sizes.
+
+The close diagonals outline the rounded 1.7-unit strokes as filled capsules. GTK 3
+symbolic conversion otherwise drops straight open paths with no fill area; this
+representation preserves the same geometry and optical weight in Qt and GTK.

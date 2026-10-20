@@ -12,7 +12,8 @@
     "chevron-up",
     "chevron-down",
     "chevron-left",
-    "chevron-right"
+    "chevron-right",
+    "window-close"
   ],
   "lookup_aliases": {
     "actions/24/go-up.svg": "chevron-up.svg",
@@ -30,6 +31,8 @@
     "actions/32/go-next.svg": "chevron-right.svg",
     "actions/32/go-next-symbolic.svg": "chevron-right.svg",
     "actions/32/go-previous.svg": "chevron-left.svg",
-    "actions/32/go-previous-symbolic.svg": "chevron-left.svg"
+    "actions/32/go-previous-symbolic.svg": "chevron-left.svg",
+    "actions/24/window-close-symbolic.svg": "window-close.svg",
+    "actions/32/window-close-symbolic.svg": "window-close.svg"
   }
 }
