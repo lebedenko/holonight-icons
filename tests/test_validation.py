@@ -135,6 +135,8 @@ class ThemeTests(unittest.TestCase):
 
     def test_application_imports_and_aliases(self):
         import hashlib
+        self.assertFalse((SOURCE / "apps/170").exists())
+        self.assertEqual(len(APPS["artwork"]), 8)
         for rel, entry in APPS['artwork'].items():
             text = (SOURCE / rel).read_text()
             imported = STYLE.sub('', text)
@@ -147,33 +149,33 @@ class ThemeTests(unittest.TestCase):
             import configparser
             config = configparser.ConfigParser()
             config.read(BUILD / name / 'index.theme')
-            for section in ('apps/170', 'apps/170/.'):
+            for section in ('apps/256', 'apps/256/.'):
                 self.assertEqual(config[section]['MinSize'], '16')
                 self.assertEqual(config[section]['MaxSize'], '512')
-            self.assertEqual(config['apps/170/.']['Scale'], '2')
+            self.assertEqual(config['apps/256/.']['Scale'], '2')
 
     def test_application_mixed_native_sizes(self):
         from theme import index_text
         with tempfile.TemporaryDirectory() as tmp:
             tree = Path(tmp) / 'icons'
             shutil.copytree(SOURCE, tree, symlinks=True)
-            directory = tree / 'apps/256'
+            directory = tree / 'apps/128'
             directory.mkdir()
             shutil.copy2(ROOT / 'tests/fixtures/fixed.svg', directory / 'future.svg')
             self.assertEqual(validate_apps(tree), [])
             text = index_text('HoloNight', tree)
+            self.assertIn('[apps/128/.]', text)
             self.assertIn('[apps/256/.]', text)
-            self.assertIn('[apps/170/.]', text)
 
     def test_application_replacement_and_retirement_mutations(self):
         with tempfile.TemporaryDirectory() as tmp:
             tree = Path(tmp) / 'icons'
             shutil.copytree(SOURCE, tree, symlinks=True)
-            alias = tree / 'apps/170/holonight-pkg-manager.svg'
+            alias = tree / 'apps/256/holonight-pkg-manager.svg'
             alias.unlink()
             alias.symlink_to('holonight-ai.svg')
             self.assertTrue(any('replacement target' in e for e in validate_apps(tree)))
-            shutil.copy2(ROOT / 'tests/fixtures/fixed.svg', tree / 'apps/170/acvc-64.svg')
+            shutil.copy2(ROOT / 'tests/fixtures/fixed.svg', tree / 'apps/256/acvc-64.svg')
             self.assertTrue(any('retired name unexpectedly present' in e for e in validate_apps(tree)))
 
     def test_retired_kiro_logo_is_absent(self):

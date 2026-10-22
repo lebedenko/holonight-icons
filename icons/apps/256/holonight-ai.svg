@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
+</style>
+<title>HoloNight Ai — soft-flat desktop</title>
+<defs><linearGradient id="body" x1="32" y1="40" x2="216" y2="232" gradientUnits="userSpaceOnUse"><stop stop-color="#43c9e6"/><stop offset=".55" stop-color="#458fdf"/><stop offset="1" stop-color="#8870dc"/></linearGradient></defs>
+<path d="M96 40 C106 40 108 83 126 103 C144 123 176 125 176 136 C176 147 144 149 126 169 C108 189 106 232 96 232 C86 232 84 189 66 169 C48 149 16 147 16 136 C16 125 48 123 66 103 C84 83 86 40 96 40 Z" fill="url(#body)"/><path d="M208 16 C215 16 216 38 224 46 C232 54 244 55 244 62 C244 69 232 70 224 78 C216 86 215 108 208 108 C201 108 200 86 192 78 C184 70 172 69 172 62 C172 55 184 54 192 46 C200 38 201 16 208 16 Z" fill="#9b83ee"/>
+</svg>

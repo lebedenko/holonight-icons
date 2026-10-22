@@ -100,10 +100,11 @@ Their 24 px masters remain unchanged apart from the unused Accent declaration.
 
 ## Applications refresh
 
-The seven HoloNight and Strata application masters in `icons/apps/170/` and
+The eight HoloNight, Markdown Viewer and Strata application masters in `icons/apps/256/` and
 their filename aliases are supplied first-party artwork, copyright 2026 Andrii L
 <lebeden@gmail.com>, GPL-3.0-or-later. Imported canvases, geometry, gradients,
 transparency and colors are preserved; only an unused semantic stylesheet guard
-is added. `metadata/apps.json` records source checksums, aliases and historical
+is added. Strata is uniformly normalized from its original 170 px canvas to 256 px.
+`metadata/apps.json` records source checksums, aliases and historical
 replacement targets. Kiro and AWS VPN Client (acvc-64) remain retired pending
 verified redistribution permission.

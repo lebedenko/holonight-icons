@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
+</style>
+<title>HoloNight Files — soft-flat desktop</title>
+<defs><linearGradient id="body" x1="32" y1="40" x2="216" y2="232" gradientUnits="userSpaceOnUse"><stop stop-color="#43c9e6"/><stop offset=".55" stop-color="#458fdf"/><stop offset="1" stop-color="#8870dc"/></linearGradient></defs>
+<path d="M16 62 Q16 42 36 42 H92 Q102 42 110 52 L124 68 H220 Q240 68 240 88 V192 Q240 212 220 212 H36 Q16 212 16 192 Z" fill="#8272d9"/><path d="M16 100 Q16 80 36 80 H220 Q240 80 240 100 V204 Q240 224 220 224 H36 Q16 224 16 204 Z" fill="url(#body)"/>
+</svg>

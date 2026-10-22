@@ -14,53 +14,58 @@
       "status": "replacement",
       "path": "apps/256/holonight-ai.svg",
       "rationale": "Updated native-canvas application artwork; retain the lookup name.",
-      "target": "apps/170/holonight-ai.svg"
+      "target": "apps/256/holonight-ai.svg"
     },
     "scalable/apps/holonight-pkg-manager.svg": {
       "status": "replacement",
       "path": "apps/256/holonight-pkg-manager.svg",
       "rationale": "Updated native-canvas application artwork; retain the lookup name.",
-      "target": "apps/170/holonight-store.svg"
+      "target": "apps/256/holonight-store.svg"
     },
     "scalable/apps/holonight-settings.svg": {
       "status": "replacement",
       "path": "apps/256/holonight-settings.svg",
       "rationale": "Updated native-canvas application artwork; retain the lookup name.",
-      "target": "apps/170/holonight-settings.svg"
+      "target": "apps/256/holonight-settings.svg"
     },
     "scalable/apps/holonight-shell.svg": {
       "status": "replacement",
       "path": "apps/256/holonight-shell.svg",
       "rationale": "Updated native-canvas application artwork; retain the lookup name.",
-      "target": "apps/170/holonight-shell.svg"
+      "target": "apps/256/holonight-shell.svg"
     }
   },
   "artwork": {
-    "apps/170/holonight-ai.svg": {
-      "source_sha256": "32f01ed9122b05d8bec4cbaa1050295d9b4d51b9675cb9919ad1d3e22d8c2c8d"
+    "apps/256/holonight-ai.svg": {
+      "source_sha256": "7281d17be3f14fcb602cd92d6d19de7c6d5ea1dd0d2a338a1e61694b7f8a8cd1"
     },
-    "apps/170/holonight-files.svg": {
-      "source_sha256": "c86125eebf6a114ebbc4d248d142c9c8391aef2575d7e2b6193d0b229af29383"
+    "apps/256/holonight-files.svg": {
+      "source_sha256": "f63e40341716f6abf47f284d6faf9901ea2363d864bba898f57c45250a3dfe7a"
     },
-    "apps/170/holonight-settings.svg": {
-      "source_sha256": "705e36c470ea4f29f497ded3b31899977c75180b4405a313972a2e366a8fded3"
+    "apps/256/holonight-settings.svg": {
+      "source_sha256": "f5bec9252768ce99f04a2a597d3d89f8fc4c8cd636dbb35cccda4f9c68071e7d"
     },
-    "apps/170/holonight-shell.svg": {
-      "source_sha256": "86934698e01f7073008a16d4a968e4d7d3b4d0353ae6cfba0dc5dfea4b46926d"
+    "apps/256/holonight-shell.svg": {
+      "source_sha256": "e44ea3c990255aca765e1d42a803fdd9d718d971e05370d5ab574528ed21fb94"
     },
-    "apps/170/holonight-store.svg": {
-      "source_sha256": "29b9351df2fec9e6fab6cf0372766151cea4fac603d24bd868527a554b1b9891"
+    "apps/256/holonight-store.svg": {
+      "source_sha256": "cfc2d0664bcb6a67258edea24b93109542d69cc1e5671ae83b9b8de242b8aee4"
     },
-    "apps/170/holonight-viewer.svg": {
-      "source_sha256": "088f294b8892020f887ba8e59b7e1872a4ea81a2d5c320bcc3a8c3f50322ad2f"
+    "apps/256/holonight-viewer.svg": {
+      "source_sha256": "114ab9cca155dea1f13e2dbdab64c4cd332afa58a8769d08a4de174e5e1a5119"
     },
-    "apps/170/strata.svg": {
-      "source_sha256": "dc305d205fbbcbbfe21ab0e73e807e22a2e79e5444cef9eb1f39348e34f6cefe"
+    "apps/256/md-viewer.svg": {
+      "source_sha256": "b673a33ad7c0aedb85e1d105fca5821984f1264217c2d50341cef3ccbdfb1fe6"
+    },
+    "apps/256/strata.svg": {
+      "source_sha256": "4a33e997f355266bf54e826e74ac8e5b47bb90b7c00f17abebfdc36a58e6f5c0",
+      "original_source_sha256": "dc305d205fbbcbbfe21ab0e73e807e22a2e79e5444cef9eb1f39348e34f6cefe",
+      "normalization": "Original 170\u00d7170 master uniformly scaled by 256/170 inside an explicit 256\u00d7256 canvas and viewBox; geometry, strokes, gradients and relative padding preserved."
     }
   },
   "lookup_aliases": {
-    "apps/170/org.holonight.Files.svg": "holonight-files.svg",
-    "apps/170/org.holonight.Viewer.svg": "holonight-viewer.svg",
-    "apps/170/holonight-pkg-manager.svg": "holonight-store.svg"
+    "apps/256/org.holonight.Files.svg": "holonight-files.svg",
+    "apps/256/org.holonight.Viewer.svg": "holonight-viewer.svg",
+    "apps/256/holonight-pkg-manager.svg": "holonight-store.svg"
   }
 }

@@ -267,31 +267,35 @@
     "scope": "asset",
     "rationale": "Papirus v1 import baseline: preserve original colors, layers and shading until the separately reviewed semantic restyle."
   },
-  "apps/170/holonight-ai.svg": {
+  "apps/256/holonight-ai.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/holonight-files.svg": {
+  "apps/256/holonight-files.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/holonight-settings.svg": {
+  "apps/256/holonight-settings.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/holonight-shell.svg": {
+  "apps/256/holonight-shell.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/holonight-store.svg": {
+  "apps/256/holonight-store.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/holonight-viewer.svg": {
+  "apps/256/holonight-viewer.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
-  "apps/170/strata.svg": {
+  "apps/256/strata.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
+  "apps/256/md-viewer.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   }

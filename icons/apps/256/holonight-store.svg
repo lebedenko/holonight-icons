@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
+</style>
+<title>HoloNight Store — soft-flat desktop</title>
+<defs><linearGradient id="body" x1="32" y1="40" x2="216" y2="232" gradientUnits="userSpaceOnUse"><stop stop-color="#43c9e6"/><stop offset=".55" stop-color="#458fdf"/><stop offset="1" stop-color="#8870dc"/></linearGradient></defs>
+<path d="M80 96 V64 C80 0 176 0 176 64 V96 H156 V64 C156 27 100 27 100 64 V96 Z" fill="#91a5ec"/><path d="M54 80 H202 Q216 80 218 94 L234 218 Q236 240 214 240 H42 Q20 240 22 218 L38 94 Q40 80 54 80 Z" fill="url(#body)"/>
+</svg>

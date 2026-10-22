@@ -120,7 +120,7 @@ monochrome semantic regular and symbolic names, a 32 px colorful master, and dec
 `metadata/devices.json` records retained historical aliases and retired imported
 names without changing the migration inventory.
 
-Applications use seven supplied 170 px HoloNight and Strata masters, scalable
+Applications use eight 256 px HoloNight, Markdown Viewer and Strata masters, scalable
 from 16–512 logical pixels at scales 1 and 2. Files and Viewer expose their
 `org.holonight.*` names; `holonight-pkg-manager` aliases Store. Additional native
 canvas sizes are supported without directory aliases. See the
