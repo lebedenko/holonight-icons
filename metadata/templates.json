@@ -266,6 +266,16 @@
         "HoloNight-accentViolet": "accentViolet"
       },
       "rationale": "First-party network glyph in the shared colorful folder body; freeze decorative tokens after explicit generation."
+    },
+    {
+      "source": "icons/devices/32/input-mouse.svg",
+      "output": "devices/32/input-mouse.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
     }
   ]
 }

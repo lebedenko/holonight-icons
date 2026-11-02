@@ -195,7 +195,7 @@ def validate_devices(tree):
     expected |= {f'24/symbolic/{name}-symbolic.svg' for name in DEVICES['proof_names']}
     expected |= {p.removeprefix('devices/') for p in DEVICES['lookup_aliases']}
     actual = {str(p.relative_to(devices)) for p in devices.rglob('*.svg')}
-    if actual != expected: errors.append('Devices artwork inventory differs from five families and aliases')
+    if actual != expected: errors.append('Devices artwork inventory differs from declared families and aliases')
     return errors
 
 

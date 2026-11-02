@@ -19,7 +19,8 @@
     "drive-ssd",
     "drive-removable",
     "media-sdcard",
-    "drive-optical"
+    "drive-optical",
+    "input-mouse"
   ],
   "lookup_aliases": {
     "devices/24/drive-removable-media.svg": "drive-removable.svg",
@@ -51,7 +52,9 @@
     "devices/24/drive-removable-media-symbolic.svg": "drive-removable.svg",
     "devices/24/media-flash-sd-mmc-symbolic.svg": "media-sdcard.svg",
     "devices/24/media-optical-data-symbolic.svg": "drive-optical.svg",
-    "devices/24/media-optical-mixed-cd-symbolic.svg": "drive-optical.svg"
+    "devices/24/media-optical-mixed-cd-symbolic.svg": "drive-optical.svg",
+    "devices/24/input-mouse-symbolic.svg": "input-mouse.svg",
+    "devices/24/symbolic/input-mouse.svg": "input-mouse-symbolic.svg"
   },
   "migration_dispositions": {
     "symbolic/devices/audio-card-symbolic.svg": {
@@ -179,14 +182,16 @@
       "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
     },
     "symbolic/devices/input-mouse-symbolic.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/input-mouse-symbolic.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained mouse glyph using the supplied silhouette in the six-family Devices set.",
+      "target": "devices/24/symbolic/input-mouse-symbolic.svg"
     },
     "symbolic/devices/input-mouse.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/input-mouse.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained mouse glyph using the supplied silhouette in the six-family Devices set.",
+      "target": "devices/24/symbolic/input-mouse-symbolic.svg"
     },
     "symbolic/devices/input-tablet-symbolic.svg": {
       "status": "retired",

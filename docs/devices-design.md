@@ -1,8 +1,9 @@
-# Devices: five glyph families
+# Devices: six glyph families
 
 The supplied `device-icons-moc.png` defines the silhouettes. These icons omit
 its folder bodies and use only the hard disk platter and connector, SSD badge,
-USB stick and trident, notched SD card, and optical disc. The 24 px regular
+USB stick and trident, notched SD card, and optical disc. The sixth family, `input-mouse`, preserves the supplied
+24 px rounded mouse outline and wheel mark without extra buttons or badges. The 24 px regular
 master uses a crisp monochrome semantic stroke. The colorful 32 px master uses
 Home's cyan → blue → violet accent gradient and a faint stroke glow. SSD and SD
 labels are paths.
@@ -21,12 +22,12 @@ result in Dolphin.
 
 Every non-master size is a relative directory alias directly to its master.
 Symbolic names use ColorScheme-Text/currentColor. Consumer palettes provide
-selection and disabled states. `metadata/devices.json` declares the five names,
+selection and disabled states. `metadata/devices.json` declares the six names,
 retained historical aliases, and explicit retirement of unrelated imported
 Devices names. `metadata/migration.json` stays unchanged.
 
-The five colorful 32 px regular masters are token templates. Canonical SVGs use Dark defaults;
-the exporter freezes HoloNight light and HoloNight-Dark dark colors. The five
+The six colorful 32 px regular masters are token templates. Canonical SVGs use Dark defaults;
+the exporter freezes HoloNight light and HoloNight-Dark dark colors. The six
 symbolic masters remain theme responsive. Retained historical names are
 `drive-removable-media`, `media-flash-sd-mmc`, `media-optical-data` and
 `media-optical-mixed-cd`, including their symbolic-directory spellings.
@@ -40,3 +41,11 @@ foreground. Regular selected artwork has lower contrast on blue surfaces because
 the accent gradient is frozen; the consumer should choose a contrasting selection
 surface. `task verify` passed all 40 tests, actual Qt rendering and lookup checks,
 temporary-XDG installation checks and REUSE validation.
+
+Mouse review on 2026-11-02 covered Qt regular and symbolic state sheets at
+16/22/24/32 px and 2× on light and dark backgrounds, selected surfaces and
+45% disabled opacity. The rounded outline and wheel remain distinct with no
+clipping. Symbolic artwork follows the consumer foreground in all states.
+Ordinary semantic artwork rendered without palette support uses the theme's
+default foreground, so a mismatched background can reduce contrast; the colorful
+32 px master retains the shared Devices gradient and restrained glow.

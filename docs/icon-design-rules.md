@@ -104,7 +104,7 @@ unrelated historical artwork remains deferred.
 ## Explicit token templates
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
-it lists eighteen colorful 32 px Places folder types and five colorful 32 px Devices glyph
+it lists eighteen colorful 32 px Places folder types and six colorful 32 px Devices glyph
 types. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions

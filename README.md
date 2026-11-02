@@ -115,7 +115,7 @@ Restored historical lookup names and deferred names are recorded explicitly in
 `metadata/places.json`; the migration inventory keeps its historical names with updated flat 24 px paths.
 Previews include both backgrounds, small sizes and enlarged gradient review.
 
-[Devices](docs/devices-design.md) provides five glyph-only families with 24 px
+[Devices](docs/devices-design.md) provides six glyph-only families with 24 px
 monochrome semantic regular and symbolic names, a 32 px colorful master, and declared size aliases.
 `metadata/devices.json` records retained historical aliases and retired imported
 names without changing the migration inventory.
@@ -132,8 +132,8 @@ the historical migration inventory remains unchanged.
 ### On-demand template recoloring
 
 `HoloNight` ships holonight-light; `HoloNight-Dark` ships holonight-dark.
-All eighteen colorful 32 px Places types and five colorful 32 px Devices types
-support on-demand recoloring (23 templates).
+All eighteen colorful 32 px Places types and six colorful 32 px Devices types
+support on-demand recoloring (24 templates).
 Presets are `holonight-light`, `holonight-dark`, `holonight-day` and `holonight-storm`.
 Day/Storm remain explicit compatibility choices. The JSON contract still requires
 all six tokens, even when an individual template uses fewer of them. Runtime monochrome
