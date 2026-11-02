@@ -241,14 +241,11 @@ def validate_actions(tree):
 
 
 def validate_notifications(tree):
-    """Validate only the declared Status subset and first-party executable masters."""
+    """Validate only the declared Status notification subset."""
     spec = json.loads((ROOT / 'metadata/status.json').read_text())
     errors = []
     masters = [(f'status/24/{name}.svg', 24) for name in spec['proof_names']]
-    masters += [(f'mimetypes/{size}/application-x-executable.svg', size) for size in (24, 32)]
     aliases = dict(spec['lookup_aliases'])
-    aliases.update({f'mimetypes/{size}/application-x-executable-symbolic.svg': 'application-x-executable.svg'
-                    for size in (24, 32)})
     for rel, size in masters:
         path = tree / rel
         if not path.is_file() or path.is_symlink():

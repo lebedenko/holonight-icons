@@ -96,10 +96,9 @@ Optional native KDE recoloring checks run with `task test:kde` (requires
 KF6 IconThemes). See [the KDE test guide](docs/kde-native-recoloring.md) for
 dependencies, prototype inputs, comparison images and known results.
 
-MIME types include 32 Papirus designs with 24 and 32 px masters and 327
-filename aliases per size. Smaller sizes reuse 24 px; larger sizes reuse 32 px.
-This import preserves upstream colors and layers; semantic recoloring is pending.
-See `metadata/mimetypes.json` for the inventory and source provenance.
+All MIME-type icons, including executable, alias and explicit symbolic names,
+come entirely from inherited themes: `Papirus,breeze,hicolor` for HoloNight and
+`Papirus-Dark,Papirus,breeze-dark,hicolor` for HoloNight-Dark.
 
 First-party material is GPL-3.0-or-later. Papirus-derived artwork remains
 GPL-3.0-only; see [third-party notices](THIRD_PARTY_NOTICES.md), `REUSE.toml` and
@@ -172,7 +171,7 @@ All 24 px families use an effective 1.7 px primary outline, preserving fine
 lettering, filled edges and silhouettes.
 
 Generic notification fallbacks include `dialog-information`, `dialog-error`,
-`dialog-warning`, `dialog-question`, `dialog-positive` and
-`application-x-executable`, each with a `-symbolic` name. All remain monochrome
+`dialog-warning`, `dialog-question` and `dialog-positive`, each with a `-symbolic`
+name. All remain monochrome
 and accept consumer foreground/accent colors. See the
 [notification artwork specification](docs/notification-design.md) for size behavior.

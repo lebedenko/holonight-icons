@@ -44,6 +44,8 @@ class SystemStaging(unittest.TestCase):
         share = self.destdir / 'usr/share'
         for name in VARIANTS:
             self.assertEqual(validate_theme(share / 'icons' / name, name), [])
+            self.assertFalse((share / 'icons' / name / 'mimetypes').exists())
+            self.assertNotIn('mimetypes', (share / 'icons' / name / 'index.theme').read_text().lower())
             alias = share / 'icons' / name / 'places/20'
             self.assertTrue(alias.is_symlink())
             self.assertEqual(os.readlink(alias), '24')

@@ -4,8 +4,8 @@ The canonical tree is `icons/<context>/<native-size>/`. Keep the original canvas
 and proportions; the native size is the longer viewBox dimension. Panel artwork belongs in `status`. Full-color and
 symbolic representations may coexist under `<size>/` and `<size>/symbolic/`.
 Relative SVG aliases stay within the theme. Only the relative, same-context size-directory aliases declared in
-`metadata/places.json`, `metadata/devices.json`, `metadata/actions.json` and
-`metadata/mimetypes.json` are permitted. They explicitly advertise scaled reuse;
+`metadata/places.json`, `metadata/devices.json` and `metadata/actions.json` are
+permitted. They explicitly advertise scaled reuse;
 Places and Devices use monochrome semantic regular artwork at 16–24 px and colorful
 regular artwork at 32 px and above. The 24 px directory must supply the ordinary
 name with semantic paint as well as explicit symbolic names. Extra optical
@@ -141,27 +141,12 @@ colors apply to the semantic artwork. Review the outline state sheets at
 16/20/22/24/32 px and 2× on both backgrounds for gaps, counters, clipping and
 consistent weight.
 
-## MIME-type import baseline
+## MIME-type inheritance
 
-MIME types have 32 Papirus designs with real 24 and 32 px masters.
-16/20/22 reuse 24; 48/64/96/128/256/512 reuse 32 through declared internal
-size-directory aliases. Existing upstream filename aliases are imported only
-when their final target is one of the selected masters, and are flattened to
-a same-directory relative link. No symbolic names are invented.
-The initial import preserves Papirus geometry, layers and literal colors,
-with exact fixed-artwork exemptions and an unused semantic stylesheet guard.
-Replace whole-asset exemptions with exact decorative-layer exemptions when
-implementing a reviewed semantic restyle. Source checksums and package version are in `metadata/mimetypes.json`.
-
-The reviewed 32 px EPUB and JSON masters are mixed semantic artwork: paper and
-fold use Text; EPUB uses an Accent fill and JSON an Accent stroke with fill:none.
-Only paper-shadow, fold-shadow, paper-highlight and glyph-shadow are exempt.
-Their path geometry, layer order, opacity and strokes remain authored Papirus
-geometry. The existing 24 px masters and other MIME-type imports retain fixed
-paints. Unused Accent declarations elsewhere preserve the complete-role contract
-without restyling artwork.
-
-See [EPUB/JSON verification and comparisons](mimetype-semantic-review.md).
+All MIME-type artwork, including executable, alias and explicit symbolic names,
+comes from inherited themes. HoloNight must not ship or advertise a MIME-type
+subtree. Preserve the fallback order declared in the generated theme metadata.
+Places aliases such as `inode-directory` remain local Places artwork.
 
 ## Application imports
 
@@ -182,9 +167,9 @@ and visual review on both backgrounds.
 
 ## Generic notification outlines
 
-The [notification specification](notification-design.md) defines six original
+The [notification specification](notification-design.md) defines five original
 monochrome Text glyphs and explicit symbolic aliases. Status metadata validates
-only its declared dialog subset. Executable MIME artwork has proportional 24/32
-masters; both families stay monochrome at every requested size. Consumers supply
+only its declared dialog subset. These glyphs stay monochrome at every requested
+size. Consumers supply
 notification accents. Keep all aliases local and verify direct/inherited Qt lookup
 and GTK 3/4 symbolic recoloring at every advertised size and both scales.

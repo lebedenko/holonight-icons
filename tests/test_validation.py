@@ -41,39 +41,18 @@ class SvgTests(unittest.TestCase):
                 self.assertTrue(validate_notifications(tree))
 
     def test_accent_fill_and_stroke_contract(self):
-        import json
-        exemptions = json.loads((ROOT / 'metadata/fixed-artwork.json').read_text())
-        for name in ('application-epub+zip', 'application-json'):
-            rel = f'mimetypes/32/{name}.svg'
-            original = (ROOT / 'icons' / rel).read_text()
-            exemption = exemptions[rel]
-            with tempfile.TemporaryDirectory() as tmp:
-                path = Path(tmp) / 'icon.svg'
-                path.write_text(original)
-                self.assertEqual(validate_svg(path, exemption, 32), [])
-                mutations = [
-                    original.replace(' .ColorScheme-Accent { color:#5ea2ff; }', ''),
-                    original.replace('class="ColorScheme-Accent"', 'class="ColorScheme-Unknown"'),
-                    original.replace('currentColor', '#112233'),
-                    original.replace('id="glyph-shadow"', 'id="removed-shadow"'),
-                    original.replace('.ColorScheme-Accent {', '.ColorScheme-Highlight {'),
-                ]
-                for mutation in mutations:
-                    path.write_text(mutation)
-                    self.assertTrue(validate_svg(path, exemption, 32))
-
-    def test_reviewed_geometry_matches_import(self):
-        import xml.etree.ElementTree as ET
-        # Checked-in baseline report captures upstream path data and layer order.
-        import json
-        baseline = json.loads((ROOT / 'tests/fixtures/mimetype-geometry.json').read_text())
-        for name, paths in baseline.items():
-            root = ET.fromstring((ROOT / f'icons/mimetypes/32/{name}.svg').read_text())
-            actual = [{k: v for k, v in e.attrib.items() if k not in ('id', 'class', 'style')}
-                      | {'style': ';'.join(v for v in e.get('style', '').split(';')
-                                          if not v.startswith(('fill:', 'stroke:')))}
-                      for e in root if e.tag.endswith('path')]
-            self.assertEqual(actual, paths)
+        original = (ROOT / 'tests/fixtures/accent.svg').read_text()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'icon.svg'
+            path.write_text(original)
+            self.assertEqual(validate_svg(path, native=24), [])
+            for mutation in (
+                original.replace(' .ColorScheme-Accent { color:#3daee9; }', ''),
+                original.replace('class="ColorScheme-Accent"', 'class="ColorScheme-Unknown"'),
+                original.replace('currentColor', '#112233'),
+            ):
+                path.write_text(mutation)
+                self.assertTrue(validate_svg(path, native=24))
 
     def test_inherited_group(self):
         self.assertEqual(self.fixture('inherited.svg'), [])
@@ -132,6 +111,13 @@ class ThemeTests(unittest.TestCase):
         self.assertEqual(validate_source(), [])
         for name in VARIANTS:
             self.assertEqual(validate_theme(BUILD / name,name), [])
+
+    def test_no_local_mime_artwork(self):
+        for tree in [SOURCE, *(BUILD / name for name in VARIANTS)]:
+            self.assertFalse((tree / 'mimetypes').exists())
+            self.assertFalse(any(d.startswith('mimetypes/') for d in directories(tree)))
+            if tree != SOURCE:
+                self.assertNotIn('mimetypes', (tree / 'index.theme').read_text().lower())
 
     def test_application_imports_and_aliases(self):
         import hashlib
@@ -263,6 +249,10 @@ class ThemeTests(unittest.TestCase):
             subprocess.run(command,env=env,check=True,stdout=subprocess.DEVNULL)
             base=Path(tmp)/'icons'
             (base/'HoloNight'/'old-marker').write_text('recover me')
+            for name in VARIANTS:
+                stale = base / name / 'mimetypes/24'
+                stale.mkdir(parents=True)
+                (stale / 'application-x-executable.svg').write_text('stale artwork')
             subprocess.run(command,env=env,check=True,stdout=subprocess.DEVNULL)
             self.assertFalse((base/'HoloNight'/'old-marker').exists())
             backups=list(base.glob('.holonight-backup-*'))
@@ -270,6 +260,7 @@ class ThemeTests(unittest.TestCase):
             self.assertEqual((backups[0]/'HoloNight'/'old-marker').read_text(),'recover me')
             for name in VARIANTS:
                 self.assertEqual(validate_theme(base/name,name),[])
+                self.assertFalse((base/name/'mimetypes').exists())
             with patch('install.validate_theme',return_value=['invalid stage']):
                 with self.assertRaises(ValueError): install(base,refresh=False)
             self.assertEqual(validate_theme(base/'HoloNight','HoloNight'),[])

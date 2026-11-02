@@ -520,7 +520,6 @@ void outlineReview(const QString& root) {
   for (const auto value : notifications["proof_names"].toArray()) {
     paths << "status/24/" + value.toString() + ".svg";
   }
-  paths << "mimetypes/24/application-x-executable.svg";
   paths << "places/24/folder-build.svg";
   for (const QString name : {
            "blueman-tray",
@@ -581,18 +580,34 @@ void outlineReview(const QString& root) {
   }
 }
 
+void writeMimeFallback(const QString& base, const QString& fallback, const QStringList& names) {
+  const auto directory = base + '/' + fallback + "/mimetypes/24";
+  require(QDir().mkpath(directory), "Cannot create MIME fallback directory");
+  QFile index(base + '/' + fallback + "/index.theme");
+  require(index.open(QIODevice::WriteOnly), "Cannot write MIME fallback metadata");
+  index.write(("[Icon Theme]\nName=" + fallback +
+               "\nDirectories=mimetypes/24\n[mimetypes/"
+               "24]\nSize=24\nType=Scalable\nMinSize=16\nMaxSize=1024\nContext=MimeTypes\n")
+                  .toUtf8());
+  for (const auto& name : names) {
+    QFile icon(directory + '/' + name + ".svg");
+    require(icon.open(QIODevice::WriteOnly), "Cannot write MIME fallback artwork");
+    icon.write((QString("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"2\" "
+                        "width=\"20\" height=\"20\" fill=\"") +
+                (fallback == "Papirus" ? "#cc3300" : "#0033cc") + "\"/></svg>")
+                   .toUtf8());
+  }
+}
+
 void mimetypesChecks(const QString& root) {
-  const auto spec = QJsonDocument::fromJson(read(root + "/../metadata/mimetypes.json")).object();
-  QMap<QString, QString> names;
-  for (const auto value : spec["proof_names"].toArray()) {
-    names[value.toString()] = value.toString();
-  }
-  const auto aliases = spec["lookup_aliases"].toObject();
-  for (auto iterator = aliases.begin(); iterator != aliases.end(); ++iterator) {
-    names[QFileInfo(iterator.key()).completeBaseName()] = QFileInfo(iterator.value().toString()).completeBaseName();
-  }
+  const QStringList names{"application-pdf",          "application-epub+zip", "application-json",
+                          "application-x-executable", "text-plain",           "application-x-executable-symbolic",
+                          "text-x-generic-symbolic"};
   QTemporaryDir temporary;
   require(temporary.isValid(), "Cannot create Mimetypes inheritance fixture");
+  for (const QString fallback : {"Papirus", "Papirus-Dark"}) {
+    writeMimeFallback(temporary.path(), fallback, names);
+  }
   QIcon::setThemeSearchPaths({temporary.path(), root});
   for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
     const auto wrapper = "MimetypesProof-" + theme;
@@ -605,17 +620,17 @@ void mimetypesChecks(const QString& root) {
       QIcon::setThemeName(selected);
       for (int size : {16, 20, 22, 24, 32, 48, 64, 96, 128, 256, 512}) {
         for (int scale : {1, 2}) {
-          for (auto iterator = names.begin(); iterator != names.end(); ++iterator) {
-            const auto path = root + '/' + theme + "/mimetypes/" + QString::number(size < 32 ? 24 : 32) + '/' +
-                              iterator.value() + ".svg";
+          for (const auto& name : names) {
+            const QString fallback = theme == "HoloNight" ? "Papirus" : "Papirus-Dark";
+            const auto path = temporary.path() + '/' + fallback + "/mimetypes/24/" + name + ".svg";
             const auto expected = plain(read(path), size * scale);
-            const auto icon = QIcon::fromTheme(iterator.key());
-            require(!icon.isNull(), "Missing Mimetypes lookup: " + iterator.key());
+            const auto icon = QIcon::fromTheme(name);
+            require(!icon.isNull(), "Missing Mimetypes lookup: " + name);
             const auto actual = icon.pixmap(QSize(size, size), static_cast<qreal>(scale))
                                     .toImage()
                                     .convertToFormat(QImage::Format_ARGB32_Premultiplied);
             require(actual == expected, QString("Mimetypes master lookup mismatch: %1 %2 @%3 in %4")
-                                            .arg(iterator.key())
+                                            .arg(name)
                                             .arg(size)
                                             .arg(scale)
                                             .arg(selected));
@@ -628,75 +643,7 @@ void mimetypesChecks(const QString& root) {
 
 // Exhaustive test/preview matrix; keep the original case ordering and assertions together.
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
-void semanticMimeChecks(const QString& root) {
-  using Holonight::IconState;
-  const auto output = root + "/previews/semantic-mimetypes";
-  QDir().mkpath(output);
-  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
-    const bool dark = theme.endsWith("Dark");
-    auto base = colors(QColor(dark ? "#e7edf5" : "#1b2533"));
-    base.background = QColor(dark ? "#0c1118" : "#e7eef5");
-    base.highlightedText = QColor(dark ? "#081018" : "#ffffff");
-    auto disabled = base;
-    disabled.text = QColor("#808080");
-    disabled.highlight = Holonight::blendIconColor(base.highlight, base.background, 0.5);
-    disabled.highlightedText = Holonight::blendIconColor(base.highlightedText, base.background, 0.5);
-    disabled.accent = Holonight::blendIconColor(base.accent, base.background, 0.5);
-    disabled.positive = Holonight::blendIconColor(base.positive, base.background, 0.5);
-    disabled.neutral = Holonight::blendIconColor(base.neutral, base.background, 0.5);
-    disabled.negative = Holonight::blendIconColor(base.negative, base.background, 0.5);
-    for (const QString name : {"application-epub+zip", "application-json"}) {
-      QImage sheet(480, 380, QImage::Format_ARGB32_Premultiplied);
-      sheet.fill(base.background);
-      QPainter painter(&sheet);
-      painter.setPen(base.text);
-      painter.drawText(90, 20, "Normal");
-      painter.drawText(215, 20, "Selected");
-      painter.drawText(340, 20, "Disabled");
-      int row = 0;
-      for (int master : {24, 32}) {
-        for (int scale : {1, 2}) {
-          const auto svg = read(root + '/' + theme + "/mimetypes/" + QString::number(master) + '/' + name + ".svg");
-          const int size = master * scale;
-          painter.drawText(4, 40 + (row * 84) + 20, QString("%1 @%2").arg(master).arg(scale));
-          int col = 0;
-          for (auto state : {IconState::Normal, IconState::Selected, IconState::Disabled}) {
-            auto resolved = Holonight::resolveIconColors(base, disabled, state);
-            require(resolved.text != resolved.accent, "Paper and glyph state roles collapsed");
-            const auto before = IconRenderer::renderSvg(svg, {size, size}, resolved);
-            auto accentOnly = resolved;
-            accentOnly.accent = QColor("#ee3300");
-            const auto after = IconRenderer::renderSvg(svg, {size, size}, accentOnly);
-            if (master == 32) {
-              require(before != after, "Accent-only change did not update glyph: " + name);
-              require(before.pixelColor(7 * scale, 6 * scale) == after.pixelColor(7 * scale, 6 * scale),
-                      "Accent changed paper");
-              const auto rewritten = IconRenderer::applySemanticColors(svg, accentOnly);
-              // The rewrite must retain every authored byte outside the stylesheet.
-              const auto end = svg.indexOf("</style>") + 8;
-              const auto rewrittenEnd = rewritten.indexOf("</style>") + 8;
-              require(svg.mid(end) == rewritten.mid(rewrittenEnd), "Recolor changed decorative paints or geometry");
-            } else {
-              require(before == after, "Accent restyled fixed 24 px master");
-            }
-            painter.fillRect(85 + (col * 125), 30 + (row * 84), 120, 80,
-                             state == IconState::Selected ? base.highlight : base.background);
-            painter.drawImage(90 + (col * 125), 35 + (row * 84), before);
-            ++col;
-          }
-          ++row;
-        }
-      }
-      painter.end();
-      require(sheet.save(output + '/' + theme + '-' + name + ".png"), "Cannot save semantic MIME sheet");
-    }
-  }
-}
-
-// Exhaustive test/preview matrix; keep the original case ordering and assertions together.
-// NOLINTNEXTLINE(readability-function-cognitive-complexity)
 void checks(const QString& root) {
-  semanticMimeChecks(root);
   actionsChecks(root);
   notificationChecks(root);
   mimetypesChecks(root);
@@ -722,6 +669,15 @@ void checks(const QString& root) {
     require(roleImage.pixelColor((i * 4) + 2, 12) == expected.at(static_cast<size_t>(i)),
             "Semantic role fixture pixel mismatch");
   }
+  const auto accentSvg = read(root + "/../tests/fixtures/accent.svg");
+  auto changedAccent = probes;
+  changedAccent.accent = QColor("#ff8800");
+  const auto accentBefore = IconRenderer::renderSvg(accentSvg, {24, 24}, probes);
+  const auto accentAfter = IconRenderer::renderSvg(accentSvg, {24, 24}, changedAccent);
+  require(accentBefore != accentAfter, "Accent fixture did not recolor");
+  require(accentBefore.pixelColor(4, 4) == accentAfter.pixelColor(4, 4), "Accent changed Text artwork");
+  require(accentAfter.pixelColor(14, 4) == changedAccent.accent, "Accent fill did not recolor");
+  require(accentAfter.pixelColor(16, 14) != accentBefore.pixelColor(16, 14), "Accent stroke did not recolor");
   const auto exemptions = QJsonDocument::fromJson(read(root + "/../metadata/fixed-artwork.json")).object();
   QSet<QString> frozen;
   for (const auto entry :
@@ -936,7 +892,6 @@ int main(int argc, char** argv) {
       folderReview(root);
       deviceReview(root);
       outlineReview(root);
-      semanticMimeChecks(root);
     } else {
       checks(root);
     }

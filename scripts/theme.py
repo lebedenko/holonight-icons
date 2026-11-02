@@ -9,16 +9,15 @@ BUILD = ROOT / 'build'
 VARIANTS = {'HoloNight': ('light', 'Papirus,breeze,hicolor'),
             'HoloNight-Dark': ('dark', 'Papirus-Dark,Papirus,breeze-dark,hicolor')}
 CONTEXTS = {'actions':'Actions', 'apps':'Applications', 'categories':'Categories',
-            'devices':'Devices', 'mimetypes':'MimeTypes', 'places':'Places', 'status':'Status'}
+            'devices':'Devices', 'places':'Places', 'status':'Status'}
 PALETTES = json.loads((ROOT / 'metadata/palettes.json').read_text())
 ROLES = set(PALETTES['light'])
 PLACES = json.loads((ROOT / 'metadata/places.json').read_text())
 DEVICES = json.loads((ROOT / 'metadata/devices.json').read_text())
 ACTIONS = json.loads((ROOT / 'metadata/actions.json').read_text())
-MIMETYPES = json.loads((ROOT / 'metadata/mimetypes.json').read_text())
 APPS = json.loads((ROOT / 'metadata/apps.json').read_text())
-SCALED_CONTEXTS = {'apps', 'places', 'devices', 'actions', 'mimetypes', 'status'}
-MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS, 'mimetypes': MIMETYPES}
+SCALED_CONTEXTS = {'apps', 'places', 'devices', 'actions', 'status'}
+MASTER_CONTEXTS = {'places': PLACES, 'devices': DEVICES, 'actions': ACTIONS}
 STYLE = re.compile(r'''(<style\b[^>]*\bid\s*=\s*["']current-color-scheme["'][^>]*>)(.*?)(</style>)''', re.S)
 
 
