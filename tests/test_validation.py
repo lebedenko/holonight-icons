@@ -197,13 +197,24 @@ class ThemeTests(unittest.TestCase):
                          {'24', '32', *DEVICES['directory_aliases']})
         for alias, target in DEVICES['directory_aliases'].items():
             self.assertEqual(str((tree/alias).readlink()), target)
-        self.assertEqual(len(DEVICES['proof_names']), 6)
+        self.assertEqual(len(DEVICES['proof_names']), 9)
         for name in DEVICES['proof_names']:
             for size in (24,32):
                 self.assertTrue((tree/str(size)/f'{name}.svg').is_file())
             self.assertEqual((tree/'24'/f'{name}-symbolic.svg').readlink(), Path(f'{name}.svg'))
             self.assertEqual((tree/'24'/f'{name}.svg').read_bytes(),
                              (tree/'24/symbolic'/f'{name}-symbolic.svg').read_bytes())
+        for name in ('input-keyboard', 'audio-headphones', 'audio-headset'):
+            for suffix in ('', '-symbolic'):
+                item = DEVICES['migration_dispositions'][f'symbolic/devices/{name}{suffix}.svg']
+                self.assertEqual(item['status'], 'replacement')
+                self.assertEqual(item['target'], f'devices/24/symbolic/{name}-symbolic.svg')
+                self.assertEqual((SOURCE/item['path']).resolve(),
+                                 (tree/f'24/{name}.svg').resolve())
+        for suffix in ('', '-symbolic'):
+            item = DEVICES['migration_dispositions'][f'symbolic/devices/input-keyboard-virtual{suffix}.svg']
+            self.assertEqual(item['status'], 'retired')
+            self.assertFalse((SOURCE/item['path']).exists())
         for rel, target in DEVICES['lookup_aliases'].items():
             self.assertEqual(str((SOURCE/rel).readlink()), target)
         for item in DEVICES['migration_dispositions'].values():

@@ -276,6 +276,36 @@
         "HoloNight-accentViolet": "accentViolet"
       },
       "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/input-keyboard.svg",
+      "output": "devices/32/input-keyboard.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/audio-headphones.svg",
+      "output": "devices/32/audio-headphones.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
+    },
+    {
+      "source": "icons/devices/32/audio-headset.svg",
+      "output": "devices/32/audio-headset.svg",
+      "classes": {
+        "HoloNight-accentCyan": "accentCyan",
+        "HoloNight-accentBlue": "accentBlue",
+        "HoloNight-accentViolet": "accentViolet"
+      },
+      "rationale": "First-party glyph-only Devices master using Home accent gradient; 32 px has restrained glow."
     }
   ]
 }

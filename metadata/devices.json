@@ -20,7 +20,10 @@
     "drive-removable",
     "media-sdcard",
     "drive-optical",
-    "input-mouse"
+    "input-mouse",
+    "input-keyboard",
+    "audio-headphones",
+    "audio-headset"
   ],
   "lookup_aliases": {
     "devices/24/drive-removable-media.svg": "drive-removable.svg",
@@ -54,7 +57,13 @@
     "devices/24/media-optical-data-symbolic.svg": "drive-optical.svg",
     "devices/24/media-optical-mixed-cd-symbolic.svg": "drive-optical.svg",
     "devices/24/input-mouse-symbolic.svg": "input-mouse.svg",
-    "devices/24/symbolic/input-mouse.svg": "input-mouse-symbolic.svg"
+    "devices/24/symbolic/input-mouse.svg": "input-mouse-symbolic.svg",
+    "devices/24/input-keyboard-symbolic.svg": "input-keyboard.svg",
+    "devices/24/symbolic/input-keyboard.svg": "input-keyboard-symbolic.svg",
+    "devices/24/audio-headphones-symbolic.svg": "audio-headphones.svg",
+    "devices/24/symbolic/audio-headphones.svg": "audio-headphones-symbolic.svg",
+    "devices/24/audio-headset-symbolic.svg": "audio-headset.svg",
+    "devices/24/symbolic/audio-headset.svg": "audio-headset-symbolic.svg"
   },
   "migration_dispositions": {
     "symbolic/devices/audio-card-symbolic.svg": {
@@ -68,24 +77,28 @@
       "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
     },
     "symbolic/devices/audio-headphones-symbolic.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/audio-headphones-symbolic.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/audio-headphones-symbolic.svg"
     },
     "symbolic/devices/audio-headphones.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/audio-headphones.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/audio-headphones-symbolic.svg"
     },
     "symbolic/devices/audio-headset-symbolic.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/audio-headset-symbolic.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/audio-headset-symbolic.svg"
     },
     "symbolic/devices/audio-headset.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/audio-headset.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/audio-headset-symbolic.svg"
     },
     "symbolic/devices/computer-laptop-symbolic.svg": {
       "status": "retired",
@@ -152,9 +165,10 @@
       "rationale": "Retained device glyph or historical alias in the five-family Devices redesign."
     },
     "symbolic/devices/input-keyboard-symbolic.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/input-keyboard-symbolic.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/input-keyboard-symbolic.svg"
     },
     "symbolic/devices/input-keyboard-virtual-symbolic.svg": {
       "status": "retired",
@@ -167,9 +181,10 @@
       "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
     },
     "symbolic/devices/input-keyboard.svg": {
-      "status": "retired",
+      "status": "replacement",
       "path": "devices/24/symbolic/input-keyboard.svg",
-      "rationale": "Unrelated imported Devices artwork retired by the five-family redesign."
+      "rationale": "Retained supplied glyph in the nine-family Devices set.",
+      "target": "devices/24/symbolic/input-keyboard-symbolic.svg"
     },
     "symbolic/devices/input-mouse-battery-symbolic.svg": {
       "status": "retired",

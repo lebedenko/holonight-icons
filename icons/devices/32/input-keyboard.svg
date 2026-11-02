@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<style id="current-color-scheme" type="text/css">
+ .ColorScheme-Text { color:#e7edf5; }
+ .ColorScheme-Background { color:#0c1118; }
+ .ColorScheme-Highlight { color:#5ea2ff; }
+ .ColorScheme-Accent { color:#5ea2ff; }
+ .ColorScheme-HighlightedText { color:#081018; }
+ .ColorScheme-PositiveText { color:#79d97f; }
+ .ColorScheme-NeutralText { color:#f2c46b; }
+ .ColorScheme-NegativeText { color:#ff718c; }
+ .HoloNight-accentCyan { color:#56d7ff; }
+ .HoloNight-accentBlue { color:#5ea2ff; }
+ .HoloNight-accentViolet { color:#9a8cff; }
+</style>
+<defs><linearGradient id="rim" gradientUnits="userSpaceOnUse" x1="3" y1="3" x2="21" y2="22"><stop class="HoloNight-accentCyan" offset="0" stop-color="currentColor"/><stop class="HoloNight-accentBlue" offset=".55" stop-color="currentColor"/><stop class="HoloNight-accentViolet" offset="1" stop-color="currentColor"/></linearGradient></defs>
+<g transform="translate(16 16) scale(1.35) translate(-12 -12)" fill="url(#rim)"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="url(#rim)" stroke-width="2.4" opacity=".14"/><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="url(#rim)" stroke-width="1.65"/><rect x="6" y="8.5" width="1.5" height="1.5"/><rect x="9.5" y="8.5" width="1.5" height="1.5"/><rect x="13" y="8.5" width="1.5" height="1.5"/><rect x="16.5" y="8.5" width="1.5" height="1.5"/><rect x="6" y="11.5" width="1.5" height="1.5"/><rect x="9.5" y="11.5" width="1.5" height="1.5"/><rect x="13" y="11.5" width="1.5" height="1.5"/><rect x="16.5" y="11.5" width="1.5" height="1.5"/><path d="M8 14.5 H16 V15.5 H8 Z"/></g>
+</svg>
