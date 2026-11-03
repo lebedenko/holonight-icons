@@ -60,3 +60,15 @@ A separate interactive check in Plasma/Dolphin is still needed to establish
 live desktop palette propagation, application caching and visual contrast
 with real user-selected color schemes. The synthetic palettes make role
 mapping obvious; they are not a contrast guarantee for arbitrary palettes.
+
+## Generated Places2 coverage
+
+`task test:kde` builds both theme variants and additionally exercises every
+generated Places design through an isolated KIconLoader theme, selecting actual
+24 px and 32 px masters at scales 1 and 2. Independent Accent-only and Text-only
+probes compare normal output against the same geometry rendered with explicit
+role colors, including the fixed black 35% front shading. Normal, selected and
+disabled states render for both variants. `places-report.txt` records this result
+separately from the prototype report and its retained failing Accent-cache test.
+The Places checks use fresh names per palette probe so the known cache failure
+cannot masquerade as an artwork failure. They do not prove desktop refresh.

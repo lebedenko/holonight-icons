@@ -39,7 +39,7 @@ class TemplateTests(unittest.TestCase):
             'dark': ['#e7edf5','#0c1118','#5ea2ff','#081018','#79d97f','#f2c46b','#ff718c', '#5ea2ff'],
         }
         from templates import RULE
-        self.assertEqual(len(manifest(ROOT)), 27)
+        self.assertEqual(len(manifest(ROOT)), 9)
         for variant, tokens in expected.items():
             self.assertEqual(PALETTES['presets']['holonight-'+variant], tokens)
             self.assertEqual(list(PALETTES[variant].values()), semantic[variant])
@@ -65,9 +65,9 @@ class TemplateTests(unittest.TestCase):
     def test_invalid_template_paints_and_css(self):
         text = (ROOT/self.entry['source']).read_text()
         for old,new in [('stop-color="currentColor"','stop-color="#123456"'),
-                        ('class="HoloNight-surface"','class="HoloNight-missing"'),
-                        ('fill="currentColor"','fill="black"'),
-                        ('class="HoloNight-surface"','style="color:red"'),
+                        ('class="HoloNight-accentCyan"','class="HoloNight-missing"'),
+                        ('fill="url(#rim)"','fill="black"'),
+                        ('class="HoloNight-accentCyan"','style="color:red"'),
                         ('url(#rim)','url(#missing)')]:
             with self.assertRaises(ValueError):
                 resolve(text.replace(old,new), self.entry, self.day, PALETTES['light'])
@@ -96,7 +96,7 @@ class TemplateTests(unittest.TestCase):
             self.assertTrue(validate_svg(path))
         frozen = generate(ROOT, self.entry, self.day, 'light')
         root = ET.fromstring(frozen)
-        next(e for e in root.iter() if e.get('id') == 'house').attrib.pop('fill')
+        next(e for e in root.iter() if e.get('id') == 'spindle').attrib.pop('fill')
         with self.assertRaises(ValueError):
             validate_frozen(ET.tostring(root, encoding='unicode'))
 
@@ -148,6 +148,8 @@ class TemplateTests(unittest.TestCase):
                 symbolics = [theme/f'places/24/{name}-symbolic.svg'
                              for name in PLACES['proof_names'] if not name.endswith('-symbolic')]
                 glyphs = [p.read_bytes() for p in symbolics]
+                places = {p:p.read_bytes() for size in (24,32)
+                          for p in (theme/f'places/{size}').glob('*.svg')}
                 historical = theme/'places/24/folder-download-symbolic.svg'
                 self.assertTrue(historical.is_symlink())
                 self.assertEqual(historical.read_bytes(), glyphs[2])
@@ -168,20 +170,21 @@ class TemplateTests(unittest.TestCase):
                         self.assertTrue(alias.is_symlink())
                         self.assertEqual(alias.read_bytes(), alias.with_name(dest).read_bytes())
                     self.assertEqual([p.read_bytes() for p in symbolics], glyphs)
+                    self.assertTrue(all(p.read_bytes() == before for p,before in places.items()))
                 recolor_theme(data,bundle,name,PALETTES['presets']['holonight-'+variant],False)
                 real_replace = Path.replace
                 calls = []
                 def fail_new_master(path, target):
                     if '.holonight-recolor-stage-' in str(path):
                         calls.append(str(target))
-                        if str(target).endswith('/32/folder-open.svg'):
-                            raise OSError('simulated Open master replacement failure')
+                        if str(target).endswith('/'+entries[-1]['output']):
+                            raise OSError('simulated Devices master replacement failure')
                     return real_replace(path,target)
                 with patch.object(Path, 'replace', fail_new_master):
-                    with self.assertRaisesRegex(OSError,'Open master'):
+                    with self.assertRaisesRegex(OSError,'Devices master'):
                         recolor_theme(data,bundle,name,self.storm,False)
                 failed_index = next(i for i, entry in enumerate(entries)
-                                    if entry['output'] == 'places/32/folder-open.svg')
+                                    if entry == entries[-1])
                 self.assertEqual(len(calls), failed_index * 2 + 1)
                 for entry in entries:
                     self.assertEqual((theme/entry['output']).read_bytes(),original[entry['output']])

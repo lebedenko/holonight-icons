@@ -93,3 +93,12 @@ is added. Strata is uniformly normalized from its original 170 px canvas to 256 
 `metadata/apps.json` records source checksums, aliases and historical
 replacement targets. Kiro and AWS VPN Client (acvc-64) remain retired pending
 verified redistribution permission.
+
+## Places2 adoption
+
+The twenty Places designs use first-party artwork, copyright 2026 Andrii L
+<lebeden@gmail.com>, GPL-3.0-or-later. Sixteen masters were supplied from
+`iconset/places2/32`; Build, Bookmark, Recent and full Trash adapt existing
+first-party motifs. The import mapping and original SHA-256 checksums are in
+[the Places2 SDD](docs/sdd/places2/README.md). Extracted glyphs retain their
+transparent openings; generated exports carry the same attribution.

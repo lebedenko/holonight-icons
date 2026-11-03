@@ -87,3 +87,10 @@ path = ["icons/apps/**/*.svg"]
 precedence = "override"
 SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
 SPDX-License-Identifier = "GPL-3.0-or-later"
+
+# Places2 first-party imports, extracted glyphs, and compatibility aliases.
+[[annotations]]
+path = ["icons/places/**/*.svg"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Andrii L <lebeden@gmail.com>"
+SPDX-License-Identifier = "GPL-3.0-or-later"

@@ -3,11 +3,15 @@
  .ColorScheme-Text { color:#e7edf5; }
  .ColorScheme-Background { color:#0c1118; }
  .ColorScheme-Highlight { color:#5ea2ff; }
- .ColorScheme-Accent { color:#5ea2ff; }
  .ColorScheme-HighlightedText { color:#081018; }
  .ColorScheme-PositiveText { color:#79d97f; }
  .ColorScheme-NeutralText { color:#f2c46b; }
  .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
 </style>
- <path id="videos" class="ColorScheme-Text" fill="currentColor" stroke="currentColor" stroke-width=".303030303" stroke-linejoin="round" stroke-linecap="round" transform="translate(12 12) scale(1.65) translate(-16 -17)" d="M13 12.7l7.5 4.3-7.5 4.3Z" />
+ <g transform="translate(12 12) scale(1.42857142857) translate(-16 -19)">
+  <g class="ColorScheme-Text" fill="currentColor" id="glyph">
+   <path fill-rule="evenodd" d="M10 14 H22 Q23 14 23 15 V23 Q23 24 22 24 H10 Q9 24 9 23 V15 Q9 14 10 14 Z M10.2 15.3 V17 H11.7 V15.3 Z M10.2 18.2 V19.8 H11.7 V18.2 Z M10.2 21 V22.7 H11.7 V21 Z M20.3 15.3 V17 H21.8 V15.3 Z M20.3 18.2 V19.8 H21.8 V18.2 Z M20.3 21 V22.7 H21.8 V21 Z M14.5 16.5 Q14 16.2 14 17 V21 Q14 21.8 14.5 21.5 L18 19.5 Q18.7 19 18 18.5 Z" />
+  </g>
+ </g>
 </svg>

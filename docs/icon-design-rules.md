@@ -69,9 +69,9 @@ Fixed brands, full-color applications, folder illustrations, weather art and
 intentional decorative shading retain their paint. Every exemption has an exact
 asset path and rationale in `metadata/fixed-artwork.json`; globs are prohibited.
 Mixed artwork exempts exact element IDs and keeps the responsive portion semantic.
-Places contains eighteen folder types (18 colorful token templates), including the seven
+Places contains twenty folder types with native KDE Accent/Text roles, including the seven
 Desktop, Pictures, Music, Videos, Projects, Templates and Public additions,
-Build, Bookmark, Network, Recent and both Trash states; see the [Places specification](places-design.md).
+Build, Bookmark, Network, Recent, Archive, Remote and both Trash states; see the [Places specification](places-design.md).
 There is no weather artwork in the current inventory.
 
 Fixed assets also include an unused semantic stylesheet. This is a compatibility
@@ -98,14 +98,14 @@ References: [Breeze generation](https://github.com/KDE/breeze-icons/blob/master/
 [KDE stylesheet contract](https://github.com/KDE/kiconthemes/blob/master/src/kiconcolors.cpp),
 [Icon Theme Specification](https://specifications.freedesktop.org/icon-theme/latest/).
 
-Places visual review covers all eighteen folder types listed in the Places specification;
+Places visual review covers all twenty folder types listed in the Places specification;
 unrelated historical artwork remains deferred.
 
 ## Explicit token templates
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
-it lists eighteen colorful 32 px Places folder types and nine colorful 32 px Devices glyph
-types. Author these assets in the canonical tree
+it lists nine colorful 32 px Devices glyph types. Places retains native semantic
+Accent/Text paint and an exact element exemption for fixed front shading. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions
 for templates: validate their paints before exporting them as frozen artwork.

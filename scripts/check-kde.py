@@ -16,6 +16,8 @@ def main():
                         default=ROOT / 'tests/kde/application-xml.svg')
     parser.add_argument('--output', type=Path, help='Keep a separate comparison/report directory')
     args = parser.parse_args()
+    from build import build as build_themes
+    build_themes()
     source = args.svg.resolve(strict=True)
     build = ROOT / 'build/kde'
     output = args.output.resolve() if args.output else build / 'results'
@@ -23,7 +25,7 @@ def main():
     subprocess.run(['cmake', '--build', str(build), '--parallel', '2'], check=True)
     output.mkdir(parents=True, exist_ok=True)
     # A failed run must not leave an earlier successful report in place.
-    for name in ('comparison.png', 'report.txt'):
+    for name in ('comparison.png', 'report.txt', 'places-report.txt'):
         (output / name).unlink(missing_ok=True)
     with tempfile.TemporaryDirectory(prefix='holonight-kde-') as tmp:
         env = dict(os.environ, QT_QPA_PLATFORM='offscreen', QT_QPA_PLATFORMTHEME='')
@@ -32,7 +34,7 @@ def main():
             path = Path(tmp) / suffix
             path.mkdir(mode=0o700)
             env[key] = str(path)
-        result = subprocess.run([str(build / 'kde-check'), str(source), str(output)], env=env)
+        result = subprocess.run([str(build / 'kde-check'), str(source), str(output), str(ROOT / "build")], env=env)
     print(f'KDE comparison and report: {output}', flush=True)
     raise SystemExit(result.returncode)
 

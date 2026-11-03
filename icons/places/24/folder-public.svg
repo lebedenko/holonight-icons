@@ -3,11 +3,18 @@
  .ColorScheme-Text { color:#e7edf5; }
  .ColorScheme-Background { color:#0c1118; }
  .ColorScheme-Highlight { color:#5ea2ff; }
- .ColorScheme-Accent { color:#5ea2ff; }
  .ColorScheme-HighlightedText { color:#081018; }
  .ColorScheme-PositiveText { color:#79d97f; }
  .ColorScheme-NeutralText { color:#f2c46b; }
  .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
 </style>
- <path id="public" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.03030303" stroke-linejoin="round" stroke-linecap="round" transform="translate(12 12) scale(1.65) translate(-16 -17)" d="M13.8 16.3l4.4-2.1 M13.8 17.7l4.4 2.1 M13.9 17a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 1 1 2.8 0Z M20.9 13.5a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 1 1 2.8 0Z M20.9 20.5a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 1 1 2.8 0Z" />
+ <g transform="translate(12 12) scale(1.25) translate(-16 -19.25)">
+  <g class="ColorScheme-Text" fill="currentColor" id="glyph">
+   <circle cx="16" cy="15.5" r="2" />
+   <circle cx="10.5" cy="17" r="1.5" />
+   <circle cx="21.5" cy="17" r="1.5" />
+   <path d="M12.5 24 V22 A3.5 3.5 0 0 1 19.5 22 V24 Q19.5 25 18.5 25 H13.5 Q12.5 25 12.5 24 Z M8 23 V21 A2.5 2.5 0 0 1 12 19 Q11 20 11 23 Z M21 23 V21 Q21 20 20 19 A2.5 2.5 0 0 1 24 21 V23 Z" />
+  </g>
+ </g>
 </svg>

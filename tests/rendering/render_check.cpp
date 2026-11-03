@@ -62,7 +62,7 @@ IconSemanticColors colors(QColor text) {
 // Exhaustive test/preview matrix; keep the original case ordering and assertions together.
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
 void previews(const QString& root, const QString& previewName, int previewSize) {
-  const QList<int> sizes = (previewSize != 0) ? QList<int>{previewSize} : QList<int>{16, 22, 24, 32};
+  const QList<int> sizes = (previewSize != 0) ? QList<int>{previewSize} : QList<int>{16, 20, 22, 24, 32};
   const int sample = qMax(64, previewSize * 2);
   const int cell = sample + 26;
   const int rowHeight = sample + 36;
@@ -100,7 +100,7 @@ void previews(const QString& root, const QString& previewName, int previewSize) 
           painter.drawText(10, 25,
                            theme + " / " + familyIterator.key() +
                                ((previewSize != 0) ? QString(" — %1 px; then 2×").arg(previewSize)
-                                                   : " — 16, 22, 24, 32 px; then 2×"));
+                                                   : " — 16, 20, 22, 24, 32 px; then 2×"));
           for (int row = 0; row < rows; ++row) {
             const auto path = familyIterator.value()[start + row];
             painter.drawText(QRect(10, 50 + (row * rowHeight), 340, rowHeight - 10),
@@ -209,13 +209,13 @@ void deviceReview(const QString& root) {
 void folderReview(const QString& root) {
   for (const QString& base : folderNames(root)) {
     for (bool symbolic : {false, true}) {
-      QImage sheet(1100, (12 * 100) + 45, QImage::Format_ARGB32_Premultiplied);
+      QImage sheet(1300, (12 * 100) + 45, QImage::Format_ARGB32_Premultiplied);
       sheet.fill(Qt::white);
       QPainter painter(&sheet);
       painter.setPen(Qt::black);
-      painter.drawText(
-          12, 25,
-          base + (symbolic ? " symbolic" : " regular") + ": 16 / 22 / 24 / 32 px, then 2x; disabled = 45% opacity");
+      painter.drawText(12, 25,
+                       base + (symbolic ? " symbolic" : " regular") +
+                           ": 16 / 20 / 22 / 24 / 32 px, then 2x; disabled = 45% opacity");
       QImage large(1024, 600, QImage::Format_ARGB32_Premultiplied);
       large.fill(Qt::transparent);
       QPainter largePainter(&large);
@@ -236,12 +236,12 @@ void folderReview(const QString& root) {
           ++panel;
           for (const QString state : {"normal", "selected", "disabled"}) {
             const int pixelY = 45 + (row * 100);
-            painter.fillRect(0, pixelY, 1100, 100, background);
+            painter.fillRect(0, pixelY, 1300, 100, background);
             painter.setPen(foreground);
             painter.drawText(10, pixelY + 45, theme + " / " + (dark ? "dark" : "light") + " / " + state);
             int col = 0;
             for (int scale : {1, 2}) {
-              for (int size : {16, 22, 24, 32}) {
+              for (int size : {16, 20, 22, 24, 32}) {
                 const int pixelX = 340 + (col * 90);
                 const auto path = symbolic ? QString("24/") + base + "-symbolic.svg"
                                            : QString::number(size < 32 ? 24 : 32) + '/' + base + ".svg";
@@ -278,16 +278,16 @@ void folderReview(const QString& root) {
       const bool dark = (panel % 2) != 0;
       const QColor background(dark ? "#0c1118" : "#e7eef5");
       const QColor foreground(dark ? "#e7edf5" : "#1b2533");
-      QImage comparison(1100, 45 + (100 * static_cast<int>(names.size())), QImage::Format_ARGB32_Premultiplied);
+      QImage comparison(1300, 45 + (100 * static_cast<int>(names.size())), QImage::Format_ARGB32_Premultiplied);
       comparison.fill(background);
       QPainter painter(&comparison);
       painter.setPen(foreground);
       painter.drawText(12, 25,
                        QString(panel < 2 ? "HoloNight" : "HoloNight-Dark") + (dark ? " / dark" : " / light") +
-                           (symbolic ? " / symbolic" : " / regular") + ": 16 / 22 / 24 / 32 px, then 2x");
+                           (symbolic ? " / symbolic" : " / regular") + ": 16 / 20 / 22 / 24 / 32 px, then 2x");
       for (int row = 0; row < names.size(); ++row) {
         const QImage source(root + "/previews/" + names[row] + suffix);
-        painter.drawImage(0, 45 + (row * 100), source.copy(0, 45 + (panel * 300), 1100, 100));
+        painter.drawImage(0, 45 + (row * 100), source.copy(0, 45 + (panel * 300), 1300, 100));
         painter.fillRect(0, 45 + (row * 100), 335, 100, background);
         painter.drawText(12, 100 + (row * 100), names[row]);
       }
@@ -709,6 +709,12 @@ void checks(const QString& root) {
           if (fixed) {
             require(light == dark && light == selected && light == disabled && light == plain(svg, size),
                     "Fixed colors changed: " + rel);
+          } else if (rel == "places/32/folder.svg") {
+            // This master has only Accent material; Text changes leave it intact.
+            require(light == dark && light == selected && light == disabled, "Text changed the plain folder material");
+            auto accentColors = colors(QColor("#232629"));
+            accentColors.accent = QColor("#ff8800");
+            require(light != IconRenderer::renderSvg(svg, {size, size}, accentColors), "Folder Accent did not recolor");
           } else {
             require(light != dark && light != selected && light != disabled,
                     "Semantic foreground did not change: " + rel);

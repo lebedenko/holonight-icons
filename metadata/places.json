@@ -50,7 +50,11 @@
     "folder-bookmark",
     "folder-bookmark-symbolic",
     "folder-network",
-    "folder-network-symbolic"
+    "folder-network-symbolic",
+    "folder-archive",
+    "folder-archive-symbolic",
+    "folder-remote",
+    "folder-remote-symbolic"
   ],
   "lookup_aliases": {
     "places/24/user-home-symbolic.svg": "folder-home.svg",
@@ -106,7 +110,9 @@
     "places/24/folder-development-symbolic.svg": "folder-projects.svg",
     "places/24/user-bookmarks.svg": "folder-bookmark.svg",
     "places/32/user-bookmarks.svg": "folder-bookmark.svg",
-    "places/24/user-bookmarks-symbolic.svg": "folder-bookmark.svg"
+    "places/24/user-bookmarks-symbolic.svg": "folder-bookmark.svg",
+    "places/24/folder-archive-symbolic.svg": "folder-archive.svg",
+    "places/24/folder-remote-symbolic.svg": "folder-remote.svg"
   },
   "migration_dispositions": {
     "scalable/places/folder-activities.svg": {
@@ -157,13 +163,13 @@
     "scalable/places/folder-desktop.svg": {
       "status": "replacement",
       "path": "places/24/folder-desktop.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "scalable/places/folder-development.svg": {
       "status": "replacement",
       "path": "places/24/folder-development.svg",
-      "rationale": "Restore Development with Projects artwork; small requests use the semantic glyph.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-development.svg"
     },
     "scalable/places/folder-docker.svg": {
@@ -179,7 +185,7 @@
     "scalable/places/folder-documents.svg": {
       "status": "replacement",
       "path": "places/24/folder-documents.svg",
-      "rationale": "Restore Documents using the approved folder body and blue clipped-corner page from places.png; symbolic requests use the monochrome page alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-documents.svg"
     },
     "scalable/places/folder-download-open.svg": {
@@ -190,13 +196,13 @@
     "scalable/places/folder-download.svg": {
       "status": "replacement",
       "path": "places/24/folder-download.svg",
-      "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-download.svg"
     },
     "scalable/places/folder-downloads.svg": {
       "status": "replacement",
       "path": "places/24/folder-downloads.svg",
-      "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-download.svg"
     },
     "scalable/places/folder-drag-accept.svg": {
@@ -302,13 +308,13 @@
     "scalable/places/folder-music.svg": {
       "status": "replacement",
       "path": "places/24/folder-music.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-music.svg"
     },
     "scalable/places/folder-network.svg": {
       "status": "replacement",
       "path": "places/24/folder-network.svg",
-      "rationale": "Restore Network with connected nodes artwork; small requests use the semantic glyph.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-network.svg"
     },
     "scalable/places/folder-nextcloud.svg": {
@@ -334,7 +340,7 @@
     "scalable/places/folder-open.svg": {
       "status": "replacement",
       "path": "places/24/folder-open.svg",
-      "rationale": "Restore the generic open folder with a lowered, tilted flap and visible interior in both colorful masters.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-open.svg"
     },
     "scalable/places/folder-owncloud.svg": {
@@ -350,7 +356,7 @@
     "scalable/places/folder-photo.svg": {
       "status": "replacement",
       "path": "places/24/folder-photo.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-pictures.svg"
     },
     "scalable/places/folder-pictures-open.svg": {
@@ -361,7 +367,7 @@
     "scalable/places/folder-pictures.svg": {
       "status": "replacement",
       "path": "places/24/folder-pictures.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-pictures.svg"
     },
     "scalable/places/folder-print.svg": {
@@ -377,13 +383,13 @@
     "scalable/places/folder-projects.svg": {
       "status": "replacement",
       "path": "places/24/folder-projects.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-projects.svg"
     },
     "scalable/places/folder-public.svg": {
       "status": "replacement",
       "path": "places/24/folder-public.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-public.svg"
     },
     "scalable/places/folder-publicshare-open.svg": {
@@ -394,13 +400,13 @@
     "scalable/places/folder-publicshare.svg": {
       "status": "replacement",
       "path": "places/24/folder-publicshare.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-public.svg"
     },
     "scalable/places/folder-recent.svg": {
       "status": "replacement",
       "path": "places/24/folder-recent.svg",
-      "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-recent.svg"
     },
     "scalable/places/folder-remote-open.svg": {
@@ -409,9 +415,10 @@
       "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
     },
     "scalable/places/folder-remote.svg": {
-      "status": "pending-redesign",
+      "status": "replacement",
       "path": "places/24/folder-remote.svg",
-      "rationale": "Pending redesign using the two Places masters; inherited fallback where available, custom names are not guaranteed."
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
+      "target": "places/24/folder-remote.svg"
     },
     "scalable/places/folder-script.svg": {
       "status": "pending-redesign",
@@ -456,7 +463,7 @@
     "scalable/places/folder-templates.svg": {
       "status": "replacement",
       "path": "places/24/folder-templates.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-templates.svg"
     },
     "scalable/places/folder-torrent.svg": {
@@ -477,7 +484,7 @@
     "scalable/places/folder-video.svg": {
       "status": "replacement",
       "path": "places/24/folder-video.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-videos.svg"
     },
     "scalable/places/folder-videos-open.svg": {
@@ -488,7 +495,7 @@
     "scalable/places/folder-videos.svg": {
       "status": "replacement",
       "path": "places/24/folder-videos.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-videos.svg"
     },
     "scalable/places/folder-visiting.svg": {
@@ -514,25 +521,25 @@
     "scalable/places/folder.svg": {
       "status": "replacement",
       "path": "places/24/folder.svg",
-      "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder.svg"
     },
     "scalable/places/inode-directory.svg": {
       "status": "replacement",
       "path": "places/24/inode-directory.svg",
-      "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder.svg"
     },
     "scalable/places/user-desktop.svg": {
       "status": "replacement",
       "path": "places/24/user-desktop.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "scalable/places/user-home.svg": {
       "status": "replacement",
       "path": "places/24/user-home.svg",
-      "rationale": "Restore the standard Home name through the small colorful Home master; larger directory lookups use the 32 px master.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-home.svg"
     },
     "symbolic/places/folder-design-symbolic.svg": {
@@ -548,25 +555,25 @@
     "symbolic/places/folder-desktop-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-desktop-symbolic.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/folder-desktop.svg": {
       "status": "replacement",
       "path": "places/24/folder-desktop.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/folder-download-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-download-symbolic.svg",
-      "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-download.svg"
     },
     "symbolic/places/folder-download.svg": {
       "status": "replacement",
       "path": "places/24/folder-download.svg",
-      "rationale": "Restore Downloads with the approved folder body and arrow above an open tray; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-download.svg"
     },
     "symbolic/places/folder-git-symbolic.svg": {
@@ -582,37 +589,37 @@
     "symbolic/places/folder-open-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-open-symbolic.svg",
-      "rationale": "Restore the monochrome open-folder outline with a distinct tilted front flap.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-open.svg"
     },
     "symbolic/places/folder-open.svg": {
       "status": "replacement",
       "path": "places/24/folder-open.svg",
-      "rationale": "Historical symbolic alias for the generic open-folder outline.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-open.svg"
     },
     "symbolic/places/folder-pictures-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-pictures-symbolic.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-pictures.svg"
     },
     "symbolic/places/folder-pictures.svg": {
       "status": "replacement",
       "path": "places/24/folder-pictures.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-pictures.svg"
     },
     "symbolic/places/folder-publicshare-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-publicshare-symbolic.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-public.svg"
     },
     "symbolic/places/folder-publicshare.svg": {
       "status": "replacement",
       "path": "places/24/folder-publicshare.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-public.svg"
     },
     "symbolic/places/folder-root-symbolic.svg": {
@@ -628,19 +635,19 @@
     "symbolic/places/folder-sound-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-sound-symbolic.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-music.svg"
     },
     "symbolic/places/folder-sound.svg": {
       "status": "replacement",
       "path": "places/24/folder-sound.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-music.svg"
     },
     "symbolic/places/folder-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/folder-symbolic.svg",
-      "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder.svg"
     },
     "symbolic/places/folder-table-symbolic.svg": {
@@ -676,43 +683,43 @@
     "symbolic/places/folder.svg": {
       "status": "replacement",
       "path": "places/24/folder.svg",
-      "rationale": "Restore the generic folder using the approved Home body without its glyph, or its monochrome folder outline; regular larger sizes use the 32 px master.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder.svg"
     },
     "symbolic/places/user-desktop-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/user-desktop-symbolic.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/user-desktop.svg": {
       "status": "replacement",
       "path": "places/24/user-desktop.svg",
-      "rationale": "Restore the approved places.png glyph using the shared folder body and rim gradient; symbolic requests use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-desktop.svg"
     },
     "symbolic/places/user-trash-full-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/user-trash-full-symbolic.svg",
-      "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-trash-full.svg"
     },
     "symbolic/places/user-trash-full.svg": {
       "status": "replacement",
       "path": "places/24/user-trash-full.svg",
-      "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-trash-full.svg"
     },
     "symbolic/places/user-trash-symbolic.svg": {
       "status": "replacement",
       "path": "places/24/user-trash-symbolic.svg",
-      "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-trash.svg"
     },
     "symbolic/places/user-trash.svg": {
       "status": "replacement",
       "path": "places/24/user-trash.svg",
-      "rationale": "Restore Recent and Trash using approved folder bodies and rounded glyphs; historical symbolic Trash names use the monochrome glyph alone.",
+      "rationale": "Adopt Places2 family artwork: ordinary requests use semantic 24 px glyphs through 24 px and Accent/Text folders from 32 px; explicit symbolic requests retain monochrome artwork.",
       "target": "places/24/folder-trash.svg"
     }
   }

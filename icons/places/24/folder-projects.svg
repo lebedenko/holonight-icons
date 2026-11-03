@@ -3,11 +3,15 @@
  .ColorScheme-Text { color:#e7edf5; }
  .ColorScheme-Background { color:#0c1118; }
  .ColorScheme-Highlight { color:#5ea2ff; }
- .ColorScheme-Accent { color:#5ea2ff; }
  .ColorScheme-HighlightedText { color:#081018; }
  .ColorScheme-PositiveText { color:#79d97f; }
  .ColorScheme-NeutralText { color:#f2c46b; }
  .ColorScheme-NegativeText { color:#ff718c; }
+ .ColorScheme-Accent { color:#5ea2ff; }
 </style>
- <path id="projects" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.133333333" stroke-linejoin="round" stroke-linecap="round" transform="translate(12 12) scale(1.5) translate(-16 -17)" d="M13.6 13.2L10 17l3.6 3.8 M18.4 13.2L22 17l-3.6 3.8" />
+ <g transform="translate(12 12) scale(0.973684210526) translate(-12 -12) translate(12 12) scale(1.2285479872) translate(-16 -18.75)">
+  <g class="ColorScheme-Text" fill="currentColor" id="glyph">
+   <path d="M12 15 L8.5 19 L12 22.5 M20 15 L23.5 19 L20 22.5 M17.5 13.5 L14.5 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+ </g>
 </svg>

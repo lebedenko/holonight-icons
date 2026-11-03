@@ -6,22 +6,29 @@ directory supplies colorful regular artwork at 32, 48, 64, 96, 128, 256, and
 512 px. Each other size directory is a relative symlink to the corresponding
 master. `index.theme` advertises every size and scale 2.
 
-The eighteen 24 px regular masters are glyph-only semantic sources:
+The twenty 24 px regular masters are glyph-only semantic sources:
 Home, folder, Downloads, Documents, Desktop, Pictures, Music, Videos, Projects,
 Templates, Public, Build, Bookmark, Network, Recent, empty Trash, full Trash,
-and open folder. They use
+open folder, Archive and Remote. They use
 `ColorScheme-Text` and `currentColor`, with no fixed paint. Each explicit
 `-symbolic.svg` name is a same-directory link to its regular master, so GTK can
 recognize and recolor the symbolic name at every requested size. The same small
 semantic master is used for symbolic requests larger than 24 px.
 
-The colorful 32 px masters retain the shared folder body and interior glyphs.
-Home has a rounded house and an open doorway. The generic folder removes the
-house layers and roof highlight. Other folder types add their corresponding
-glyphs. Soft interior glow, rim gradients, and folder shading remain at 32 px.
-The 32 px sources are the eighteen Places entries in `metadata/templates.json`;
-there are no 24 px Places token templates. Token recoloring applies only after
-an explicit command, and the generated themes contain frozen colorful masters.
+The colorful 32 px masters adopt the supplied Places2 silhouettes and filled
+cutout glyphs. Folder material uses `ColorScheme-Accent`; glyphs and the open
+folder's paper insert use `ColorScheme-Text`. A named `front-shading` element
+preserves black at 35% opacity with an exact element exemption. All other paint
+remains semantic, with a complete stylesheet and HoloNight palette defaults.
+Build, Bookmark, Recent and full Trash adapt their existing motifs to the new body.
+The supplied glyphs are uniformly fitted into the 24 px safe area; plain/open
+folders retain their existing semantic outlines. See the [import SDD](sdd/places2/README.md)
+for mapping and original checksums.
+
+Places is excluded from `metadata/templates.json`. KDE can recolor the generated
+Accent and Text roles independently; explicit token recoloring changes Devices
+only. The documented native KDE Accent-only cache refresh failure remains an
+open integration limitation; this artwork adoption does not prove desktop refresh.
 
 `metadata/places.json` declares regular and symbolic lookup aliases. Regular
 aliases such as `user-home.svg`, `inode-directory.svg`, and `folder-downloads.svg`
@@ -43,7 +50,7 @@ The 24 px safe area is x/y 2–22. Start new stroked symbols with rounded
 See [canvas rules](icon-canvas-rules.md) and the
 [artwork contract](icon-design-rules.md).
 
-Run `task verify` after source or metadata changes. The validation, Qt lookup,
+Run `task check` after source or metadata changes. The validation, Qt lookup,
 GTK symbolic recoloring, and preview checks cover both generated themes.
 Inspect `build/previews/folder-family-*.png` and the folder state sheets at
-16, 22, 24, and 32 px on light and dark backgrounds, at 1× and 2×.
+16, 20, 22, 24, and 32 px on light and dark backgrounds, at 1× and 2×.

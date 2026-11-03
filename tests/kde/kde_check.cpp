@@ -3,8 +3,12 @@
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QImage>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QPainter>
 #include <QPalette>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QSvgRenderer>
 #include <QTextStream>
@@ -61,10 +65,81 @@ static int countGlyph(const QImage& image, QColor paper, QColor glyph) {
     }
   return count;
 }
+// Each independent palette uses a fresh name so the separately asserted KDE
+// Accent cache bug cannot hide the artwork's native role behavior.
+static void placesChecks(const QString& build, const QString& theme, KIconLoader& loader, const QString& output) {
+  const auto names =
+      QJsonDocument::fromJson(read(build + "/../metadata/places.json")).object()["proof_names"].toArray();
+  int renders = 0;
+  for (const QString variant : {"HoloNight", "HoloNight-Dark"}) {
+    for (int probe = 0; probe < 3; ++probe) {
+      const QColor text(probe == 2 ? "#18b3a1" : "#f1e5d8");
+      const QColor accent(probe == 1 ? "#00bddd" : "#d52be8");
+      QPalette palette;
+      for (auto group : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
+        palette.setColor(group, QPalette::WindowText, text);
+        palette.setColor(group, QPalette::Text, text);
+        palette.setColor(group, QPalette::Accent, accent);
+        palette.setColor(group, QPalette::HighlightedText, Qt::white);
+      }
+      loader.setCustomPalette(palette);
+      for (const auto& value : names) {
+        const auto name = value.toString();
+        if (name.endsWith("-symbolic")) continue;
+        const QString isolated = variant + QString::number(probe) + '-' + name;
+        for (int size : {24, 32}) {
+          const auto svg = read(build + '/' + variant + "/places/" + QString::number(size) + '/' + name + ".svg");
+          auto expectedSvg = QString::fromUtf8(svg);
+          expectedSvg.replace(QRegularExpression("(<style[^>]*>)[\\s\\S]*?(</style>)"),
+                              "\\1.ColorScheme-Text {color:" + text.name() +
+                                  ";} .ColorScheme-Accent {color:" + accent.name() + ";}\\2");
+          for (int scale : {1, 2}) {
+            for (int state :
+                 {int(KIconLoader::DefaultState), int(KIconLoader::SelectedState), int(KIconLoader::DisabledState)}) {
+              QString resolved;
+              const auto image = loader
+                                     .loadScaledIcon(isolated, KIconLoader::Desktop, qreal(scale), QSize(size, size),
+                                                     state, {}, &resolved, true)
+                                     .toImage()
+                                     .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+              check(!image.isNull(), "Cannot render generated Places " + name);
+              check(QFileInfo(resolved).canonicalFilePath() ==
+                        QFileInfo(theme + '/' + QString::number(size) + "/places/" + isolated + ".svg")
+                            .canonicalFilePath(),
+                    "KDE did not select the actual Places master: " + resolved);
+              if (state == KIconLoader::DefaultState) {
+                check(image == plain(expectedSvg.toUtf8(), size * scale),
+                      "Places native recoloring changed paint, shading or geometry: " + name);
+              }
+              if (state == KIconLoader::SelectedState && name != "folder")
+                check(image != plain(expectedSvg.toUtf8(), size * scale),
+                      "Selected Places Text did not change: " + name);
+              if (state == KIconLoader::DisabledState)
+                check(image != plain(expectedSvg.toUtf8(), size * scale),
+                      "Disabled Places state did not change: " + name);
+              check(countColor(image, Qt::transparent) < image.width() * image.height(), "Empty Places state render");
+              if (probe == 0 && variant == "HoloNight")
+                check(image.save(output +
+                                 QString("/places-%1-%2-%3x-state%4.png").arg(name).arg(size).arg(scale).arg(state)),
+                      "Cannot save Places render");
+              ++renders;
+            }
+          }
+        }
+      }
+    }
+  }
+  write(output + "/places-report.txt",
+        QString("PASS: %1 generated Places renders, both variants, actual 24/32 px masters, 1x/2x, "
+                "normal/selected/disabled. Independent Accent/Text probes preserve fixed shading and geometry in "
+                "normal state. Desktop refresh is not tested.\n")
+            .arg(renders)
+            .toUtf8());
+}
 int main(int argc, char** argv) {
   QGuiApplication app(argc, argv);
   try {
-    check(argc == 3, "Usage: kde-check SVG OUTPUT_DIRECTORY");
+    check(argc == 4, "Usage: kde-check SVG OUTPUT_DIRECTORY BUILD_DIRECTORY");
     const auto svg = read(QString::fromLocal8Bit(argv[1]));
     const QString output = QString::fromLocal8Bit(argv[2]);
     const QString themeName = "HoloNightNativeKdeProof";
@@ -72,8 +147,12 @@ int main(int argc, char** argv) {
     check(QDir().mkpath(theme + "/32/mimetypes"), "Cannot create isolated theme");
     write(theme + "/index.theme",
           "[Icon Theme]\nName=HoloNight native KDE proof\n"
-          "FollowsColorScheme=true\nDirectories=32/mimetypes\n"
-          "ScaledDirectories=32/mimetypes/.\n"
+          "FollowsColorScheme=true\nDirectories=32/mimetypes,24/places,32/places\n"
+          "ScaledDirectories=32/mimetypes/.,24/places/.,32/places/.\n"
+          "[24/places]\nSize=24\nType=Fixed\nContext=Places\n"
+          "[32/places]\nSize=32\nType=Fixed\nContext=Places\n"
+          "[24/places/.]\nSize=24\nScale=2\nType=Fixed\nContext=Places\n"
+          "[32/places/.]\nSize=32\nScale=2\nType=Fixed\nContext=Places\n"
           "[32/mimetypes]\nSize=32\nType=Scalable\nMinSize=16\nMaxSize=64\nContext=MimeTypes\n"
           "[32/mimetypes/.]\nSize=32\nScale=2\nType=Scalable\nMinSize=16\nMaxSize=64\nContext=MimeTypes\n");
     const auto iconPath = theme + "/32/mimetypes/application-xml.svg";
@@ -94,6 +173,22 @@ int main(int argc, char** argv) {
 <path fill="#ffffff" opacity="0.2" d="M24 16h8v16h-8z"/>
 </svg>)SVG");
     write(theme + "/32/mimetypes/proof-fresh.svg", read(theme + "/32/mimetypes/proof-roles.svg"));
+    const QString placesBuild = QString::fromLocal8Bit(argv[3]);
+    const auto placesNames =
+        QJsonDocument::fromJson(read(placesBuild + "/../metadata/places.json")).object()["proof_names"].toArray();
+    for (const QString variant : {"HoloNight", "HoloNight-Dark"})
+      for (int probe = 0; probe < 3; ++probe)
+        for (const auto& value : placesNames) {
+          const auto name = value.toString();
+          if (name.endsWith("-symbolic")) continue;
+          const QString isolated = variant + QString::number(probe) + '-' + name;
+          for (int master : {24, 32}) {
+            const QString dir = theme + '/' + QString::number(master) + "/places/";
+            check(QDir().mkpath(dir), "Cannot create Places proof directory");
+            write(dir + isolated + ".svg",
+                  read(placesBuild + '/' + variant + "/places/" + QString::number(master) + '/' + name + ".svg"));
+          }
+        }
     KIconTheme::forceThemeForTests(themeName);
     KIconLoader loader;
     check(loader.theme() && loader.theme()->internalName() == themeName && loader.theme()->followsColorScheme(),
@@ -197,6 +292,7 @@ int main(int argc, char** argv) {
         failures.append(QString("%1: accent-only palette change returned %2; expected #00bddd")
                             .arg(dark ? "dark" : "light", refreshedAccent.name()));
     }
+    placesChecks(QString::fromLocal8Bit(argv[3]), theme, loader, output);
     painter.end();
     check(sheet.save(output + "/comparison.png"), "Cannot save comparison sheet");
     QString report =

@@ -1,5 +1,6 @@
 """Regression fixtures for effective SVG paints, theme metadata and installation."""
 import os
+import json
 from pathlib import Path
 import shutil
 import subprocess
@@ -360,25 +361,28 @@ class PlacesTests(unittest.TestCase):
         from xml.etree import ElementTree as ET
         from templates import manifest
         entries = {e['source'] for e in manifest(ROOT)}
+        exemptions = json.loads((ROOT/'metadata/fixed-artwork.json').read_text())
         names = [name for name in PLACES['proof_names'] if not name.endswith('-symbolic')]
+        self.assertEqual(len(names), 20)
+        body = ET.parse(SOURCE/'places/32/folder.svg').getroot()
         for name in names:
-            self.assertIn(f'icons/places/32/{name}.svg', entries)
-            self.assertNotIn(f'icons/places/24/{name}.svg', entries)
-        home = (SOURCE/'places/32/folder-home.svg').read_text()
-        body = ''.join(line for line in home.splitlines(keepends=True)
-                       if not any(f'id="{part}"' in line for part in
-                                  {'house', 'path14', *(f'house-glow-{i}' for i in range(1, 9))}))
-        self.assertEqual((SOURCE/'places/32/folder.svg').read_text(), body)
-        for name, glyph in [('folder-download','download'), ('folder-documents','documents'),
-                            *[(f'folder-{n}',n) for n in ('desktop','pictures','music','videos',
-                                'projects','templates','public','build','bookmark','network','recent','trash','trash-full')]]:
-            artwork = (SOURCE/f'places/32/{name}.svg').read_text()
-            stripped = ''.join(line for line in artwork.splitlines(keepends=True)
-                               if f'id="{glyph}' not in line)
-            self.assertEqual(stripped, (SOURCE/'places/32/folder.svg').read_text())
-            layers = [e for e in ET.fromstring(artwork).iter()
-                      if e.get('id','').startswith(glyph)]
-            self.assertEqual(len(layers), 9)
+            rel = f'places/32/{name}.svg'
+            self.assertNotIn('icons/'+rel, entries)
+            self.assertEqual(validate_svg(SOURCE/rel, exemptions[rel]), [])
+            art = ET.parse(SOURCE/rel).getroot()
+            self.assertEqual(art.find('{*}path').attrib, body.find('{*}path').attrib)
+            shade = next(e for e in art if e.get('id') == 'front-shading')
+            self.assertEqual(shade.get('fill'), '#000000')
+            self.assertEqual(shade.get('fill-opacity'), '.35')
+            self.assertEqual(exemptions[rel]['ids'], ['front-shading'])
+            # Exempt only the shade: a literal paint on the folder must still fail.
+            with tempfile.TemporaryDirectory() as tmp:
+                art.find('{*}path').set('fill', '#123456')
+                path = Path(tmp)/'bad.svg'
+                path.write_text(ET.tostring(art, encoding='unicode'))
+                self.assertTrue(validate_svg(path, exemptions[rel]))
+        self.assertNotEqual((SOURCE/'places/24/folder-trash.svg').read_bytes(),
+                            (SOURCE/'places/24/folder-trash-full.svg').read_bytes())
         for alias, target in PLACES['lookup_aliases'].items():
             self.assertTrue((SOURCE/alias).is_symlink())
             self.assertEqual(str((SOURCE/alias).readlink()), target)
