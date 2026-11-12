@@ -105,7 +105,10 @@ unrelated historical artwork remains deferred.
 
 `metadata/templates.json` is the only authority for on-demand artwork recoloring;
 it lists nine colorful 32 px Devices glyph types. Places retains native semantic
-Accent/Text paint and an exact element exemption for fixed front shading. Author these assets in the canonical tree
+Accent/Text paint and an exact element exemption for fixed back/tab shading: one `back-shading` path
+duplicates the back silhouette immediately after the Accent back, using black at
+35% opacity. The front stays exact Accent; Text glyphs and open-folder paper
+remain above the shading. Author these assets in the canonical tree
 using only the HoloNight classes actually used by that master, mapped explicitly to holonight-qt tokens, including every
 gradient stop. Canonical defaults are Dark. Do not add fixed-artwork exemptions
 for templates: validate their paints before exporting them as frozen artwork.

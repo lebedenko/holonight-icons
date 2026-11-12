@@ -641,9 +641,64 @@ void mimetypesChecks(const QString& root) {
   }
 }
 
+void requirePlacesInteriors(const QImage& image, const QString& name, const IconSemanticColors& palette,
+                            const QString& context) {
+  const int size = image.width();
+  const int scale = size / 32;
+  const auto accent = palette.accent;
+  const auto text = palette.text;
+  require(image.pixelColor(6 * scale, 26 * scale) == accent, "Front must equal Accent: " + context);
+  // Qt's 8-bit alpha composition can round the expected 65% channel by one.
+  const auto back = image.pixelColor(8 * scale, 6 * scale);
+  require(back.alpha() == 255 && qAbs(back.red() - qRound(accent.red() * .65)) <= 1 &&
+              qAbs(back.green() - qRound(accent.green() * .65)) <= 1 &&
+              qAbs(back.blue() - qRound(accent.blue() * .65)) <= 1,
+          "Back must receive 35% black: " + context);
+  if (name == "folder-open") {
+    require(image.pixelColor(12 * scale, 11 * scale) == text, "Paper must equal Text: " + context);
+  }
+  if (name != "folder") {
+    bool textInterior = false;
+    for (int pixelY = 0; pixelY < size; ++pixelY) {
+      for (int pixelX = 0; pixelX < size; ++pixelX) {
+        textInterior = textInterior || image.pixelColor(pixelX, pixelY) == text;
+      }
+    }
+    require(textInterior, "Glyph/paper must retain exact Text interiors: " + context);
+  }
+}
+
+// Probe opaque interiors away from antialiased edges and folder glyphs.
+void placesShadingChecks(const QString& root) {
+  const auto names = QJsonDocument::fromJson(read(root + "/../metadata/places.json")).object()["proof_names"].toArray();
+  for (const QString theme : {"HoloNight", "HoloNight-Dark"}) {
+    for (const auto name : names) {
+      if (name.toString().endsWith("-symbolic")) {
+        continue;
+      }
+      const auto svg = read(root + '/' + theme + "/places/32/" + name.toString() + ".svg");
+      for (int size : {32, 64}) {
+        for (const QColor accent : {QColor("#5ea2ff"), QColor("#ff8800")}) {
+          for (const QColor text : {QColor("#232629"), QColor("#fcfcfc")}) {
+            auto palette = colors(text);
+            palette.accent = accent;
+            const auto image = IconRenderer::renderSvg(svg, {size, size}, palette);
+            const auto context = QString("%1 %2 @%3 accent=%4 text=%5")
+                                     .arg(theme, name.toString())
+                                     .arg(size)
+                                     .arg(accent.name(), text.name());
+            requirePlacesInteriors(image, name.toString(), palette, context);
+          }
+        }
+      }
+    }
+  }
+}
+
 // Exhaustive test/preview matrix; keep the original case ordering and assertions together.
 // NOLINTNEXTLINE(readability-function-cognitive-complexity)
 void checks(const QString& root) {
+  placesShadingChecks(root);
   actionsChecks(root);
   notificationChecks(root);
   mimetypesChecks(root);

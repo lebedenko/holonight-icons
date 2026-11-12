@@ -371,10 +371,22 @@ class PlacesTests(unittest.TestCase):
             self.assertEqual(validate_svg(SOURCE/rel, exemptions[rel]), [])
             art = ET.parse(SOURCE/rel).getroot()
             self.assertEqual(art.find('{*}path').attrib, body.find('{*}path').attrib)
-            shade = next(e for e in art if e.get('id') == 'front-shading')
+            shades = [e for e in art.iter() if 'shading' in e.get('id', '')]
+            self.assertEqual(len(shades), 1)
+            shade = shades[0]
+            self.assertEqual(shade.get('id'), 'back-shading')
+            self.assertEqual(shade.tag, '{http://www.w3.org/2000/svg}path')
+            self.assertEqual(shade.get('d'), art.find('{*}path').get('d'))
+            self.assertEqual(list(art).index(shade), list(art).index(art.find('{*}path')) + 1)
+            fronts = [e for e in art if e.get('class') == 'ColorScheme-Accent'][1:]
+            self.assertEqual(len(fronts), 1)
+            self.assertLess(list(art).index(shade), list(art).index(fronts[0]))
+            for element in art:
+                if element.get('class') == 'ColorScheme-Text':
+                    self.assertLess(list(art).index(shade), list(art).index(element))
             self.assertEqual(shade.get('fill'), '#000000')
             self.assertEqual(shade.get('fill-opacity'), '.35')
-            self.assertEqual(exemptions[rel]['ids'], ['front-shading'])
+            self.assertEqual(exemptions[rel]['ids'], ['back-shading'])
             # Exempt only the shade: a literal paint on the folder must still fail.
             with tempfile.TemporaryDirectory() as tmp:
                 art.find('{*}path').set('fill', '#123456')

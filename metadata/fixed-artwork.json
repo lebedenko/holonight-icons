@@ -34,141 +34,141 @@
   "places/32/folder-archive.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-bookmark.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-build.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-desktop.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-documents.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-download.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-home.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-music.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-network.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-open.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-pictures.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-projects.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-public.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-recent.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-remote.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-templates.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-trash-full.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-trash.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder-videos.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   },
   "places/32/folder.svg": {
     "scope": "elements",
     "ids": [
-      "front-shading"
+      "back-shading"
     ],
-    "rationale": "Preserve the supplied Places2 black front overlay at 35% opacity; folder Accent and glyph/paper Text remain semantic."
+    "rationale": "Darken the folder back/tab with a black overlay at 35% opacity; the front stays exact Accent and glyph/paper Text remain semantic."
   }
 }

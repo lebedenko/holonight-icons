@@ -17,8 +17,10 @@ semantic master is used for symbolic requests larger than 24 px.
 
 The colorful 32 px masters adopt the supplied Places2 silhouettes and filled
 cutout glyphs. Folder material uses `ColorScheme-Accent`; glyphs and the open
-folder's paper insert use `ColorScheme-Text`. A named `front-shading` element
-preserves black at 35% opacity with an exact element exemption. All other paint
+folder's paper insert use `ColorScheme-Text`. The front panel stays exact Accent. A named `back-shading` element
+duplicates the back silhouette immediately after it, applying black at 35% opacity
+with an exact element exemption for a darker back/tab. The open folder paper
+stays above the shading. All other paint
 remains semantic, with a complete stylesheet and HoloNight palette defaults.
 Build, Bookmark, Recent and full Trash adapt their existing motifs to the new body.
 The supplied glyphs are uniformly fitted into the 24 px safe area; plain/open
