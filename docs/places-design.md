@@ -22,8 +22,13 @@ duplicates the back silhouette immediately after it, applying black at 35% opaci
 with an exact element exemption for a darker back/tab. The open folder paper
 stays above the shading. All other paint
 remains semantic, with a complete stylesheet and HoloNight palette defaults.
-Build, Bookmark, Recent and full Trash adapt their existing motifs to the new body.
-The supplied glyphs are uniformly fitted into the 24 px safe area; plain/open
+Build uses the supplied angled hammer, Bookmark an outlined ribbon, and Recent a
+round clock. Empty Trash has a level lid; full Trash has a tilted lid and visible
+contents. These five glyphs adopt the Places2 references, mapping
+`folder-bookmarks.svg` to Bookmark and `user-trash.svg` / `user-trash-full.svg`
+to the two Trash masters. Their 32 px placement and transforms are preserved.
+The supplied glyphs are uniformly fitted and centered within the 24 px safe area,
+including stroke extents and scaling strokes with the geometry; plain/open
 folders retain their existing semantic outlines. See the [import SDD](sdd/places2/README.md)
 for mapping and original checksums.
 

@@ -9,6 +9,5 @@
  .ColorScheme-NeutralText { color:#f2c46b; }
  .ColorScheme-NegativeText { color:#ff718c; }
 </style>
- <path id="build-head" class="ColorScheme-Text" fill="currentColor" d="M5.8 6.6h7.9a1 1 0 0 1 1 1v1.7a1 1 0 0 1-1 1H5.8a1.9 1.9 0 0 1 0-3.7Z" />
- <path id="build-handle" class="ColorScheme-Text" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M11.7 9.8l6.9 8.8" />
+ <g transform="translate(-14.035465710 -17.939874514) scale(1.619649805)"><g class="ColorScheme-Text" fill="currentColor"><g transform="translate(16 19) scale(.69) translate(-12 -12)"><path transform="translate(-.7 .85) rotate(38 12 12)" d="M5 4.1h2.6l.9.85h5.05c2.9 0 4.6 1.1 5.7 3.65-1.45-.75-2.95-.95-4.3-.45l-1.45.55v11.1l-.9 1.05h-1.8l-.9-1.05V8.75H8.5l-.9.85H5l-.9-.9V5Z" /></g></g></g>
 </svg>
