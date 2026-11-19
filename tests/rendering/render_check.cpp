@@ -600,9 +600,11 @@ void writeMimeFallback(const QString& base, const QString& fallback, const QStri
 }
 
 void mimetypesChecks(const QString& root) {
-  const QStringList names{"application-pdf",          "application-epub+zip", "application-json",
-                          "application-x-executable", "text-plain",           "application-x-executable-symbolic",
-                          "text-x-generic-symbolic"};
+  const QStringList names{
+      "application-pdf",          "application-epub+zip", "application-json",
+      "application-x-executable", "text-plain",           "application-x-executable-symbolic",
+      "text-x-generic-symbolic",
+  };
   QTemporaryDir temporary;
   require(temporary.isValid(), "Cannot create Mimetypes inheritance fixture");
   for (const QString fallback : {"Papirus", "Papirus-Dark"}) {
