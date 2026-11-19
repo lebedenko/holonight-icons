@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
 set -euo pipefail
+python3 scripts/test-quality.py
 export HOLONIGHT_QT_SOURCE=/work/providers/holonight-qt
 export GDK_BACKEND=x11 GSK_RENDERER=cairo GTK_A11Y=none
 task validate
