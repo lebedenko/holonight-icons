@@ -123,7 +123,7 @@ class ThemeTests(unittest.TestCase):
     def test_application_imports_and_aliases(self):
         import hashlib
         self.assertFalse((SOURCE / "apps/170").exists())
-        self.assertEqual(len(APPS["artwork"]), 8)
+        self.assertEqual(len(APPS["artwork"]), 9)
         for rel, entry in APPS['artwork'].items():
             text = (SOURCE / rel).read_text()
             imported = STYLE.sub('', text)

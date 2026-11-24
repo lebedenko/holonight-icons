@@ -85,11 +85,12 @@ Original path geometry, layer order and white edge lighting remain intact.
 
 ## Applications refresh
 
-The eight HoloNight, Markdown Viewer and Strata application masters in `icons/apps/256/` and
+The nine HoloNight, Markdown Viewer and Strata application masters in `icons/apps/256/` and
 their filename aliases are supplied first-party artwork, copyright 2026 Andrii L
 <lebeden@gmail.com>, GPL-3.0-or-later. Imported canvases, geometry, gradients,
 transparency and colors are preserved; only an unused semantic stylesheet guard
-is added. Strata is uniformly normalized from its original 170 px canvas to 256 px.
+is added. HoloNight Screenshot was imported from
+`iconset/256/holonight-screenshot.svg`. Strata is uniformly normalized from its original 170 px canvas to 256 px.
 `metadata/apps.json` records source checksums, aliases and historical
 replacement targets. Kiro and AWS VPN Client (acvc-64) remain retired pending
 verified redistribution permission.

@@ -119,10 +119,10 @@ monochrome semantic regular and symbolic names, a 32 px colorful master, and dec
 `metadata/devices.json` records retained historical aliases and retired imported
 names without changing the migration inventory.
 
-Applications use eight 256 px HoloNight, Markdown Viewer and Strata masters, scalable
+Applications use nine 256 px HoloNight, Markdown Viewer and Strata masters, scalable
 from 16–512 logical pixels at scales 1 and 2. Files and Viewer expose their
-`org.holonight.*` names; `holonight-pkg-manager` aliases Store. Additional native
-canvas sizes are supported without directory aliases. See the
+`org.holonight.*` names; `holonight-pkg-manager` aliases Store. Screenshot uses
+`holonight-screenshot`. Additional native canvas sizes are supported without directory aliases. See the
 [application import workflow](docs/icon-design-rules.md#application-imports).
 `metadata/apps.json` records artwork, filename aliases, replacements and retirements.
 Kiro and AWS VPN Client are retired pending verified redistribution rights;

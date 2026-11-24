@@ -7,6 +7,10 @@
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."
   },
+  "apps/256/holonight-screenshot.svg": {
+    "scope": "asset",
+    "rationale": "First-party full-color application artwork preserves authored gradients and colors."
+  },
   "apps/256/holonight-settings.svg": {
     "scope": "asset",
     "rationale": "First-party full-color application artwork preserves authored gradients and colors."

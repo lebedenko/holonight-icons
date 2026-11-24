@@ -42,6 +42,9 @@
     "apps/256/holonight-files.svg": {
       "source_sha256": "f63e40341716f6abf47f284d6faf9901ea2363d864bba898f57c45250a3dfe7a"
     },
+    "apps/256/holonight-screenshot.svg": {
+      "source_sha256": "22b0c9775352a796f92d0f11908fcfc8774f5a1a9ff0190ca7002f0d712deb42"
+    },
     "apps/256/holonight-settings.svg": {
       "source_sha256": "f5bec9252768ce99f04a2a597d3d89f8fc4c8cd636dbb35cccda4f9c68071e7d"
     },
